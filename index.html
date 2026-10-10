@@ -74,6 +74,13 @@ b.hl,.hl{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:
 .tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
 .tab:hover:not([aria-selected="true"]){color:var(--ink);background:var(--hdr)}
 .teacher-toggle{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted)}
+@media (max-width:720px){
+  .bar-in{gap:6px 12px;padding-block:8px}
+  .teacher-toggle{order:2}
+  .tabs{order:3;width:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-4px}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:none;padding:5px 10px}
+}
 .switch{position:relative;width:38px;height:22px;border-radius:11px;border:1px solid var(--line);background:var(--hdr);padding:0}
 .switch::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--muted);transition:transform .15s}
 .switch[aria-checked="true"]{background:var(--accent);border-color:var(--accent)}
@@ -82,7 +89,7 @@ b.hl,.hl{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:
 main{max-width:1180px;margin:0 auto;padding:26px 16px 64px}
 section.lesson{display:grid;gap:20px}
 .eyebrow{font-size:.75rem;letter-spacing:.12em;color:var(--accent);font-weight:700}
-.lead{color:var(--muted);max-width:62ch}
+.lead{color:var(--muted)}
 .lead b{color:var(--ink)}
 .head{display:grid;gap:6px}
 
@@ -99,7 +106,7 @@ details.more[open]>summary{margin-bottom:10px}
 .tight{margin:0;padding-left:1.2em;display:grid;gap:3px;font-size:.92rem}
 
 /* overview */
-.hero{display:grid;gap:6px;max-width:760px}
+.hero{display:grid;gap:6px}
 .install-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:18px;align-items:start}
 @media (max-width:820px){.install-grid{grid-template-columns:1fr}}
 .install-grid>*{min-width:0}
@@ -125,7 +132,16 @@ kbd{display:inline-block;border:1px solid var(--line);border-bottom-width:2px;bo
 .menu-tree ul{list-style:none;margin:6px 0 0;padding:0 0 0 14px;border-left:1px solid var(--line)}
 .menu-tree li{padding:1px 0;font-size:.88rem}
 .menu-tree .grp{color:var(--muted)}
-.lab-tag{font-size:.68rem;background:var(--accent);color:var(--accent-ink);border-radius:3px;padding:0 5px;margin-left:6px;vertical-align:1px}
+.lab-tag{font-size:.68rem;background:var(--accent);color:var(--accent-ink);border-radius:3px;padding:1px 6px;margin-left:6px;vertical-align:1px;text-decoration:none;white-space:nowrap}
+a.lab-tag:hover,a.lab-tag:focus-visible{filter:brightness(1.15);text-decoration:underline}
+/* hover / focus tooltip = the add-in's own menu TooltipText */
+.menu-tree li[data-tip]{position:relative;cursor:help;width:fit-content;max-width:100%}
+.menu-tree li[data-tip]>.mi{border-bottom:1px dotted var(--muted)}
+.menu-tree li[data-tip]::after{content:attr(data-tip);position:absolute;left:0;top:calc(100% + 4px);z-index:30;width:max-content;max-width:min(320px,80vw);background:var(--ink);color:var(--bg);font-size:.8rem;line-height:1.5;padding:6px 10px;border-radius:6px;box-shadow:var(--shadow);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .12s}
+.menu-tree li[data-tip]:hover::after,.menu-tree li[data-tip]:focus-within::after{opacity:1;visibility:visible}
+.menu-tree li[data-tip]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion:reduce){.menu-tree li[data-tip]::after{transition:none}}
+.menu-hint{font-size:.8rem;color:var(--muted);margin-bottom:8px}
 
 /* excel-ish window */
 .xl{background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);overflow:hidden;min-width:0}
@@ -277,32 +293,95 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
 
   <details class="more">
     <summary>完整功能選單</summary>
+    <p class="menu-hint">滑鼠移到功能名稱上（手機請點一下）可以看到說明；點「練習 →」直接開始練習。</p>
     <div class="menu-tree">
       <div><h3>常用功能一</h3>
         <ul>
-          <li>工作表目錄製作</li>
-          <li class="grp">格式調整…<ul><li>樣式一致化、列格式統一、最適列高調整</li><li>上同質框線、合併儲存格補值</li><li>新增自訂樣式、標準列印尺寸</li></ul></li>
-          <li class="grp">資料修正…<ul><li>註解修正、樣式還原、剖析還原、砍欄列</li><li>刪除物件、名稱修正</li></ul></li>
-          <li class="grp">公式格上色…<ul><li>公式上色、取消上色</li></ul></li>
-          <li class="grp">資料轉換…<ul><li>數值／文字互轉、民國轉西元</li><li>電話格式、超連結、全形轉半形</li><li>隱碼處理、Trim</li></ul></li>
-          <li class="grp">SQL 環境建立、唯讀開檔、動態名稱</li>
+          <li data-tip="製作含超連結的工作表目錄" tabindex="0"><span class="mi">工作表目錄製作</span></li>
+          <li class="grp">格式調整…<ul>
+            <li data-tip="將資料表重整為固定樣式" tabindex="0"><span class="mi">樣式一致化</span></li>
+            <li>列格式統一</li>
+            <li data-tip="僅處理合併儲存格造成的最適列高錯誤" tabindex="0"><span class="mi">最適列高調整</span></li>
+            <li data-tip="使用第一欄的資料相同性來畫表格的實線、虛線" tabindex="0"><span class="mi">上同質框線</span></li>
+            <li data-tip="將合併儲存格內的所有欄位都輸入相同的值，以利篩選" tabindex="0"><span class="mi">合併儲存格補值</span></li>
+            <li>新增自訂樣式</li>
+            <li data-tip="設定版面相關參數，主要是標題列、頁首頁尾、頁面邊界" tabindex="0"><span class="mi">標準列印尺寸</span></li>
+          </ul></li>
+          <li class="grp">資料修正…<ul>
+            <li data-tip="自動調整註解位置及大小" tabindex="0"><span class="mi">註解修正</span></li>
+            <li data-tip="將樣式還原為預設狀態，避免大量樣式造成檔案毀損" tabindex="0"><span class="mi">樣式還原</span></li>
+            <li data-tip="將資料剖析參數還原為預設狀態" tabindex="0"><span class="mi">剖析還原</span></li>
+            <li data-tip="以當前選擇位置為基準，將同列最末格、同欄最右格有值的位置做為最大列、欄，並刪除多餘的欄、列" tabindex="0"><span class="mi">砍欄列</span></li>
+            <li class="grp">進階修正…<ul>
+              <li data-tip="刪除會造成效能低落的大量物件" tabindex="0"><span class="mi">刪除物件</span></li>
+              <li data-tip="刪除現行活頁簿裡參照錯誤的名稱" tabindex="0"><span class="mi">名稱修正</span></li>
+            </ul></li>
+          </ul></li>
+          <li class="grp">公式格上色…<ul>
+            <li data-tip="將有公式的儲存格上色" tabindex="0"><span class="mi">公式上色</span></li>
+            <li data-tip="將上色效果取消" tabindex="0"><span class="mi">取消上色</span></li>
+          </ul></li>
+          <li class="grp">資料轉換…<ul>
+            <li data-tip="將選取範圍之數值資料重新修改為文字格式" tabindex="0"><span class="mi">數值轉文字</span></li>
+            <li data-tip="將選取範圍之文字資料重新修改為數值格式" tabindex="0"><span class="mi">文字轉數值</span></li>
+            <li data-tip="將選取範圍之民國日期轉為數值西元日期" tabindex="0"><span class="mi">民國日期轉西元日期</span></li>
+            <li data-tip="將選取範圍之電話號碼格式進行重整(+國碼 電話號碼)" tabindex="0"><span class="mi">電話號碼格式重整</span></li>
+            <li data-tip="將選取範圍之文字資料設定為超連結" tabindex="0"><span class="mi">文字轉超連結</span></li>
+            <li data-tip="將選取範圍之文字轉換為半形大寫(並Trim)後填入所選範圍" tabindex="0"><span class="mi">全形轉半形</span></li>
+            <li data-tip="將選取範圍之文字進行隱碼遮罩(並Trim)後填入所選範圍" tabindex="0"><span class="mi">隱碼處理</span></li>
+            <li data-tip="將選取範圍之文字資料進行Trim" tabindex="0"><span class="mi">Trim儲存格</span></li>
+            <li data-tip="將選取範圍中的合併儲存格進行補值(僅限單欄多列或單列多欄之合併儲存格)" tabindex="0"><span class="mi">合併儲存格補值</span></li>
+          </ul></li>
+          <li class="grp">SQL環境建立…<ul>
+            <li data-tip="建立可執行Excel-SQL語法的工作區" tabindex="0"><span class="mi">For Excel</span></li>
+            <li data-tip="建立可執行Teradata語法的工作區" tabindex="0"><span class="mi">For Teradata</span></li>
+          </ul></li>
+          <li data-tip="用唯讀的方式開啟檔案" tabindex="0"><span class="mi">唯讀開檔</span></li>
+          <li class="grp">動態名稱相關…<ul>
+            <li data-tip="依選取欄之第一列的值設定一個有動態長度(列數)的名稱 ※標題列需位於工作表第一列" tabindex="0"><span class="mi">名稱建立</span></li>
+            <li data-tip="把當前活頁簿中動態範圍名稱的參照項目從公式(Offset)改成直接參照，以加快引用速度" tabindex="0"><span class="mi">名稱調整</span></li>
+          </ul></li>
         </ul>
       </div>
       <div><h3>常用功能二</h3>
         <ul>
-          <li class="grp">顯示切換、設定切換…</li>
-          <li class="grp">資料比對<ul><li>兩表比對<span class="lab-tag">練習</span></li><li>單表比對<span class="lab-tag">練習</span></li></ul></li>
-          <li class="grp">資料收集<ul><li>多檔收集、單檔收集</li></ul></li>
-          <li class="grp">批量檔案處理…<ul><li>更改檔名、取得檔案清單、批量加密</li></ul></li>
-          <li>批次寄信、樞紐分析表讀取</li>
+          <li class="grp">顯示切換…<ul>
+            <li data-tip="分頁線顯示/不顯示" tabindex="0"><span class="mi">分頁線切換（僅當前工作表）</span></li>
+            <li data-tip="格線顯示/不顯示" tabindex="0"><span class="mi">顯示格線切換（僅當前工作表）</span></li>
+          </ul></li>
+          <li class="grp">設定切換…<ul>
+            <li data-tip="自動處理功能開/關" tabindex="0"><span class="mi">自動事件（套用至整個Excel）</span></li>
+            <li data-tip="允許/不允許直接在儲存格內編輯公式" tabindex="0"><span class="mi">公式編輯（套用至整個Excel）</span></li>
+            <li data-tip="當使用者對樞紐分析點兩下產生明細時，顯示/不顯示來源資訊" tabindex="0"><span class="mi">樞紐明細來源功能（套用至整個Excel）</span></li>
+            <li data-tip="將本檔案的日期篩選切換為分組/不分組" tabindex="0"><span class="mi">日期篩選變更（僅當前檔案）</span></li>
+            <li data-tip="將所選工作表的具有零值的儲存格切換為顯示零/不顯示零" tabindex="0"><span class="mi">零值顯示變更（僅所選工作表）</span></li>
+          </ul></li>
+          <li class="grp">資料比對<ul>
+            <li data-tip="將兩個工作表組指定欄位內容進行交叉比對，並回報比對結果" tabindex="0"><span class="mi">兩表比對</span><a class="lab-tag" href="#recon-1">練習 →</a></li>
+            <li data-tip="將單一工作表的指定欄位內容進行排序後，上下比對，並回報比對結果" tabindex="0"><span class="mi">單表比對</span><a class="lab-tag" href="#cross-1">練習 →</a></li>
+          </ul></li>
+          <li class="grp">資料收集<ul>
+            <li data-tip="將相同Key值的特定欄位帶回至總表" tabindex="0"><span class="mi">多檔收集</span></li>
+            <li data-tip="依據〔分類規則表〕Key值進行資料收集；可當成批次VLOOKUP使用" tabindex="0"><span class="mi">單檔收集</span></li>
+          </ul></li>
+          <li class="grp">批量檔案處理…<ul>
+            <li class="grp">更改檔名…<ul><li>檔名讀取</li><li>檔名更改</li></ul></li>
+            <li class="grp">取得檔案清單…<ul><li>資料下載</li><li>資料整理</li></ul></li>
+            <li data-tip="為所選Excel檔案批次加密，或檢查是否已加密" tabindex="0"><span class="mi">批量加密（限Excel）</span></li>
+          </ul></li>
+          <li data-tip="新增批次寄信功能至當前活頁簿" tabindex="0"><span class="mi">批次寄信</span></li>
+          <li data-tip="讀取當前活頁簿的所有樞紐分析表" tabindex="0"><span class="mi">樞紐分析表讀取</span></li>
         </ul>
       </div>
-      <div><h3>特殊功能＋工具列</h3>
+      <div><h3>特殊功能</h3>
         <ul>
-          <li>產生 QRCode</li>
-          <li>篩選強化_完全比對<span class="lab-tag">練習</span></li>
-          <li>篩選強化_模糊比對<span class="lab-tag">練習</span></li>
-          <li>ProShowAllData<span class="lab-tag">練習</span></li>
+          <li>產生QRCode</li>
+        </ul>
+        <h3 style="margin-top:14px">快速存取工具列</h3>
+        <ul>
+          <li data-tip="用複製的儲存格或分號分隔的多個條件，篩選出值完全相同的資料" tabindex="0"><span class="mi">篩選強化_完全比對</span> <kbd>Alt</kbd>+<kbd>1</kbd><a class="lab-tag" href="#filter-1">練習 →</a></li>
+          <li data-tip="用多個關鍵字篩選出「包含」任一關鍵字的資料（不適用數值欄位）" tabindex="0"><span class="mi">篩選強化_模糊比對</span> <kbd>Alt</kbd>+<kbd>2</kbd><a class="lab-tag" href="#filter-4">練習 →</a></li>
+          <li data-tip="一次取消工作表上所有欄位的篩選，並回到目前選取的位置" tabindex="0"><span class="mi">ProShowAllData</span> <kbd>Alt</kbd>+<kbd>3</kbd><a class="lab-tag" href="#filter-7">練習 →</a></li>
         </ul>
       </div>
     </div>
