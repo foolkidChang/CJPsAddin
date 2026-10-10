@@ -86,7 +86,7 @@ section.lesson{display:grid;gap:20px}
 .head{display:grid;gap:6px}
 
 .teacher-note{display:none;border:1px dashed var(--accent);background:var(--accent-soft);border-radius:8px;padding:10px 14px;font-size:.9rem}
-.teacher-note::before{content:"講師　";font-weight:700;color:var(--accent)}
+.teacher-note::before{content:"解答　";font-weight:700;color:var(--accent)}
 body.teacher .teacher-note{display:block}
 
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
@@ -248,7 +248,7 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
 <body>
 <header class="bar">
   <div class="bar-in">
-    <div class="brand"><span class="brand-mark">CJ</span>CJPsAddin 互動教材</div>
+    <div class="brand"><span class="brand-mark">JP</span>CJPsAddin 互動教材</div>
     <nav class="tabs" role="tablist" aria-label="課程單元">
       <button class="tab" role="tab" data-tab="overview" id="t-overview">總覽</button>
       <button class="tab" role="tab" data-tab="filter" id="t-filter">篩選強化</button>
@@ -256,7 +256,7 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
       <button class="tab" role="tab" data-tab="cross" id="t-cross">單表比對</button>
       <button class="tab" role="tab" data-tab="quiz" id="t-quiz">小測驗</button>
     </nav>
-    <div class="teacher-toggle"><span id="teacher-lbl">講師模式</span><button class="switch" id="teacher" role="switch" aria-checked="false" aria-labelledby="teacher-lbl"></button></div>
+    <div class="teacher-toggle"><span id="teacher-lbl">顯示解答</span><button class="switch" id="teacher" role="switch" aria-checked="false" aria-labelledby="teacher-lbl"></button></div>
   </div>
 </header>
 
@@ -303,7 +303,7 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
       <li>不覆寫公司的 Office 安全性原則</li>
       <li>產生診斷報告 <code>InstallDiagnostic.txt</code></li>
     </ol>
-    <div class="teacher-note" style="margin-top:10px">學員安裝失敗時，請他傳 <code>InstallDiagnostic.txt</code>。郵件安檢會擋 .cmd，寄送前改成 <code>_cmd</code>。</div>
+    <p class="note-sm" style="margin-top:10px">安裝失敗時，請查看安裝程式旁產生的 <code>InstallDiagnostic.txt</code>，裡面記錄了每個步驟的結果。</p>
   </details>
 
   <details class="more">
@@ -513,10 +513,29 @@ function showTab(id){
   if(!TABS.includes(id))id='overview';
   curTab=id;
   TABS.forEach(t=>{$('#tab-'+t).hidden=t!==id;$('#t-'+t).setAttribute('aria-selected',String(t===id));});
-  try{history.replaceState(null,'','#'+id)}catch(e){}
+  updateHash();
   store.set('cj-tab',id);
   window.scrollTo(0,0);
 }
+// 網址 #分頁 或 #分頁-題號（例如 #recon-7）可直接開到指定位置；切換題目時同步更新網址
+const curIndex=()=>curTab==='filter'?fs.mission:curTab==='recon'?rs.i:curTab==='cross'?cs.i:-1;
+function updateHash(){
+  const i=curIndex();
+  try{history.replaceState(null,'','#'+curTab+(i>=0?'-'+(i+1):''))}catch(e){}
+}
+function applyHash(){
+  const m=(location.hash||'').slice(1).match(/^(overview|filter|recon|cross|quiz)(?:-(\d+))?$/);
+  if(!m)return false;
+  const n=m[2]?Number(m[2])-1:-1;
+  if(n>=0){
+    if(m[1]==='filter'&&n<MISSIONS.length)setMission(n);
+    if(m[1]==='recon'&&n<SCEN.length)setScen(n);
+    if(m[1]==='cross'&&n<CSCEN.length)loadCross(CSCEN[n],n);
+  }
+  showTab(m[1]);
+  return true;
+}
+window.addEventListener('hashchange',applyHash);
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.go)));
 const tbtn=$('#teacher');
@@ -607,6 +626,7 @@ function setMission(i){
   $('#m-eyebrow').textContent='題目 '+(i+1)+'｜'+m.k;$('#m-title').textContent=m.t;$('#m-text').innerHTML=fmtTask(m.text);
   $('#m-teacher').textContent=m.teach;
   renderMissions();renderConds();renderSheet();
+  if(curTab==='filter')updateHash();
 }
 function renderConds(){
   const m=MISSIONS[fs.mission],box=$('#conds');box.innerHTML='';
@@ -764,6 +784,7 @@ function setScen(i){
   $('#r-eyebrow').textContent='題目 '+(i+1);$('#r-title').textContent=s.t;$('#r-text').innerHTML=fmtTask(s.text);
   $('#r-teacher').textContent=s.teach;
   renderScenPick();renderRecon();
+  if(curTab==='recon')updateHash();
 }
 const resultCol=T=>SCEN[rs.i][T].cols.length-1;
 function keyStr(T){const k=rs.key[T];if(!k.length)return '（點表頭設定 Key）';return k.length===1?colLetter(k[0])+TR:k.map(colLetter).join(';')+';'+TR;}
@@ -904,6 +925,7 @@ function loadCross(sc,i){
   $('#c-eyebrow').textContent=i>=0?'題目 '+(i+1):'流程跳轉';$('#c-title').textContent=sc.t;$('#c-text').innerHTML=fmtTask(sc.text);
   $('#c-teacher').textContent=sc.teach;
   renderCPick();renderCross();
+  if(curTab==='cross')updateHash();
 }
 const cval=v=>typeof v==='string'&&v.startsWith(T_)?v.slice(T_.length):v; // cell value (text-number → string)
 const isTextNum=v=>typeof v==='string'&&v.startsWith(T_);
@@ -1064,8 +1086,7 @@ setScen(0);
 loadCross(CSCEN[0],0);
 renderQuiz();
 setTeacher(store.get('cj-teacher')==='1');
-const h=(location.hash||'').slice(1);
-showTab(TABS.includes(h)?h:(store.get('cj-tab')||'overview'));
+if(!applyHash())showTab(store.get('cj-tab')||'overview');
 })();
 </script>
 </body>
