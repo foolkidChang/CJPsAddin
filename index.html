@@ -13,33 +13,34 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
 /* Layout: sticky tab bar; each lesson = short lead + task card + Excel-like sheet. Highlights carry the key words so text can stay short. */
+/* Site palette: blue / light blue + goose-yellow highlight. Function colors (pink/grey/dup-blue, both/only, cond green, result yellow, Excel triangle) stay as in the add-in. */
 :root{
-  --bg:#f3f5f2; --surface:#ffffff; --ink:#1c2620; --muted:#5c6b62; --line:#d3dbd5;
-  --accent:#1d6b43; --accent-ink:#ffffff; --accent-soft:#e1efe6;
-  --hdr:#eef1ee; --hdr-ink:#46544b; --grid:#dde3de;
-  --yellow:#ffe14d; --yellow-ink:#2a2300; --mark:#fff1a8; --mark-ink:#3d3200;
+  --bg:#f2f6fb; --surface:#ffffff; --ink:#172234; --muted:#56657d; --line:#d2dbe7;
+  --accent:#1f5ca8; --accent-ink:#ffffff; --accent-soft:#e2edfa;
+  --hdr:#edf2f9; --hdr-ink:#4a5a72; --grid:#dae2ed;
+  --yellow:#ffe14d; --yellow-ink:#2a2300; --mark:#fff3b5; --mark-ink:#4a3b00;
   --both:#dff1e5; --both-ink:#15532f; --only:#fdf0d5; --only-ink:#7a4b00; --dup:#c2410c;
   --filterblue:#1f5fbf; --cond:#c9ecd3; --cond-ink:#174d2c;
   --pink:#ffc7ce; --pink-ink:#7a1f2b; --grey:#c4c8c5; --grey-ink:#2b302d; --dupblue:#1f4fd8; --tri:#1d8a4a;
-  --shadow:0 1px 2px rgba(20,40,30,.06),0 6px 24px rgba(20,40,30,.08);
+  --shadow:0 1px 2px rgba(20,40,80,.06),0 6px 24px rgba(20,40,80,.08);
   --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
   --f-body:"Noto Sans TC","Microsoft JhengHei","PingFang TC",system-ui,sans-serif;
   --f-mono:"JetBrains Mono",Consolas,"Courier New",monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#111713; --surface:#18201b; --ink:#e2eae4; --muted:#9aaba0; --line:#2c3a31;
-  --accent:#4cc283; --accent-ink:#0b1f13; --accent-soft:#1d3326;
-  --hdr:#1f2923; --hdr-ink:#aebcb3; --grid:#2a352e;
-  --yellow:#e5c637; --yellow-ink:#1f1a00; --mark:#4a4214; --mark-ink:#fff0a0;
+  --bg:#0f1520; --surface:#162030; --ink:#e3eaf4; --muted:#9aa9bf; --line:#2a3850;
+  --accent:#6aa7f0; --accent-ink:#0b1a2e; --accent-soft:#1b2c45;
+  --hdr:#1c2738; --hdr-ink:#aab8cc; --grid:#26344a;
+  --yellow:#e5c637; --yellow-ink:#1f1a00; --mark:#4d4318; --mark-ink:#fff1b0;
   --both:#173a25; --both-ink:#a6e6bf; --only:#3a2d12; --only-ink:#f3cf86; --dup:#ff8a5b;
   --filterblue:#7fb0ff; --cond:#1e4a30; --cond-ink:#bdf0cf;
   --pink:#5c2a33; --pink-ink:#ffd0d7; --grey:#454b47; --grey-ink:#e2e6e3; --dupblue:#8fb4ff; --tri:#4cc283;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 24px rgba(0,0,0,.35); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#111713; --surface:#18201b; --ink:#e2eae4; --muted:#9aaba0; --line:#2c3a31;
-  --accent:#4cc283; --accent-ink:#0b1f13; --accent-soft:#1d3326;
-  --hdr:#1f2923; --hdr-ink:#aebcb3; --grid:#2a352e;
-  --yellow:#e5c637; --yellow-ink:#1f1a00; --mark:#4a4214; --mark-ink:#fff0a0;
+  --bg:#0f1520; --surface:#162030; --ink:#e3eaf4; --muted:#9aa9bf; --line:#2a3850;
+  --accent:#6aa7f0; --accent-ink:#0b1a2e; --accent-soft:#1b2c45;
+  --hdr:#1c2738; --hdr-ink:#aab8cc; --grid:#26344a;
+  --yellow:#e5c637; --yellow-ink:#1f1a00; --mark:#4d4318; --mark-ink:#fff1b0;
   --both:#173a25; --both-ink:#a6e6bf; --only:#3a2d12; --only-ink:#f3cf86; --dup:#ff8a5b;
   --filterblue:#7fb0ff; --cond:#1e4a30; --cond-ink:#bdf0cf;
   --pink:#5c2a33; --pink-ink:#ffd0d7; --grey:#454b47; --grey-ink:#e2e6e3; --dupblue:#8fb4ff; --tri:#4cc283;
@@ -98,8 +99,12 @@ details.more[open]>summary{margin-bottom:10px}
 .tight{margin:0;padding-left:1.2em;display:grid;gap:3px;font-size:.92rem}
 
 /* overview */
-.hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;align-items:center}
-@media (max-width:820px){.hero{grid-template-columns:1fr}}
+.hero{display:grid;gap:6px;max-width:760px}
+.install-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:18px;align-items:start}
+@media (max-width:820px){.install-grid{grid-template-columns:1fr}}
+.install-grid>*{min-width:0}
+.pending{display:flex;gap:10px;align-items:center;border:1px dashed var(--line);background:var(--surface);border-radius:10px;padding:10px 14px;font-size:.9rem;color:var(--muted)}
+.pending b{color:var(--ink)}
 .hero h1{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:900}
 .qat{background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);overflow:hidden}
 .qat-title{background:var(--accent);color:var(--accent-ink);font-size:.8rem;padding:6px 12px}
@@ -230,7 +235,7 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
 .score{font-family:var(--f-mono);font-size:.9rem;color:var(--accent);font-weight:600}
 
 /* dialogs */
-.overlay{position:fixed;inset:0;background:rgba(10,20,15,.35);display:grid;place-items:center;z-index:50;padding:16px}
+.overlay{position:fixed;inset:0;background:rgba(10,18,32,.4);display:grid;place-items:center;z-index:50;padding:16px}
 .dlg{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.3);width:min(460px,100%);max-height:calc(100vh - 32px);display:flex;flex-direction:column;overflow:hidden}
 .dlg-t{padding:8px 14px;font-size:.82rem;background:var(--hdr);border-bottom:1px solid var(--line)}
 .dlg-b{padding:16px 16px 10px;white-space:pre-line;font-size:.92rem;overflow:auto}
@@ -251,6 +256,7 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
     <div class="brand"><span class="brand-mark">JP</span>CJPsAddin 互動教材</div>
     <nav class="tabs" role="tablist" aria-label="課程單元">
       <button class="tab" role="tab" data-tab="overview" id="t-overview">總覽</button>
+      <button class="tab" role="tab" data-tab="install" id="t-install">安裝方式</button>
       <button class="tab" role="tab" data-tab="filter" id="t-filter">篩選強化</button>
       <button class="tab" role="tab" data-tab="recon" id="t-recon">兩表比對</button>
       <button class="tab" role="tab" data-tab="cross" id="t-cross">單表比對</button>
@@ -264,47 +270,10 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
 <!-- ============================ 總覽 ============================ -->
 <section class="lesson" id="tab-overview">
   <div class="hero">
-    <div class="head">
-      <div class="eyebrow">EXCEL 增益集 · 課堂教材</div>
-      <h1>裝一次，每天少做幾十次重複操作</h1>
-      <p class="lead">CJPsAddin 安裝後<b>每次開 Excel 自動載入</b>。本教材把最常用的功能做成可以在網頁上直接操作的練習。</p>
-    </div>
-    <div class="qat" aria-label="快速存取工具列示意">
-      <div class="qat-title">快速存取工具列（安裝時自動加入）</div>
-      <div class="qat-row">
-        <div class="qat-btn"><span><kbd>Alt</kbd>+<kbd>1</kbd></span><small>完全比對</small></div>
-        <div class="qat-btn"><span><kbd>Alt</kbd>+<kbd>2</kbd></span><small>模糊比對</small></div>
-        <div class="qat-btn"><span><kbd>Alt</kbd>+<kbd>3</kbd></span><small>取消所有篩選</small></div>
-      </div>
-    </div>
+    <div class="eyebrow">EXCEL 增益集 · 課堂教材</div>
+    <h1>裝一次，每天少做幾十次重複操作</h1>
+    <p class="lead">CJPsAddin 安裝後<b>每次開 Excel 自動載入</b>。本教材把最常用的功能做成可以在網頁上直接操作的練習。</p>
   </div>
-
-  <div class="steps">
-    <div class="step"><span class="step-n">步驟 1</span><h3>關閉 Excel，執行安裝檔</h3><p><code>CJPsAddin_Installer_v1.11.cmd</code>，按 <kbd>Y</kbd></p></div>
-    <div class="step"><span class="step-n">步驟 2</span><h3>重新開啟 Excel</h3><p>「增益集」索引標籤出現三組選單</p></div>
-    <div class="step"><span class="step-n">步驟 3</span><h3>開始練習</h3><p>從下方選一個單元</p></div>
-  </div>
-
-  <div class="lessons">
-    <button class="lesson-card" data-go="filter"><span class="eyebrow">練習 1</span><h3>篩選強化</h3><small>一次篩出很多個值</small></button>
-    <button class="lesson-card" data-go="recon"><span class="eyebrow">練習 2</span><h3>兩表比對</h3><small>兩張表<b class="hl">有沒有</b>這筆資料</small></button>
-    <button class="lesson-card" data-go="cross"><span class="eyebrow">練習 3</span><h3>單表比對</h3><small>同一組資料<b class="hl">一不一樣</b></small></button>
-    <button class="lesson-card" data-go="quiz"><span class="eyebrow">複習</span><h3>小測驗</h3><small>10 題，立即看答案</small></button>
-  </div>
-
-  <details class="more">
-    <summary>安裝程式做了哪些事</summary>
-    <ol class="tight">
-      <li>複製增益集到 <code>D:\VBA</code>（失敗改用 <code>C:\VBA</code>），設為唯讀</li>
-      <li>寫入 Excel 啟動設定，<b class="hl">開 Excel 自動載入</b></li>
-      <li>快速存取工具列加入 3 個按鈕（Alt+1～3）</li>
-      <li>安裝資料夾加入 Excel <b class="hl">信任位置</b></li>
-      <li>「啟用所有巨集」會改成「停用並通知」，<b>只收緊、不放寬</b></li>
-      <li>不覆寫公司的 Office 安全性原則</li>
-      <li>產生診斷報告 <code>InstallDiagnostic.txt</code></li>
-    </ol>
-    <p class="note-sm" style="margin-top:10px">安裝失敗時，請查看安裝程式旁產生的 <code>InstallDiagnostic.txt</code>，裡面記錄了每個步驟的結果。</p>
-  </details>
 
   <details class="more">
     <summary>完整功能選單</summary>
@@ -338,6 +307,57 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
       </div>
     </div>
   </details>
+
+  <div class="lessons">
+    <button class="lesson-card" data-go="install"><span class="eyebrow">開始之前</span><h3>安裝方式</h3><small>3 個步驟，裝好就能用</small></button>
+    <button class="lesson-card" data-go="filter"><span class="eyebrow">練習 1</span><h3>篩選強化</h3><small>一次篩出很多個值</small></button>
+    <button class="lesson-card" data-go="recon"><span class="eyebrow">練習 2</span><h3>兩表比對</h3><small>兩張表<b class="hl">有沒有</b>這筆資料</small></button>
+    <button class="lesson-card" data-go="cross"><span class="eyebrow">練習 3</span><h3>單表比對</h3><small>同一組資料<b class="hl">一不一樣</b></small></button>
+    <button class="lesson-card" data-go="quiz"><span class="eyebrow">複習</span><h3>小測驗</h3><small>10 題，立即看答案</small></button>
+  </div>
+</section>
+
+<!-- ============================ 安裝方式 ============================ -->
+<section class="lesson" id="tab-install" hidden>
+  <div class="head">
+    <div class="eyebrow">開始之前</div>
+    <h2>安裝方式</h2>
+    <p class="lead">執行一次安裝程式，之後<b class="hl">每次開 Excel 都會自動載入</b>，不用再設定。</p>
+  </div>
+
+  <div class="pending"><span>📦</span><span><b>下載檔案準備中</b>：增益集、安裝程式與練習檔將於之後提供。</span></div>
+
+  <div class="steps">
+    <div class="step"><span class="step-n">步驟 1</span><h3>關閉 Excel，執行安裝檔</h3><p><code>CJPsAddin_Installer_v1.11.cmd</code>，按 <kbd>Y</kbd></p></div>
+    <div class="step"><span class="step-n">步驟 2</span><h3>重新開啟 Excel</h3><p>「增益集」索引標籤出現三組選單</p></div>
+    <div class="step"><span class="step-n">步驟 3</span><h3>開始練習</h3><p>從上方頁簽選一個練習單元</p></div>
+  </div>
+
+  <div class="install-grid">
+    <div class="qat" aria-label="快速存取工具列示意">
+      <div class="qat-title">快速存取工具列（安裝時自動加入）</div>
+      <div class="qat-row">
+        <div class="qat-btn"><span><kbd>Alt</kbd>+<kbd>1</kbd></span><small>完全比對</small></div>
+        <div class="qat-btn"><span><kbd>Alt</kbd>+<kbd>2</kbd></span><small>模糊比對</small></div>
+        <div class="qat-btn"><span><kbd>Alt</kbd>+<kbd>3</kbd></span><small>取消所有篩選</small></div>
+      </div>
+      <p class="note-sm" style="padding:0 12px 12px">工具列前 3 個按鈕會自動對應 <kbd>Alt</kbd>+<kbd>1</kbd>～<kbd>3</kbd>。</p>
+    </div>
+
+    <div class="panel">
+      <h3>安裝程式做了哪些事</h3>
+      <ol class="tight" style="margin-top:8px">
+        <li>複製增益集到 <code>D:\VBA</code>（失敗改用 <code>C:\VBA</code>），設為唯讀</li>
+        <li>寫入 Excel 啟動設定，<b class="hl">開 Excel 自動載入</b></li>
+        <li>快速存取工具列加入 3 個按鈕（Alt+1～3）</li>
+        <li>安裝資料夾加入 Excel <b class="hl">信任位置</b></li>
+        <li>「啟用所有巨集」會改成「停用並通知」，<b>只收緊、不放寬</b></li>
+        <li>不覆寫公司的 Office 安全性原則</li>
+        <li>產生診斷報告 <code>InstallDiagnostic.txt</code></li>
+      </ol>
+      <p class="note-sm" style="margin-top:10px">安裝失敗時，請查看安裝程式旁產生的 <code>InstallDiagnostic.txt</code>，裡面記錄了每個步驟的結果。</p>
+    </div>
+  </div>
 </section>
 
 <!-- ============================ 篩選強化 ============================ -->
@@ -507,7 +527,7 @@ const fmtTask=s=>s.split('\n').map(l=>l.startsWith('>')?'<div class="op">'+fmt(l
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 
 /* ---------- tabs & teacher mode ---------- */
-const TABS=['overview','filter','recon','cross','quiz'];
+const TABS=['overview','install','filter','recon','cross','quiz'];
 let curTab='overview';
 function showTab(id){
   if(!TABS.includes(id))id='overview';
@@ -524,7 +544,7 @@ function updateHash(){
   try{history.replaceState(null,'','#'+curTab+(i>=0?'-'+(i+1):''))}catch(e){}
 }
 function applyHash(){
-  const m=(location.hash||'').slice(1).match(/^(overview|filter|recon|cross|quiz)(?:-(\d+))?$/);
+  const m=(location.hash||'').slice(1).match(/^(overview|install|filter|recon|cross|quiz)(?:-(\d+))?$/);
   if(!m)return false;
   const n=m[2]?Number(m[2])-1:-1;
   if(n>=0){
