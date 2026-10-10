@@ -113,6 +113,8 @@ details.more[open]>summary{margin-bottom:10px}
 .pending{display:flex;gap:10px;align-items:center;border:1px dashed var(--line);background:var(--surface);border-radius:10px;padding:10px 14px;font-size:.9rem;color:var(--muted)}
 .pending b{color:var(--ink)}
 .hero h1{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:900}
+.hero .nb{display:inline-block} /* 只在逗號處換行 */
+.hero .subtitle{font-family:var(--f-display);font-weight:700;font-size:clamp(1.05rem,2.2vw,1.3rem);color:var(--accent);margin-bottom:4px}
 .qat{background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);overflow:hidden}
 .qat-title{background:var(--accent);color:var(--accent-ink);font-size:.8rem;padding:6px 12px}
 .qat-row{display:flex;gap:6px;padding:12px;flex-wrap:wrap}
@@ -287,7 +289,8 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
 <section class="lesson" id="tab-overview">
   <div class="hero">
     <div class="eyebrow">EXCEL 增益集 · 課堂教材</div>
-    <h1>裝一次，每天少做幾十次重複操作</h1>
+    <h1><span class="nb">不必懂程式，</span><span class="nb">也能用上 VBA 的威力</span></h1>
+    <p class="subtitle"><span class="nb">一個上班族，</span><span class="nb">寫給上班族的 Excel 增益集</span></p>
     <p class="lead">CJPsAddin 安裝後<b>每次開 Excel 自動載入</b>。本教材把最常用的功能做成可以在網頁上直接操作的練習。</p>
   </div>
 
