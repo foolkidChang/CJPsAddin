@@ -10,6 +10,9 @@
 <meta name="google-site-verification" content="buucDtRrcJYY-0kigrYnWsXKJyp51EqlqKGfyQU-9uo">
 <link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/">
 <title>CJPsAddin 互動教材</title>
+<!-- 流量統計 GoatCounter（報表：https://cjpsaddin.goatcounter.com）。no_onload：改由切換分頁時記錄，見 trackTab() -->
+<script>window.goatcounter={no_onload:true};</script>
+<script data-goatcounter="https://cjpsaddin.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -845,6 +848,17 @@ function showTab(id){
   updateHash();
   store.set('cj-tab',id);
   window.scrollTo(0,0);
+  trackTab(id);
+}
+// 每個分頁記成一筆瀏覽（例如 /CJPsAddin/#filter），報表上就能看出哪個單元最多人用。
+// 統計程式被擋或還沒載入時直接略過，不影響網頁功能；本機預覽（file://）GoatCounter 本身就不記錄。
+let lastTracked='';
+function trackTab(id){
+  if(id===lastTracked)return;
+  lastTracked=id;
+  const send=()=>{try{window.goatcounter.count({path:location.pathname+'#'+id,title:$('#t-'+id).textContent});}catch(e){}};
+  if(window.goatcounter&&window.goatcounter.count)send();
+  else if(document.readyState!=='complete')window.addEventListener('load',()=>{if(window.goatcounter&&window.goatcounter.count)send();},{once:true});
 }
 // 網址 #分頁 或 #分頁-題號（例如 #recon-7）可直接開到指定位置；切換題目時同步更新網址
 const curIndex=()=>curTab==='filter'?fs.mission:curTab==='recon'?rs.i:curTab==='cross'?cs.i:-1;
