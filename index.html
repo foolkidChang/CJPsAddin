@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="CJPsAddin Excel 增益集互動教材：篩選強化、兩表比對、單表比對的操作模擬與小測驗，直接在瀏覽器練習。">
+<meta name="description" content="CJPsAddin Excel 增益集互動教材：篩選強化、兩表比對、單表比對、資料收集的操作模擬與小測驗，直接在瀏覽器練習。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CJPsAddin 互動教材">
-<meta property="og:description" content="CJPsAddin Excel 增益集互動教材：篩選強化、兩表比對、單表比對的操作模擬與小測驗，直接在瀏覽器練習。">
+<meta property="og:description" content="CJPsAddin Excel 增益集互動教材：篩選強化、兩表比對、單表比對、資料收集的操作模擬與小測驗，直接在瀏覽器練習。">
 <meta name="google-site-verification" content="buucDtRrcJYY-0kigrYnWsXKJyp51EqlqKGfyQU-9uo">
 <link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/">
 <title>CJPsAddin 互動教材</title>
@@ -297,6 +297,22 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
 .summary .s-dup{background:var(--hdr)}
 .summary .kcol{color:var(--dupblue)}
 
+/* collect lab（資料收集） */
+.badge.col{background:var(--yellow);color:var(--yellow-ink)}
+.th-col{background:var(--mark)!important;color:var(--mark-ink)}
+.sheet td.g-w{background:var(--mark);color:var(--mark-ink);font-weight:700}
+.sheet tr.g-new td.rn{background:var(--accent);color:var(--accent-ink)}
+.sheet th.cmt{position:relative}
+.sheet th.cmt::after{content:"";position:absolute;top:0;right:0;border-style:solid;border-width:0 7px 7px 0;border-color:transparent #d83b01 transparent transparent}
+.sheet td.pre{font-weight:700;color:var(--muted)}
+.g-files{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.g-files>*{min-width:0}
+.sheet-tabs{display:flex;flex-wrap:wrap;gap:2px;padding:0 8px;border-top:1px solid var(--line);background:var(--hdr)}
+.sheet-tab{border:0;background:transparent;color:var(--muted);font-size:.78rem;padding:3px 10px}
+.sheet-tab[aria-selected="true"]{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:inset 0 -2px 0 var(--accent)}
+.g-log pre{white-space:pre-wrap;font-family:var(--f-mono);font-size:.8rem;margin:8px 0 0;background:var(--hdr);border:1px solid var(--line);border-radius:6px;padding:8px 10px}
+table.wrap td,table.wrap th{white-space:normal}
+
 /* quiz */
 .quiz{display:grid;gap:12px}
 .q{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:8px}
@@ -340,6 +356,7 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
       <button class="tab" role="tab" data-tab="filter" id="t-filter">篩選強化</button>
       <button class="tab" role="tab" data-tab="recon" id="t-recon">兩表比對</button>
       <button class="tab" role="tab" data-tab="cross" id="t-cross">單表比對</button>
+      <button class="tab" role="tab" data-tab="collect" id="t-collect">資料收集</button>
       <button class="tab" role="tab" data-tab="quiz" id="t-quiz">小測驗</button>
     </nav>
     <div class="bar-tools">
@@ -434,7 +451,7 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
             <li data-tip="將單一工作表的指定欄位內容進行排序後，上下比對，並回報比對結果" tabindex="0"><span class="mi">單表比對</span><a class="lab-tag" href="#cross-1">練習 →</a></li>
           </ul></li>
           <li class="grp">資料收集<ul>
-            <li data-tip="將相同Key值的特定欄位帶回至總表" tabindex="0"><span class="mi">多檔收集</span></li>
+            <li data-tip="將相同Key值的特定欄位帶回至總表" tabindex="0"><span class="mi">多檔收集</span><a class="lab-tag" href="#collect-1">練習 →</a></li>
             <li data-tip="依據〔分類規則表〕Key值進行資料收集；可當成批次VLOOKUP使用" tabindex="0"><span class="mi">單檔收集</span></li>
           </ul></li>
           <li class="grp">批量檔案處理…<ul>
@@ -465,7 +482,8 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
     <button class="lesson-card" data-go="filter"><span class="eyebrow">練習 1</span><h3>篩選強化</h3><small>一次篩出很多個值</small></button>
     <button class="lesson-card" data-go="recon"><span class="eyebrow">練習 2</span><h3>兩表比對</h3><small>兩張表<b class="hl">有沒有</b>這筆資料</small></button>
     <button class="lesson-card" data-go="cross"><span class="eyebrow">練習 3</span><h3>單表比對</h3><small>同一組資料<b class="hl">一不一樣</b></small></button>
-    <button class="lesson-card" data-go="quiz"><span class="eyebrow">複習</span><h3>小測驗</h3><small>10 題，立即看答案</small></button>
+    <button class="lesson-card" data-go="collect"><span class="eyebrow">練習 4</span><h3>資料收集</h3><small>多個檔案<b class="hl">帶回</b>同一張總表</small></button>
+    <button class="lesson-card" data-go="quiz"><span class="eyebrow">複習</span><h3>小測驗</h3><small>12 題，立即看答案</small></button>
   </div>
 </section>
 
@@ -817,6 +835,155 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
   </div>
 </section>
 
+<!-- ============================ 資料收集 ============================ -->
+<section class="lesson" id="tab-collect" hidden>
+  <div class="head">
+    <div class="eyebrow">練習 4</div>
+    <h2>資料收集</h2>
+  </div>
+
+  <div class="panel intro">
+    <figure class="ill">
+      <svg viewBox="0 0 340 176" role="img" aria-label="示意圖：來源_金額和來源_數量兩個檔案，依單位把金額、數量帶回同一張彙總表">
+        <defs><marker id="ill-ah" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path class="i-acc" d="M0 0 L9 4.5 L0 9 Z"/></marker></defs>
+        <rect class="i-box" x="6" y="14" width="118" height="66" rx="6"/>
+        <text x="14" y="32" class="i-b">來源_金額.xlsx</text>
+        <text x="16" y="52">北區</text><text x="70" y="52" class="i-mono">1200</text>
+        <text x="16" y="70">南區</text><text x="70" y="70" class="i-mono">1530</text>
+        <rect class="i-box" x="6" y="98" width="118" height="66" rx="6"/>
+        <text x="14" y="116" class="i-b">來源_數量.xlsx</text>
+        <text x="16" y="136">北區</text><text x="70" y="136" class="i-mono">12</text>
+        <text x="16" y="154">東區</text><text x="70" y="154" class="i-mono">9</text>
+        <path class="i-arrow" d="M128 48 C150 48 150 68 166 70" marker-end="url(#ill-ah)"/>
+        <path class="i-arrow" d="M128 132 C150 132 150 112 166 110" marker-end="url(#ill-ah)"/>
+        <text x="253" y="32" text-anchor="middle" class="i-muted">彙總表.xlsx</text>
+        <rect class="i-box" x="172" y="40" width="162" height="88" rx="4"/>
+        <rect class="i-hdr" x="173" y="41" width="160" height="19"/>
+        <text x="180" y="55" class="i-b">單位</text><text x="207" y="55" class="i-acc" style="font-size:9px">Key</text>
+        <text x="234" y="55" class="i-b">金額</text><text x="290" y="55" class="i-b">數量</text>
+        <rect class="i-mark" x="227" y="61" width="52" height="20"/><rect class="i-mark" x="283" y="61" width="48" height="20"/>
+        <rect class="i-mark" x="227" y="83" width="52" height="20"/>
+        <rect class="i-mark" x="283" y="105" width="48" height="20"/>
+        <text x="180" y="76">北區</text><text x="234" y="76" class="i-mono">1200</text><text x="290" y="76" class="i-mono">12</text>
+        <text x="180" y="98">南區</text><text x="234" y="98" class="i-mono">1530</text>
+        <text x="180" y="120">東區</text><text x="290" y="120" class="i-mono">9</text>
+      </svg>
+      <figcaption>各檔案依 Key 把欄位帶回同一張總表</figcaption>
+    </figure>
+    <div class="intro-txt">
+      <h3>這個功能在做什麼</h3>
+      <p>先開好<b>總表</b>，再選好幾個<b>匯入檔案</b>。程式會在每個檔案裡找 <b class="hl">Key 相同</b>的資料，把指定的欄位帶回總表。可以想成進階版的 VLOOKUP：Key 和要帶回的欄位都可以是<b>多欄</b>，一次處理<b>多個檔案</b>。功能選單上的名稱是「多檔收集」，舊文章稱為「資料合併」。</p>
+      <div class="intro-cols">
+        <div>
+          <h4>適合這些時候用</h4>
+          <ul class="tight">
+            <li>把總表拆給各單位填寫，收回來後要合併回同一張表</li>
+            <li>金額、數量分散在不同部門的檔案，要彙整成一張</li>
+            <li>各門市的月報要彙整成全公司總表</li>
+            <li>各單位處理完案件後清空待辦欄，要同步回總表</li>
+          </ul>
+        </div>
+        <div>
+          <h4>練完你會</h4>
+          <ul class="tight goals">
+            <li>正確填寫 Key值組成欄與資料回收欄</li>
+            <li>看懂執行紀錄裡的 OK 與 (1/2)</li>
+            <li>依情境選擇四個選項</li>
+            <li>從只有標題的空白總表，彙整出完整資料</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="panel">
+      <h3>兩個欄位怎麼填</h3>
+      <div class="scroll" style="margin-top:8px">
+      <table class="sheet wrap">
+        <tr class="title-row"><th>欄位</th><th>單一欄</th><th>多欄</th></tr>
+        <tr><td><b>Key值組成欄</b><br><span class="note-sm">哪些欄位可以組出唯一值</span></td><td><code>A3</code></td><td><code>A;B;3</code></td></tr>
+        <tr><td><b>資料回收欄</b><br><span class="note-sm">哪些欄位要帶回來</span></td><td><code>C</code></td><td><code>C;D</code></td></tr>
+      </table></div>
+      <ul class="tight" style="margin-top:10px">
+        <li>Key 最後的數字是<b class="hl">標題列</b>，不是資料起始列</li>
+        <li>資料回收欄只寫欄名，列號沿用 Key 的標題列</li>
+        <li>匯入檔案是用<b class="hl">標題文字</b>找欄位：欄位順序、位置可以和總表不同，但標題文字要一模一樣</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>四個選項</h3>
+      <div class="scroll" style="margin-top:8px">
+      <table class="sheet wrap">
+        <tr class="title-row"><th>選項</th><th>什麼時候勾</th></tr>
+        <tr><td>一、資料回收欄之資料為空值時，仍要寫入</td><td>空白也是正確答案，例如清空代表已處理</td></tr>
+        <tr><td>二、Key值有重複時，在資料被覆蓋前，需跳出提示</td><td>每個 Key 應該只出現一次，想抓出重複填寫</td></tr>
+        <tr><td>三、如果Key值不存在於總表，將該筆資料新增於總表最下方列</td><td>允許各單位自行新增資料；或總表只留標題，全部資料由匯入檔彙整</td></tr>
+        <tr><td>四、用總表工作表名稱，在各匯入檔案中找尋資料所在工作表</td><td>匯入檔有好幾張工作表，不確定存檔時停在哪一張</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="sub-head">
+    <h3>開始練習</h3>
+    <p class="lead">選一題，在總表<b>點表頭切換 Key／回收</b>，勾選需要的選項，再按「執行資料收集」。下方的匯入檔案就是會被讀取的內容。</p>
+  </div>
+
+  <div class="scen-pick" id="g-pick" role="group" aria-label="選擇題目"></div>
+
+  <div class="panel task">
+    <div class="eyebrow" id="g-eyebrow"></div>
+    <h3 id="g-title"></h3>
+    <div class="task-text" id="g-text"></div>
+    <div class="teacher-note" id="g-teacher"></div>
+  </div>
+
+  <div class="xl">
+    <div class="xl-top"><span class="namebox" id="g-book">總表</span><span class="fx">點表頭切換：<b class="k">Key</b> → <b style="color:var(--mark-ink)">回收</b> → 取消</span></div>
+    <div class="scroll"><table class="sheet" id="g-master"></table></div>
+    <div class="statusbar"><span id="g-status"></span><span>黃底＝這次寫入的格子　藍色列號＝新增的列</span></div>
+  </div>
+
+  <div class="panel task">
+    <div class="selui">
+      <div class="field"><label for="g-ok">Key值組成欄</label><output id="g-ok"></output></div>
+      <div class="field"><label for="g-od">資料回收欄</label><output id="g-od"></output></div>
+    </div>
+    <div class="chks">
+      <label class="chk"><input type="checkbox" id="g-ck1"><span>一、資料回收欄之資料為空值時，仍要寫入</span></label>
+      <label class="chk"><input type="checkbox" id="g-ck2"><span>二、Key值有重複時，在資料被覆蓋前，需跳出提示</span></label>
+      <label class="chk"><input type="checkbox" id="g-ck3"><span>三、如果Key值不存在於總表，將該筆資料新增於總表最下方列</span></label>
+      <label class="chk"><input type="checkbox" id="g-ck4"><span>四、用總表工作表名稱，在各匯入檔案中找尋資料所在工作表</span></label>
+    </div>
+    <div class="runbar">
+      <button class="runbtn k1" id="g-run">執行資料收集</button>
+      <button class="runbtn" id="g-reset">還原總表</button>
+    </div>
+  </div>
+
+  <div class="panel g-log" id="g-log" hidden>
+    <h3>執行紀錄</h3>
+    <p class="note-sm">程式會把這段文字寫在資料回收欄標題的備註裡（表頭右上角的紅色三角形）。</p>
+    <pre id="g-log-text"></pre>
+  </div>
+
+  <div class="head">
+    <h3>匯入檔案</h3>
+    <p class="note-sm">每個檔案預設只讀「存檔時停留的工作表」（標示 ★）。</p>
+  </div>
+  <div class="g-files" id="g-files"></div>
+
+  <div class="panel">
+    <h3>要記住的 4 件事</h3>
+    <ol class="tight" style="margin-top:8px">
+      <li>同一個 Key 出現多次，<b class="hl">後面的值會蓋掉前面的</b>；不想被默默覆蓋就勾選項二</li>
+      <li>執行紀錄寫在回收欄標題的備註：<b>OK</b>＝欄位都找到；<b>(1/2)</b>＝2 欄只找到 1 欄</li>
+      <li>選項三新增的列只會寫入 Key 和回收欄，其他欄位留空</li>
+      <li>新舊值相同（忽略前後空白）的格子不會重寫，也不計入寫入筆數</li>
+    </ol>
+  </div>
+</section>
+
 <!-- ============================ 小測驗 ============================ -->
 <section class="lesson" id="tab-quiz" hidden>
   <div class="head">
@@ -842,7 +1009,7 @@ const fmtTask=s=>s.split('\n').map(l=>l.startsWith('>')?'<div class="op">'+fmt(l
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 
 /* ---------- tabs & teacher mode ---------- */
-const TABS=['overview','install','filter','recon','cross','quiz'];
+const TABS=['overview','install','filter','recon','cross','collect','quiz'];
 let curTab='overview';
 function showTab(id){
   if(!TABS.includes(id))id='overview';
@@ -864,19 +1031,20 @@ function trackTab(id){
   else if(document.readyState!=='complete')window.addEventListener('load',()=>{if(window.goatcounter&&window.goatcounter.count)send();},{once:true});
 }
 // 網址 #分頁 或 #分頁-題號（例如 #recon-7）可直接開到指定位置；切換題目時同步更新網址
-const curIndex=()=>curTab==='filter'?fs.mission:curTab==='recon'?rs.i:curTab==='cross'?cs.i:-1;
+const curIndex=()=>curTab==='filter'?fs.mission:curTab==='recon'?rs.i:curTab==='cross'?cs.i:curTab==='collect'?gs.i:-1;
 function updateHash(){
   const i=curIndex();
   try{history.replaceState(null,'','#'+curTab+(i>=0?'-'+(i+1):''))}catch(e){}
 }
 function applyHash(){
-  const m=(location.hash||'').slice(1).match(/^(overview|install|filter|recon|cross|quiz)(?:-(\d+))?$/);
+  const m=(location.hash||'').slice(1).match(/^(overview|install|filter|recon|cross|collect|quiz)(?:-(\d+))?$/);
   if(!m)return false;
   const n=m[2]?Number(m[2])-1:-1;
   if(n>=0){
     if(m[1]==='filter'&&n<MISSIONS.length)setMission(n);
     if(m[1]==='recon'&&n<SCEN.length)setScen(n);
     if(m[1]==='cross'&&n<CSCEN.length)loadCross(CSCEN[n],n);
+    if(m[1]==='collect'&&n<GSCEN.length)setCollect(n);
   }
   showTab(m[1]);
   return true;
@@ -1398,6 +1566,185 @@ $('#c-reset').addEventListener('click',()=>{cs.order=cs.sc.rows.map((_,r)=>r);cs
 ['#c-case','#c-orig'].forEach(id=>$(id).addEventListener('change',()=>{if(cs.ran){cs.marks=null;cs.summary=null;cs.ran=false;renderCross();toast('設定已變更，請重新執行比對');}}));
 
 /* ============================================================
+   資料收集 (ported from B15_資料收集：PreDataCollection / DataCollection)
+   匯入檔是用標題文字找欄位（GetCol），標題列＝第一個 Key 標題所在列（GetRow）
+   ============================================================ */
+const G_CK=['資料回收欄之資料為空值時，仍要寫入','Key值有重複時，在資料被覆蓋前，需跳出提示','如果Key值不存在於總表，將該筆資料新增於總表最下方列','用總表工作表名稱，在各匯入檔案中找尋資料所在工作表'];
+const G_COL1='哪些欄位的資訊可以組出唯一值？(Key值組成欄)',G_COL2='哪些欄位的資訊是要回收的？(資料回收欄)';
+const gRegion=(data=[2,3])=>({book:'彙總表.xlsx',sheet:'彙總表',titleRow:3,pre:['2026 年 9 月 各區彙總',''],cols:['單位','負責人','金額','數量'],rows:[['北區','王小明','',''],['中區','李小華','',''],['南區','陳美麗','',''],['東區','林志強','','']],key:[0],data});
+const G_AMT={name:'來源_金額.xlsx',active:0,sheets:[{name:'金額',cols:['單位','金額'],rows:[['北區',1200],['中區',860],['南區',1530],['東區',640]]}]};
+const G_QTY={name:'來源_數量.xlsx',active:0,sheets:[{name:'數量',cols:['數量','單位'],rows:[[12,'北區'],[8,'中區'],[15,'南區'],[9,'東區'],[6,'西區']]}]};
+const GSCEN=[
+ {t:'各檔帶回各自欄位',master:gRegion(),files:[G_AMT,G_QTY],
+  text:'總表要從兩個檔案帶回「金額」和「數量」。Key＝**單位**、回收＝**金額、數量**（已設定好），選項都不勾。\n>按「執行資料收集」，匯入兩個檔案\n>看執行紀錄：為什麼兩個檔案都顯示 `(1/2)`？\n留意：來源_數量 的欄位順序和總表不同。',
+  teach:'每個檔案只有一個回收欄，所以資料回收欄都是 (1/2)，結束時還會跳出缺漏提醒，這是預期中的情況。來源_數量的「單位」在 B 欄也找得到，因為是用標題文字找欄位。西區不在總表，沒有被帶回。'},
+ {t:'新增 Key（選項三）',master:gRegion(),files:[G_AMT,G_QTY],
+  text:'檔案和題 1 相同，這次勾選**選項三**。\n>執行後，總表最下方多了哪一列？\n>新增那一列的「負責人」為什麼是空的？',
+  teach:'西區被新增到最下方（藍色列號），只寫入 Key（單位）和匯入檔裡有的數量。負責人、金額不在來源_數量裡，所以留空。完成訊息會多一行「包含新增 1 筆Key值」。'},
+ {t:'重複資料（選項二）',master:gRegion([3]),files:[{name:'來源_數量.xlsx',active:0,sheets:[{name:'數量',cols:['數量','單位'],rows:[[12,'北區'],[8,'中區'],[15,'南區'],[9,'東區'],[14,'北區']]}]}],
+  text:'來源_數量 裡「北區」出現兩次（12 和 14）。\n>先**不勾**選項執行：北區的數量是多少？有任何提示嗎？\n>按「還原總表」，勾選**選項二**再執行，跳出詢問時選「跳過」',
+  teach:'不勾選：北區直接被後面的 14 蓋掉，沒有任何提示，只有完成訊息寫「含覆蓋資料 1 筆」。勾選選項二：程式列出舊值 12、新值 14 讓你決定；選「跳過」就保留 12。'},
+ {t:'清空也要同步（選項一）',master:{book:'追蹤表.xlsx',sheet:'追蹤表',titleRow:1,cols:['案件編號','負責單位','待辦事項'],rows:[['C01','北區','補件'],['C02','中區','補件'],['C03','南區','簽核'],['C04','東區','簽核']],key:[0],data:[2]},
+  files:[{name:'處理回報.xlsx',active:0,sheets:[{name:'回報',cols:['案件編號','待辦事項'],rows:[['C01',''],['C02','補件'],['C03',''],['C04','改送主管']]}]}],
+  text:'各單位處理完案件，會把「待辦事項」清空再回報。\n>先**不勾**選項執行：C01、C03 有被清空嗎？\n>按「還原總表」，勾選**選項一**再執行',
+  teach:'不勾選：空白不寫入，C01、C03 還是原本的待辦事項，只有 C04 改成「改送主管」。勾選選項一：空白也會寫入，C01、C03 被清空，代表已處理。C02 新舊值相同，不會重寫也不計入筆數。'},
+ {t:'多張工作表（選項四）',master:{book:'彙總表.xlsx',sheet:'彙總表',titleRow:1,cols:['單位','金額'],rows:[['北區',''],['南區','']],key:[0],data:[1]},
+  files:[{name:'北區回報.xlsx',active:0,sheets:[{name:'填寫說明',cols:['步驟','說明'],rows:[[1,'金額請填本月數字'],[2,'單位名稱請勿修改']]},{name:'彙總表',cols:['單位','金額'],rows:[['北區',1200]]}]},
+         {name:'南區回報.xlsx',active:0,sheets:[{name:'彙總表',cols:['單位','金額'],rows:[['南區',1530]]}]}],
+  text:'北區回報有兩張工作表，而且存檔時停在「填寫說明」（★）。\n>先**不勾**選項執行，看北區的金額和執行紀錄\n>按「還原總表」，勾選**選項四**再執行',
+  teach:'不勾選：北區回報讀的是「填寫說明」，找不到「單位」，Key值組成欄是 (0/1)，北區金額沒有帶回。勾選選項四：用總表的工作表名稱「彙總表」找到正確的工作表。南區回報只有一張工作表，兩種情況都正常。'},
+ {t:'空白總表彙整',master:{book:'業績總表.xlsx',sheet:'總表',titleRow:1,cols:['月份','門市','業績'],rows:[],key:[],data:[]},
+  files:[{name:'S01門市.xlsx',active:0,sheets:[{name:'業績',cols:['門市','月份','業績'],rows:[['S01','2026-01',320],['S01','2026-02',410]]}]},
+         {name:'S02門市.xlsx',active:0,sheets:[{name:'業績',cols:['月份','門市','業績'],rows:[['2026-01','S02',280],['2026-02','S02',350]]}]}],
+  text:'總表只有標題，要把各門市的檔案全部彙整進來。\n>點表頭：**月份**、**門市** 設為 Key，**業績** 點兩次設為回收\n>勾選**選項三**後執行',
+  teach:'Key 會顯示 A;B;1、回收 C。總表沒有任何 Key，所以全部資料都新增到最下方。兩個門市檔的欄位順序不同，一樣用標題文字對應。'}
+];
+const gs={i:0,sc:null,rows:[],key:[],data:[],written:new Set(),added:new Set(),log:'',ran:false,view:[]};
+function renderGPick(){
+  const box=$('#g-pick');box.innerHTML='';
+  GSCEN.forEach((s,i)=>box.append(el('button',{class:'scen','aria-pressed':String(i===gs.i),text:'題 '+(i+1)+' '+s.t,onclick:()=>setCollect(i)})));
+}
+function setCollect(i){
+  gs.i=i;gs.sc=GSCEN[i];
+  gs.key=[...gs.sc.master.key];gs.data=[...gs.sc.master.data];
+  gs.view=gs.sc.files.map(f=>f.active);
+  [1,2,3,4].forEach(n=>{$('#g-ck'+n).checked=false;});
+  $('#g-eyebrow').textContent='題目 '+(i+1);$('#g-title').textContent=gs.sc.t;$('#g-text').innerHTML=fmtTask(gs.sc.text);
+  $('#g-teacher').textContent=gs.sc.teach;
+  gReset();renderGPick();renderGFiles();
+  if(curTab==='collect')updateHash();
+}
+function gReset(){gs.rows=gs.sc.master.rows.map(r=>[...r]);gs.written.clear();gs.added.clear();gs.log='';gs.ran=false;renderGMaster();}
+function gCycle(c){
+  const k=gs.key.indexOf(c),d=gs.data.indexOf(c);
+  if(k>=0){gs.key.splice(k,1);gs.data.push(c);}
+  else if(d>=0)gs.data.splice(d,1);
+  else gs.key.push(c);
+  if(gs.ran){gReset();toast('設定已變更，已還原總表');}else renderGMaster();
+}
+const gText=v=>v===''||v==null?'':String(v);
+function renderGMaster(){
+  const m=gs.sc.master,t=$('#g-master');t.innerHTML='';
+  $('#g-book').textContent=m.book+'﹝'+m.sheet+'﹞';
+  const lr=el('tr',{class:'colL'},[el('th',{})]);m.cols.forEach((_,c)=>lr.append(el('th',{text:colLetter(c)})));t.append(lr);
+  (m.pre||[]).forEach((p,r)=>{const tr=el('tr',{},[el('td',{class:'rn',text:String(r+1)})]);m.cols.forEach((_,c)=>tr.append(el('td',{class:c===0?'pre':'',text:c===0?p:''})));t.append(tr);});
+  const hr=el('tr',{class:'title-row'},[el('th',{class:'rn',text:String(m.titleRow)})]);
+  m.cols.forEach((name,c)=>{
+    const ki=gs.key.indexOf(c),di=gs.data.indexOf(c);
+    const th=el('th',{class:'keyhdr'+(ki>=0?' th-key':di>=0?' th-col':'')+(di>=0&&gs.log?' cmt':''),tabindex:'0',role:'button',title:'點選切換 Key／回收／取消'},[el('span',{text:name})]);
+    if(ki>=0)th.append(el('span',{class:'badge key',text:'Key'+(ki+1)}));
+    if(di>=0)th.append(el('span',{class:'badge col',text:'回收'}));
+    th.addEventListener('click',()=>gCycle(c));th.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();gCycle(c);}});
+    hr.append(th);
+  });
+  t.append(hr);
+  gs.rows.forEach((row,r)=>{
+    const tr=el('tr',{class:gs.added.has(r)?'g-new':''},[el('td',{class:'rn',text:String(m.titleRow+1+r)})]);
+    row.forEach((v,c)=>tr.append(el('td',{class:((typeof v==='number')?'num':'')+(gs.written.has(r+','+c)?' g-w':''),text:gText(v)})));
+    t.append(tr);
+  });
+  if(!gs.rows.length){const tr=el('tr',{},[el('td',{class:'rn',text:String(m.titleRow+1)})]);m.cols.forEach(()=>tr.append(el('td',{})));t.append(tr);}
+  $('#g-ok').textContent=gs.key.length?(gs.key.length===1?colLetter(gs.key[0])+m.titleRow:gs.key.map(colLetter).join(';')+';'+m.titleRow):'（點表頭設定）';
+  $('#g-od').textContent=gs.data.length?gs.data.map(colLetter).join(';'):'（表頭點兩次＝回收）';
+  $('#g-status').textContent=gs.ran?'寫入 '+gs.written.size+' 格'+(gs.added.size?'，新增 '+gs.added.size+' 列':''):'共 '+gs.rows.length+' 筆'+(gs.rows.length?'':'（只有標題）');
+  $('#g-log').hidden=!gs.log;$('#g-log-text').textContent=gs.log;
+}
+function renderGFiles(){
+  const box=$('#g-files');box.innerHTML='';
+  gs.sc.files.forEach((f,fi)=>{
+    const sh=f.sheets[gs.view[fi]];
+    const tbl=el('table',{class:'sheet'});
+    const lr=el('tr',{class:'colL'},[el('th',{})]);sh.cols.forEach((_,c)=>lr.append(el('th',{text:colLetter(c)})));tbl.append(lr);
+    const hr=el('tr',{class:'title-row'},[el('th',{class:'rn',text:'1'})]);sh.cols.forEach(n=>hr.append(el('th',{text:n})));tbl.append(hr);
+    sh.rows.forEach((row,r)=>{const tr=el('tr',{},[el('td',{class:'rn',text:String(r+2)})]);row.forEach(v=>tr.append(el('td',{class:typeof v==='number'?'num':'',text:gText(v)})));tbl.append(tr);});
+    const tabs=el('div',{class:'sheet-tabs',role:'tablist','aria-label':f.name+' 的工作表'});
+    f.sheets.forEach((s,si)=>tabs.append(el('button',{class:'sheet-tab',role:'tab','aria-selected':String(si===gs.view[fi]),title:si===f.active?'存檔時停留的工作表':'點選查看',text:s.name+(si===f.active?' ★':''),onclick:()=>{gs.view[fi]=si;renderGFiles();}})));
+    box.append(el('div',{class:'xl'},[el('div',{class:'xl-top'},[el('span',{class:'namebox',text:f.name})]),el('div',{class:'scroll'},tbl),tabs]));
+  });
+}
+async function runCollect(){
+  if(dlgOpen)return;
+  const m=gs.sc.master;
+  if(!gs.key.length||!gs.data.length){await dialog({title:'資料收集',body:'請在總表點表頭，設定至少一個 Key 欄位和一個回收欄位。'});return;}
+  const ck=[1,2,3,4].map(n=>$('#g-ck'+n).checked);
+  const keyNames=gs.key.map(c=>m.cols[c]),datNames=gs.data.map(c=>m.cols[c]);
+  const ok=await dialog({title:'資料收集',body:'即將於以下工作表進行資料收集：\n目標工作表【'+m.book+'】之﹝'+m.sheet+'﹞\n'+G_COL1+'：（合併判斷）\n'+keyNames.join('\n')+'\n'+G_COL2+'：（各欄獨立）\n'+datNames.join('\n')+'\n是否繼續？',buttons:[{label:'否',value:null},{label:'是',value:1,primary:true}]});
+  if(ok==null)return;
+  // GetOpenFilename(MultiSelect:=True)
+  const list=el('div',{class:'vlist'});
+  const boxes=gs.sc.files.map((f,i)=>{const cb=el('input',{type:'checkbox',id:'gf-'+i});cb.checked=true;list.append(el('label',{for:'gf-'+i},[cb,el('span',{text:f.name})]));return cb;});
+  const pick=await dialog({title:'請選擇欲匯入的檔案',body:'可以複選',content:list,buttons:[{label:'取消',value:null},{label:'開啟',value:1,primary:true}]});
+  if(pick==null)return;
+  const files=gs.sc.files.filter((_,i)=>boxes[i].checked);
+  if(!files.length)return;
+  // 總表：記錄每個 Key 所在的列（同一個 Key 可能有好幾列，全部都會寫入）
+  gs.written.clear();gs.added.clear();
+  const rows=gs.rows,mst=new Map();
+  rows.forEach((row,r)=>{const k=gs.key.map(c=>gText(row[c])).join('_');if(k!==''){if(!mst.has(k))mst.set(k,[]);mst.get(k).push(r);}});
+  let dataCnt=0,newCnt=0,coverCnt=0,colErr=false,alwaysUp=false,alwaysPass=false,log='';
+  for(const f of files){
+    // 取得工作表：只有一張或沒勾選項四 → 存檔時的作用中工作表；否則找和總表同名的工作表
+    let si=f.active;
+    if(f.sheets.length>1&&ck[3]){const j=f.sheets.findIndex(s=>s.name===m.sheet);if(j>=0)si=j;}
+    const sh=f.sheets[si];
+    const kc=keyNames.map(n=>sh.cols.indexOf(n)),dc=datNames.map(n=>sh.cols.indexOf(n));
+    const kf=kc.filter(x=>x>=0).length,df=dc.filter(x=>x>=0).length;
+    if(kf!==kc.length||df!==dc.length)colErr=true;
+    log+=f.name+'['+sh.name+']\n(Key值組成欄:'+(kf===kc.length?'OK':kf+'/'+kc.length)+')\n(資料回收欄:'+(df===dc.length?'OK':df+'/'+dc.length)+')\n';
+    if(kc[0]<0)continue; // 找不到第一個 Key 的標題，就沒有標題列可以往下讀
+    for(const srow of sh.rows){
+      let nk='';kc.forEach(c=>{if(c>=0)nk+=gText(srow[c])+'_';});
+      if(nk.replace(/_/g,'')==='')continue;                                    // Key 沒有資料
+      if(!ck[0]&&dc.map(c=>c>=0?gText(srow[c]):'').join('')==='')continue;    // 回收欄全空、又不寫入空白
+      nk=nk.slice(0,-1);
+      let isNew=false;
+      if(!mst.has(nk)){
+        if(!ck[2])continue;                                                    // 總表沒有這個 Key
+        isNew=true;newCnt++;
+        const nr=m.cols.map(()=>'');
+        gs.key.forEach((mc,a)=>{if(kc[a]>=0)nr[mc]=srow[kc[a]];});
+        rows.push(nr);gs.added.add(rows.length-1);mst.set(nk,[rows.length-1]);
+      }
+      for(const r of mst.get(nk)){
+        for(let a=0;a<dc.length;a++){
+          if(dc[a]<0)continue;
+          const mc=gs.data[a],now=srow[dc[a]]??'',ns=gText(now),os=gText(rows[r][mc]);
+          if(ns===os||ns.trim()===os.trim())continue;                         // 新舊值相同
+          let up=false;
+          if(!isNew){
+            up=ck[0]?true:ns.trim()!=='';
+            if(!up)continue;
+            if(os!==''){
+              if(ck[1]&&!alwaysUp){
+                if(alwaysPass)up=false;
+                else{
+                  const ans=await dialog({title:'資料收集',body:'是否覆蓋相同Key值之舊資料？\n\n檔案名稱：'+f.name+'\nKey值：'+nk+'\n欄名：'+datNames[a]+'\n舊值：'+os+'\n新值：'+ns,stack:true,
+                    buttons:[{label:'覆蓋',value:1,primary:true},{label:'跳過',value:2},{label:'一律覆蓋，不再詢問',value:3},{label:'一律跳過，不再詢問',value:4}]});
+                  up=ans===1||ans===3;if(ans===3)alwaysUp=true;if(ans===4)alwaysPass=true;
+                }
+              }
+              if(up)coverCnt++;
+            }
+          }
+          if(up||isNew){rows[r][mc]=now;gs.written.add(r+','+mc);dataCnt++;}
+        }
+      }
+    }
+  }
+  gs.ran=true;
+  const d=new Date(),p=n=>String(n).padStart(2,'0');
+  gs.log='資料收集　'+d.getFullYear()+'/'+p(d.getMonth()+1)+'/'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+
+    '\n勾選選項：'+(ck.some(Boolean)?ck.map((v,i)=>v?'\n　'+'一二三四'[i]+'、'+G_CK[i]:'').join(''):'無')+
+    '\n\n來源檔案，含各檔案之Key值、資料欄位查找狀況(找到數/總數)：\n'+log+'\nKey值：\n'+keyNames.join('\n');
+  renderGMaster();
+  await dialog({title:'資料收集',body:'資料收集完成，共寫入 '+dataCnt+' 筆資料'+(coverCnt?'（含覆蓋資料 '+coverCnt+' 筆）':'')+(ck[2]&&newCnt?'\n\n※包含新增 '+newCnt+' 筆Key值於資料最末端。':'')});
+  if(colErr)await dialog({title:'資料收集',body:'部分檔案未找到全部的Key值欄位或資料欄位，\n請透過['+G_COL2+']的備註及下方範例說明取得完整資訊。\n\n※各檔案之['+G_COL1+']及['+G_COL2+']後方資訊如下：\n　1. 欄位均有找到：顯示 OK\n　2. 缺漏部分欄位：顯示 (找到數/整體數)\n\n如有缺漏欄位，請務必判斷合理性，以免對結果產生認知錯誤',buttons:[{label:'我已了解資訊內容',value:1,primary:true}]});
+}
+$('#g-run').addEventListener('click',runCollect);
+$('#g-reset').addEventListener('click',gReset);
+[1,2,3,4].forEach(n=>$('#g-ck'+n).addEventListener('change',()=>{if(gs.ran){gReset();toast('設定已變更，已還原總表，請重新執行');}}));
+
+/* ============================================================
    小測驗
    ============================================================ */
 const QUIZ=[
@@ -1410,7 +1757,9 @@ const QUIZ=[
  {f:'recon',q:'「Key值組成欄」要用 A、B、C 三欄，標題在第 9 列，要怎麼輸入？',o:['A9:C9','A;B;C;9','A,B,C,9','9;A;B;C'],a:1,w:'多欄 Key：欄名;欄名;…;標題列。單一 Key 直接輸入 A9。'},
  {f:'recon',q:'A 表 O1001 有 3 筆、B 表 2 筆。不勾選「相同Key值之重複資料，不論筆數一律視為相同」時，A 表第 3 筆是？',o:['兩表皆有','兩表皆有_有重複項','僅在A表','僅在A表_有重複項'],a:2,w:'不勾選時筆數也要一致：前 2 筆配對成功，多出的第 3 筆僅在A表。'},
  {f:'cross',q:'比對完成後，整列變灰色代表？',o:['資料不一致','這組 Key 只有一筆，找不到可比較的資料','Key 重複','被篩選掉'],a:1,w:'灰色＝不成對。粉紅才是資料不一致。'},
- {f:'cross',q:'「英文大小寫視為不同」和「文字與數值視為不同」兩個選項都不勾選時，文字「012」和數值 12 會被判斷為？',o:['相同','不同','程式報錯'],a:0,w:'不勾選時會先把能轉成數字的文字轉成數字再比。勾「文字與數值視為不同」才會變粉紅。'}
+ {f:'cross',q:'「英文大小寫視為不同」和「文字與數值視為不同」兩個選項都不勾選時，文字「012」和數值 12 會被判斷為？',o:['相同','不同','程式報錯'],a:0,w:'不勾選時會先把能轉成數字的文字轉成數字再比。勾「文字與數值視為不同」才會變粉紅。'},
+ {f:'collect',q:'Key值組成欄是 A、B 兩欄，標題在第 3 列，要帶回 D、E 兩欄。「資料回收欄」要怎麼輸入？',o:['D3;E3','D;E;3','D;E','D:E'],a:2,w:'資料回收欄只寫欄名，列號沿用 Key值組成欄的標題列。'},
+ {f:'collect',q:'總表的「數量」在 C 欄，匯入檔案的「數量」在 F 欄。執行資料收集時會怎樣？',o:['找不到，要先把欄位順序調成一樣','可以正確帶回，因為是用標題文字找欄位','只會帶回第一筆'],a:1,w:'匯入檔案是用標題文字找欄位，位置不同沒關係，但標題文字必須完全一樣。'}
 ];
 const qs={ans:{}};
 function renderQuiz(){
@@ -1443,6 +1792,7 @@ $('#quiz-reset').addEventListener('click',()=>{qs.ans={};renderQuiz();});
 setMission(0);
 setScen(0);
 loadCross(CSCEN[0],0);
+setCollect(0);
 renderQuiz();
 setTeacher(store.get('cj-teacher')==='1');
 setFs(store.get('cj-fs'));
