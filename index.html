@@ -301,6 +301,9 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
 .quiz{display:grid;gap:12px}
 .q{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:8px}
 .q-n{font-family:var(--f-mono);font-size:.75rem;color:var(--muted)}
+.q-group{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;border-left:4px solid var(--accent);padding:2px 0 2px 10px;margin-top:10px}
+.q-group:first-child{margin-top:0}
+.q-group h3{color:var(--accent)}
 .opts{display:grid;gap:6px}
 .opt{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:6px 12px;text-align:left}
 .opt:hover:not(:disabled){border-color:var(--accent)}
@@ -819,9 +822,9 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
   <div class="head">
     <div class="eyebrow">複習</div>
     <h2>小測驗 <span class="score" id="score"></span></h2>
-    <p class="lead">點選答案，立即顯示對錯與說明。</p>
+    <p class="lead">點選答案，立即顯示對錯與說明。題目依功能分組，忘記了可以點「回到練習 →」再試一次。</p>
   </div>
-  <div class="quiz" id="quiz"></div>
+  <div class="quiz" id="quiz-list"></div>
   <div class="runbar"><button class="runbtn" id="quiz-reset">重新作答</button></div>
 </section>
 </main>
@@ -1398,20 +1401,20 @@ $('#c-reset').addEventListener('click',()=>{cs.order=cs.sc.rows.map((_,r)=>r);cs
    小測驗
    ============================================================ */
 const QUIZ=[
- {q:'使用 Alt+1／Alt+2 之前，要先做什麼？',o:['選取整張工作表','點選要篩選的欄位內任一儲存格','先把資料排序','先按 Alt+3'],a:1,w:'程式用目前選取的儲存格判斷要篩哪一欄（工作表需已設定篩選）。'},
- {q:'在輸入框一次輸入多個條件，用什麼分隔？',o:['逗號 ,','全形分號 ；','半形分號 ;','空白'],a:2,w:'半形分號，例如 001;003;005。'},
- {q:'在【數量】欄用模糊比對搜「2」，結果是？',o:['找出所有含 2 的數字','只找出等於 2 的數字','顯示「無符合資料」','程式當機'],a:2,w:'模糊比對只適用文字。數值請用完全比對，或先轉成文字。'},
- {q:'輸入框不改內容直接按「確定」？',o:['取消執行','篩選出空白儲存格','顯示全部資料','篩選出非空白儲存格'],a:1,w:'要中止請按「取消」或 Esc。'},
- {q:'要找出商品剛好是「A01;特規」的資料，程式問分號用途時選？',o:['是，先分隔再篩選','否，請直接篩選'],a:1,w:'選「是」會拆成 A01 和 特規。這種資料只能用複製的方式帶入。'},
- {q:'兩表比對時，E003 兩表都有但薪資不同，結果是？',o:['僅在A表','僅在B表','兩表皆有','比對失敗'],a:2,w:'兩表比對只看 Key 是否存在。要比較內容，用單表比對。'},
- {q:'Key 是 A、B、C 三欄，標題在第 9 列，要怎麼輸入？',o:['A9:C9','A;B;C;9','A,B,C,9','9;A;B;C'],a:1,w:'多欄 Key：欄名;欄名;…;標題列。單一 Key 直接輸入 A9。'},
- {q:'A 表 O1001 有 3 筆、B 表 2 筆，不勾選重複選項時，A 表第 3 筆是？',o:['兩表皆有','兩表皆有_有重複項','僅在A表','僅在A表_有重複項'],a:2,w:'不勾選時筆數也要一致：前 2 筆配對成功，多出的第 3 筆僅在A表。'},
- {q:'單表比對後，整列變灰色代表？',o:['資料不一致','這組 Key 只有一筆，找不到可比較的資料','Key 重複','被篩選掉'],a:1,w:'灰色＝不成對。粉紅才是資料不一致。'},
- {q:'單表比對都不勾選時，文字「012」和數值 12 會被判斷為？',o:['相同','不同','程式報錯'],a:0,w:'不勾選時會先把能轉成數字的文字轉成數字再比。勾「文字與數值視為不同」才會變粉紅。'}
+ {f:'filter',q:'按 Alt+1／Alt+2 之前，要先做什麼？',o:['選取整張工作表','點選要篩選的欄位內任一儲存格','先把資料排序','先按 Alt+3'],a:1,w:'程式用目前選取的儲存格判斷要篩哪一欄（工作表需已設定篩選）。'},
+ {f:'filter',q:'沒有複製任何東西時按 Alt+1，會跳出輸入框。要一次輸入多個條件，用什麼分隔？',o:['逗號 ,','全形分號 ；','半形分號 ;','空白'],a:2,w:'半形分號，例如 001;003;005。'},
+ {f:'filter',q:'在【數量】欄用模糊比對（Alt+2）搜「2」，結果是？',o:['找出所有含 2 的數字','只找出等於 2 的數字','顯示「無符合資料」','程式當機'],a:2,w:'模糊比對只適用文字。數值請用完全比對，或先轉成文字。'},
+ {f:'filter',q:'沒有複製任何東西時按 Alt+1，跳出的輸入框裡已經有一行預設文字。不改內容、直接按「確定」，會怎樣？',o:['取消執行','篩選出空白儲存格','顯示全部資料','篩選出非空白儲存格'],a:1,w:'預設文字的意思就是「篩選空白儲存格」。要中止請按「取消」或 Esc。'},
+ {f:'filter',q:'要找出商品剛好是「A01;特規」的資料。複製後按 Alt+1，程式問分號是分隔符號還是資料，要選？',o:['是，先分隔再篩選','否，請直接篩選'],a:1,w:'選「是」會拆成 A01 和 特規。這種資料只能用複製的方式帶入。'},
+ {f:'recon',q:'以「員工編號」為 Key 進行兩表比對。員工編號 E003 在 A、B 兩表都有，但兩表的「薪資」數字不同。E003 的比對結果是？',o:['僅在單邊（僅在A表／僅在B表）','兩表皆有','兩表皆有_有重複項','比對失敗'],a:1,w:'兩表比對只有 Key，沒有「比對欄」，薪資不參與判斷。要比較薪資這類內容，用單表比對。'},
+ {f:'recon',q:'「Key值組成欄」要用 A、B、C 三欄，標題在第 9 列，要怎麼輸入？',o:['A9:C9','A;B;C;9','A,B,C,9','9;A;B;C'],a:1,w:'多欄 Key：欄名;欄名;…;標題列。單一 Key 直接輸入 A9。'},
+ {f:'recon',q:'A 表 O1001 有 3 筆、B 表 2 筆。不勾選「相同Key值之重複資料，不論筆數一律視為相同」時，A 表第 3 筆是？',o:['兩表皆有','兩表皆有_有重複項','僅在A表','僅在A表_有重複項'],a:2,w:'不勾選時筆數也要一致：前 2 筆配對成功，多出的第 3 筆僅在A表。'},
+ {f:'cross',q:'比對完成後，整列變灰色代表？',o:['資料不一致','這組 Key 只有一筆，找不到可比較的資料','Key 重複','被篩選掉'],a:1,w:'灰色＝不成對。粉紅才是資料不一致。'},
+ {f:'cross',q:'「英文大小寫視為不同」和「文字與數值視為不同」兩個選項都不勾選時，文字「012」和數值 12 會被判斷為？',o:['相同','不同','程式報錯'],a:0,w:'不勾選時會先把能轉成數字的文字轉成數字再比。勾「文字與數值視為不同」才會變粉紅。'}
 ];
 const qs={ans:{}};
 function renderQuiz(){
-  const box=$('#quiz');box.innerHTML='';
+  const box=$('#quiz-list');box.innerHTML='';
   let right=0,done=0;
   QUIZ.forEach((item,i)=>{
     const picked=qs.ans[i];
@@ -1423,6 +1426,11 @@ function renderQuiz(){
       if(picked!=null)b.disabled=true;
       opts.append(b);
     });
+    // 功能換了就插一行分組標題：「篩選強化　第 1～5 題　回到練習 →」
+    if(i===0||QUIZ[i-1].f!==item.f){
+      let last=i;while(last+1<QUIZ.length&&QUIZ[last+1].f===item.f)last++;
+      box.append(el('div',{class:'q-group'},[el('h3',{text:$('#t-'+item.f).textContent}),el('span',{class:'note-sm',text:'第 '+(i+1)+(last>i?'～'+(last+1):'')+' 題'}),el('a',{class:'lab-tag',href:'#'+item.f,text:'回到練習 →'})]));
+    }
     const q=el('div',{class:'q'},[el('div',{class:'q-n',text:'第 '+(i+1)+' 題'}),el('div',{text:item.q}),opts]);
     if(picked!=null){done++;if(picked===item.a)right++;q.append(el('div',{class:'why',text:(picked===item.a?'答對了。':'答錯了。')+item.w}));}
     box.append(q);
