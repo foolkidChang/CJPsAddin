@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="CJPsAddin Excel 增益集互動教材：篩選強化、兩表比對、單表比對、資料收集的操作模擬與小測驗，直接在瀏覽器練習。">
+<meta name="description" content="CJPsAddin Excel 增益集互動教材：篩選強化、兩表比對、單表比對、多檔收集、單檔收集的操作模擬與小測驗，直接在瀏覽器練習。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="CJPsAddin 互動教材">
-<meta property="og:description" content="CJPsAddin Excel 增益集互動教材：篩選強化、兩表比對、單表比對、資料收集的操作模擬與小測驗，直接在瀏覽器練習。">
+<meta property="og:description" content="CJPsAddin Excel 增益集互動教材：篩選強化、兩表比對、單表比對、多檔收集、單檔收集的操作模擬與小測驗，直接在瀏覽器練習。">
 <meta name="google-site-verification" content="buucDtRrcJYY-0kigrYnWsXKJyp51EqlqKGfyQU-9uo">
 <link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/">
 <title>CJPsAddin 互動教材</title>
@@ -90,6 +90,10 @@ b.hl,.hl{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:
 .fs[data-fs="m"]{font-size:.8rem}.fs[data-fs="l"]{font-size:1rem}.fs[data-fs="xl"]{font-size:1.2rem}
 .fs[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .fs:hover:not([aria-pressed="true"]){border-color:var(--accent)}
+/* 明暗切換：淺色時顯示月亮（按了變深色），深色時顯示太陽 */
+.theme-btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;width:2rem;height:1.9rem;padding:0;display:grid;place-items:center}
+.theme-btn:hover{border-color:var(--accent)}
+.theme-btn svg{width:1.05rem;height:1.05rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 @media (max-width:720px){
   .bar-in{gap:6px 12px;padding-block:8px}
   .bar-tools{order:2}
@@ -116,9 +120,13 @@ body.teacher .teacher-note{display:block}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
 .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:18px}
 .grid-2>*{min-width:0}
-details.more{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 18px}
-details.more>summary{cursor:pointer;font-weight:700;font-family:var(--f-display)}
-details.more[open]>summary{margin-bottom:10px}
+/* 摺疊區塊的標題和總覽卡片的標題（.lc-title）同一格式；展開後標題下方加分隔線 */
+details.more{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+details.more>summary{cursor:pointer;font-family:var(--f-display);font-size:1.45rem;font-weight:900;line-height:1.2}
+details.more>summary:hover{color:var(--accent)}
+details.more[open]>summary{padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.more-body{display:grid;gap:16px}
+#install{scroll-margin-top:90px} /* 捲到安裝方式時，不要被固定的頂端列擋住 */
 .tight{margin:0;padding-left:1.2em;display:grid;gap:3px;font-size:.92rem}
 
 /* 功能簡介：示意圖 + 做什麼／什麼時候用／練完你會 */
@@ -180,13 +188,24 @@ details.more[open]>summary{margin-bottom:10px}
 .qat-btn small{font-size:.72rem;color:var(--muted)}
 kbd{display:inline-block;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 6px;font-size:.78rem;background:var(--surface);color:var(--ink);line-height:1.6}
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px}
-.step{border-top:3px solid var(--accent);background:var(--surface);border-radius:0 0 8px 8px;padding:12px 14px;display:grid;gap:4px;align-content:start}
-.step-n{font-family:var(--f-mono);font-size:.78rem;color:var(--accent);font-weight:600}
-.step p{font-size:.9rem;color:var(--muted)}
-.lessons{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
-.lesson-card{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:14px;text-align:left;color:var(--ink);display:grid;gap:4px;align-content:start}
-.lesson-card:hover{border-color:var(--accent)}
-.lesson-card small{color:var(--muted);font-size:.85rem}
+/* 安裝步驟：和「快速存取工具列」同樣的卡片樣式（藍色標題列＋外框＋陰影） */
+.step{background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);overflow:hidden;display:grid;gap:4px;align-content:start}
+.step-n{background:var(--accent);color:var(--accent-ink);font-size:.8rem;font-weight:700;padding:6px 12px}
+.step h3{padding:8px 14px 0}
+.step p{font-size:.9rem;color:var(--muted);padding:0 14px 14px}
+/* 總覽的練習卡片：一張一行，左圖右文；手機改成上圖下文 */
+.lessons{display:grid;gap:14px}
+.lesson-card{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:16px 18px;color:var(--ink);text-decoration:none;display:grid;grid-template-columns:minmax(0,20rem) minmax(0,1fr);gap:14px 22px;align-items:center;transition:border-color .12s,box-shadow .12s}
+.lesson-card:hover,.lesson-card:focus-visible{border-color:var(--accent);box-shadow:var(--shadow)}
+.lesson-card .ill{padding:8px}
+.lc-title{grid-column:1/-1;font-size:1.45rem;font-weight:900;line-height:1.2;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.lesson-card:hover .lc-title{color:var(--accent)}
+.lc-txt{display:grid;gap:8px;align-content:center}
+.lc-txt p{color:var(--muted);font-size:.95rem}
+.lc-go{color:var(--accent);font-weight:700;font-size:.9rem}
+.lesson-card:hover .lc-go{text-decoration:underline}
+@media (max-width:700px){.lesson-card{grid-template-columns:1fr;gap:12px}}
+@media (prefers-reduced-motion:reduce){.lesson-card{transition:none}}
 .menu-tree{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px}
 .menu-tree>div{min-width:0}
 .menu-tree ul{list-style:none;margin:6px 0 0;padding:0 0 0 14px;border-left:1px solid var(--line)}
@@ -297,7 +316,7 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
 .summary .s-dup{background:var(--hdr)}
 .summary .kcol{color:var(--dupblue)}
 
-/* collect lab（資料收集） */
+/* collect lab（多檔收集） */
 .badge.col{background:var(--yellow);color:var(--yellow-ink)}
 .th-col{background:var(--mark)!important;color:var(--mark-ink)}
 .sheet td.g-w{background:var(--mark);color:var(--mark-ink);font-weight:700}
@@ -312,6 +331,10 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
 .sheet-tab[aria-selected="true"]{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:inset 0 -2px 0 var(--accent)}
 .g-log pre{white-space:pre-wrap;font-family:var(--f-mono);font-size:.8rem;margin:8px 0 0;background:var(--hdr);border:1px solid var(--line);border-radius:6px;padding:8px 10px}
 table.wrap td,table.wrap th{white-space:normal}
+/* classify lab（單檔收集） */
+.sheet td.nf{background:var(--pink);color:var(--pink-ink);font-family:var(--f-mono)}
+.sheet .ref{font-size:.7rem;color:var(--muted);margin-left:6px;font-weight:400;font-family:var(--f-mono)}
+.sheet td.nf .ref{color:inherit}
 
 /* quiz */
 .quiz{display:grid;gap:12px}
@@ -346,20 +369,24 @@ table.wrap td,table.wrap th{white-space:normal}
 </style>
 </head>
 <body>
-<script>try{var f=localStorage.getItem('cj-fs');if(f==='l'||f==='xl')document.documentElement.dataset.fs=f;}catch(e){}</script>
+<script>try{var f=localStorage.getItem('cj-fs');if(f==='l'||f==='xl')document.documentElement.dataset.fs=f;var t=localStorage.getItem('cj-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
 <header class="bar">
   <div class="bar-in">
     <div class="brand"><span class="brand-mark">JP</span>CJPsAddin 互動教材</div>
     <nav class="tabs" role="tablist" aria-label="課程單元">
       <button class="tab" role="tab" data-tab="overview" id="t-overview">總覽</button>
-      <button class="tab" role="tab" data-tab="install" id="t-install">安裝方式</button>
       <button class="tab" role="tab" data-tab="filter" id="t-filter">篩選強化</button>
       <button class="tab" role="tab" data-tab="recon" id="t-recon">兩表比對</button>
       <button class="tab" role="tab" data-tab="cross" id="t-cross">單表比對</button>
-      <button class="tab" role="tab" data-tab="collect" id="t-collect">資料收集</button>
+      <button class="tab" role="tab" data-tab="collect" id="t-collect">多檔收集</button>
+      <button class="tab" role="tab" data-tab="classify" id="t-classify">單檔收集</button>
       <button class="tab" role="tab" data-tab="quiz" id="t-quiz">小測驗</button>
     </nav>
     <div class="bar-tools">
+      <button class="theme-btn" id="theme-btn" type="button">
+        <svg class="ic-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="ic-sun" viewBox="0 0 24 24" aria-hidden="true" hidden><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
       <div class="fs-pick" role="group" aria-label="字級">
         <span class="fs-lbl" aria-hidden="true">字級</span>
         <button class="fs" data-fs="m" aria-pressed="true" aria-label="字級：標準">A</button>
@@ -380,6 +407,47 @@ table.wrap td,table.wrap th{white-space:normal}
     <p class="subtitle"><span class="nb">一個上班族，</span><span class="nb">寫給上班族的 Excel 增益集</span></p>
     <p class="lead">CJPsAddin 安裝後<b>每次開 Excel 自動載入</b>。本教材把最常用的功能做成可以在網頁上直接操作的練習。</p>
   </div>
+
+  <details class="more" id="install">
+    <summary>安裝方式</summary>
+    <div class="more-body">
+    <p class="lead">執行一次安裝程式，之後<b class="hl">每次開 Excel 都會自動載入</b>，不用再設定。</p>
+
+    <div class="pending"><span>📦</span><span><b>下載檔案準備中</b>：增益集、安裝程式與練習檔將於之後提供。</span></div>
+
+    <div class="steps">
+      <div class="step"><span class="step-n">步驟 1</span><h3>關閉 Excel，執行安裝檔</h3><p><code>CJPsAddin_Installer_v1.11.cmd</code>，按 <kbd>Y</kbd></p></div>
+      <div class="step"><span class="step-n">步驟 2</span><h3>重新開啟 Excel</h3><p>「增益集」索引標籤出現三組選單</p></div>
+      <div class="step"><span class="step-n">步驟 3</span><h3>開始練習</h3><p>從下方卡片或上方頁簽選一個練習單元</p></div>
+    </div>
+
+    <div class="install-grid">
+      <div class="qat" aria-label="快速存取工具列示意">
+        <div class="qat-title">快速存取工具列（安裝時自動加入）</div>
+        <div class="qat-row">
+          <div class="qat-btn"><span><kbd>Alt</kbd>+<kbd>1</kbd></span><small>完全比對</small></div>
+          <div class="qat-btn"><span><kbd>Alt</kbd>+<kbd>2</kbd></span><small>模糊比對</small></div>
+          <div class="qat-btn"><span><kbd>Alt</kbd>+<kbd>3</kbd></span><small>取消所有篩選</small></div>
+        </div>
+        <p class="note-sm" style="padding:0 12px 12px">工具列前 3 個按鈕會自動對應 <kbd>Alt</kbd>+<kbd>1</kbd>～<kbd>3</kbd>。</p>
+      </div>
+
+      <div class="panel">
+        <h3>安裝程式做了哪些事</h3>
+        <ol class="tight" style="margin-top:8px">
+          <li>複製增益集到 <code>D:\VBA</code>（失敗改用 <code>C:\VBA</code>），設為唯讀</li>
+          <li>寫入 Excel 啟動設定，<b class="hl">開 Excel 自動載入</b></li>
+          <li>快速存取工具列加入 3 個按鈕（Alt+1～3）</li>
+          <li>安裝資料夾加入 Excel <b class="hl">信任位置</b></li>
+          <li>「啟用所有巨集」會改成「停用並通知」，<b>只收緊、不放寬</b></li>
+          <li>不覆寫公司的 Office 安全性原則</li>
+          <li>產生診斷報告 <code>InstallDiagnostic.txt</code></li>
+        </ol>
+        <p class="note-sm" style="margin-top:10px">安裝失敗時，請查看安裝程式旁產生的 <code>InstallDiagnostic.txt</code>，裡面記錄了每個步驟的結果。</p>
+      </div>
+    </div>
+    </div>
+  </details>
 
   <details class="more">
     <summary>完整功能選單</summary>
@@ -452,7 +520,7 @@ table.wrap td,table.wrap th{white-space:normal}
           </ul></li>
           <li class="grp">資料收集<ul>
             <li data-tip="將相同Key值的特定欄位帶回至總表" tabindex="0"><span class="mi">多檔收集</span><a class="lab-tag" href="#collect-1">練習 →</a></li>
-            <li data-tip="依據〔分類規則表〕Key值進行資料收集；可當成批次VLOOKUP使用" tabindex="0"><span class="mi">單檔收集</span></li>
+            <li data-tip="依據〔分類規則表〕Key值進行資料收集；可當成批次VLOOKUP使用" tabindex="0"><span class="mi">單檔收集</span><a class="lab-tag" href="#classify-1">練習 →</a></li>
           </ul></li>
           <li class="grp">批量檔案處理…<ul>
             <li class="grp">更改檔名…<ul><li>檔名讀取</li><li>檔名更改</li></ul></li>
@@ -478,57 +546,66 @@ table.wrap td,table.wrap th{white-space:normal}
   </details>
 
   <div class="lessons">
-    <button class="lesson-card" data-go="install"><span class="eyebrow">開始之前</span><h3>安裝方式</h3><small>3 個步驟，裝好就能用</small></button>
-    <button class="lesson-card" data-go="filter"><span class="eyebrow">練習 1</span><h3>篩選強化</h3><small>一次篩出很多個值</small></button>
-    <button class="lesson-card" data-go="recon"><span class="eyebrow">練習 2</span><h3>兩表比對</h3><small>兩張表<b class="hl">有沒有</b>這筆資料</small></button>
-    <button class="lesson-card" data-go="cross"><span class="eyebrow">練習 3</span><h3>單表比對</h3><small>同一組資料<b class="hl">一不一樣</b></small></button>
-    <button class="lesson-card" data-go="collect"><span class="eyebrow">練習 4</span><h3>資料收集</h3><small>多個檔案<b class="hl">帶回</b>同一張總表</small></button>
-    <button class="lesson-card" data-go="quiz"><span class="eyebrow">複習</span><h3>小測驗</h3><small>12 題，立即看答案</small></button>
-  </div>
-</section>
-
-<!-- ============================ 安裝方式 ============================ -->
-<section class="lesson" id="tab-install" hidden>
-  <div class="head">
-    <div class="eyebrow">開始之前</div>
-    <h2>安裝方式</h2>
-    <p class="lead">執行一次安裝程式，之後<b class="hl">每次開 Excel 都會自動載入</b>，不用再設定。</p>
-  </div>
-
-  <div class="pending"><span>📦</span><span><b>下載檔案準備中</b>：增益集、安裝程式與練習檔將於之後提供。</span></div>
-
-  <div class="steps">
-    <div class="step"><span class="step-n">步驟 1</span><h3>關閉 Excel，執行安裝檔</h3><p><code>CJPsAddin_Installer_v1.11.cmd</code>，按 <kbd>Y</kbd></p></div>
-    <div class="step"><span class="step-n">步驟 2</span><h3>重新開啟 Excel</h3><p>「增益集」索引標籤出現三組選單</p></div>
-    <div class="step"><span class="step-n">步驟 3</span><h3>開始練習</h3><p>從上方頁簽選一個練習單元</p></div>
-  </div>
-
-  <div class="install-grid">
-    <div class="qat" aria-label="快速存取工具列示意">
-      <div class="qat-title">快速存取工具列（安裝時自動加入）</div>
-      <div class="qat-row">
-        <div class="qat-btn"><span><kbd>Alt</kbd>+<kbd>1</kbd></span><small>完全比對</small></div>
-        <div class="qat-btn"><span><kbd>Alt</kbd>+<kbd>2</kbd></span><small>模糊比對</small></div>
-        <div class="qat-btn"><span><kbd>Alt</kbd>+<kbd>3</kbd></span><small>取消所有篩選</small></div>
+    <a class="lesson-card" href="#filter">
+      <h3 class="lc-title">篩選強化</h3>
+      <figure class="ill" data-ill="filter" aria-hidden="true"></figure>
+      <div class="lc-txt">
+        <p>複製一串值、或用分號輸入多個條件，按 <kbd>Alt</kbd>+<kbd>1</kbd> 一次篩好。也能用關鍵字<b class="hl">模糊比對</b>，或按 <kbd>Alt</kbd>+<kbd>3</kbd> 一次取消所有篩選。</p>
+        <span class="lc-go">開始練習（<span class="lc-n"></span> 題）→</span>
       </div>
-      <p class="note-sm" style="padding:0 12px 12px">工具列前 3 個按鈕會自動對應 <kbd>Alt</kbd>+<kbd>1</kbd>～<kbd>3</kbd>。</p>
-    </div>
-
-    <div class="panel">
-      <h3>安裝程式做了哪些事</h3>
-      <ol class="tight" style="margin-top:8px">
-        <li>複製增益集到 <code>D:\VBA</code>（失敗改用 <code>C:\VBA</code>），設為唯讀</li>
-        <li>寫入 Excel 啟動設定，<b class="hl">開 Excel 自動載入</b></li>
-        <li>快速存取工具列加入 3 個按鈕（Alt+1～3）</li>
-        <li>安裝資料夾加入 Excel <b class="hl">信任位置</b></li>
-        <li>「啟用所有巨集」會改成「停用並通知」，<b>只收緊、不放寬</b></li>
-        <li>不覆寫公司的 Office 安全性原則</li>
-        <li>產生診斷報告 <code>InstallDiagnostic.txt</code></li>
-      </ol>
-      <p class="note-sm" style="margin-top:10px">安裝失敗時，請查看安裝程式旁產生的 <code>InstallDiagnostic.txt</code>，裡面記錄了每個步驟的結果。</p>
-    </div>
+    </a>
+    <a class="lesson-card" href="#recon">
+      <h3 class="lc-title">兩表比對</h3>
+      <figure class="ill" data-ill="recon" aria-hidden="true"></figure>
+      <div class="lc-txt">
+        <p>用 Key 對照兩張表，每一列標上兩表皆有、僅在A表或僅在B表，找出<b class="hl">新增和遺漏</b>的資料。</p>
+        <span class="lc-go">開始練習（<span class="lc-n"></span> 題）→</span>
+      </div>
+    </a>
+    <a class="lesson-card" href="#cross">
+      <h3 class="lc-title">單表比對</h3>
+      <figure class="ill" data-ill="cross" aria-hidden="true"></figure>
+      <div class="lc-txt">
+        <p>兩份資料貼在同一張表，依 Key 排序後上下比較，內容<b class="hl">不一致</b>的格子標成粉紅。</p>
+        <span class="lc-go">開始練習（<span class="lc-n"></span> 題）→</span>
+      </div>
+    </a>
+    <a class="lesson-card" href="#collect">
+      <h3 class="lc-title">多檔收集</h3>
+      <figure class="ill" data-ill="collect" aria-hidden="true"></figure>
+      <div class="lc-txt">
+        <p>從多個檔案找 Key 相同的資料，把指定欄位<b class="hl">帶回同一張總表</b>。Key 和帶回的欄位都可以是多欄。</p>
+        <span class="lc-go">開始練習（<span class="lc-n"></span> 題）→</span>
+      </div>
+    </a>
+    <a class="lesson-card" href="#classify">
+      <h3 class="lc-title">單檔收集</h3>
+      <figure class="ill" data-ill="classify" aria-hidden="true"></figure>
+      <div class="lc-txt">
+        <p>依分類規則表幫資料分類，規則可以用 <code>*</code>、<code>?</code>、<code>#</code> 萬用字元，也能當成<b class="hl">批次 VLOOKUP</b>。</p>
+        <span class="lc-go">開始練習（<span class="lc-n"></span> 題）→</span>
+      </div>
+    </a>
+    <a class="lesson-card" href="#quiz">
+      <h3 class="lc-title">小測驗</h3>
+      <figure class="ill" aria-hidden="true">
+        <svg viewBox="0 0 340 150">
+          <rect class="i-box" x="40" y="12" width="260" height="126" rx="8"/>
+          <text x="58" y="36" class="i-muted i-mono">第 3 題</text>
+          <text x="58" y="56" class="i-b">在【數量】欄用模糊比對搜「2」？</text>
+          <rect class="i-hdr" x="58" y="66" width="224" height="20" rx="4"/><text x="68" y="80">找出所有含 2 的數字</text>
+          <rect class="i-only-f" x="58" y="90" width="224" height="20" rx="4"/><text x="68" y="104" class="i-only-t">只找出等於 2 的數字</text><text x="268" y="104" class="i-only-t" text-anchor="middle">✗</text>
+          <rect class="i-both" x="58" y="114" width="224" height="20" rx="4"/><text x="68" y="128" class="i-both-t">顯示「無符合資料」</text><text x="268" y="128" class="i-both-t" text-anchor="middle">✓</text>
+        </svg>
+      </figure>
+      <div class="lc-txt">
+        <p>涵蓋以上 5 個功能，點選答案後<b class="hl">立即顯示對錯</b>與說明。</p>
+        <span class="lc-go">開始作答（<span class="lc-n"></span> 題）→</span>
+      </div>
+    </a>
   </div>
 </section>
+
 
 <!-- ============================ 篩選強化 ============================ -->
 <section class="lesson" id="tab-filter" hidden>
@@ -835,11 +912,11 @@ table.wrap td,table.wrap th{white-space:normal}
   </div>
 </section>
 
-<!-- ============================ 資料收集 ============================ -->
+<!-- ============================ 多檔收集 ============================ -->
 <section class="lesson" id="tab-collect" hidden>
   <div class="head">
     <div class="eyebrow">練習 4</div>
-    <h2>資料收集</h2>
+    <h2>多檔收集</h2>
   </div>
 
   <div class="panel intro">
@@ -872,7 +949,7 @@ table.wrap td,table.wrap th{white-space:normal}
     </figure>
     <div class="intro-txt">
       <h3>這個功能在做什麼</h3>
-      <p>先開好<b>總表</b>，再選好幾個<b>匯入檔案</b>。程式會在每個檔案裡找 <b class="hl">Key 相同</b>的資料，把指定的欄位帶回總表。可以想成進階版的 VLOOKUP：Key 和要帶回的欄位都可以是<b>多欄</b>，一次處理<b>多個檔案</b>。功能選單上的名稱是「多檔收集」，舊文章稱為「資料合併」。</p>
+      <p>先開好<b>總表</b>，再選好幾個<b>匯入檔案</b>。程式會在每個檔案裡找 <b class="hl">Key 相同</b>的資料，把指定的欄位帶回總表。可以想成進階版的 VLOOKUP：Key 和要帶回的欄位都可以是<b>多欄</b>，一次處理<b>多個檔案</b>。它在功能選單的「資料收集」群組裡，舊文章稱為「資料合併」。資料都在同一個檔案、只是要依規則對照時，用<a href="#classify">單檔收集</a>。</p>
       <div class="intro-cols">
         <div>
           <h4>適合這些時候用</h4>
@@ -984,6 +1061,137 @@ table.wrap td,table.wrap th{white-space:normal}
   </div>
 </section>
 
+<!-- ============================ 單檔收集 ============================ -->
+<section class="lesson" id="tab-classify" hidden>
+  <div class="head">
+    <div class="eyebrow">練習 5</div>
+    <h2>單檔收集</h2>
+  </div>
+
+  <div class="panel intro">
+    <figure class="ill">
+      <svg viewBox="0 0 340 126" role="img" aria-label="示意圖：分類規則表寫著 *計程車* 是交通費、*便當* 是餐費，待分類資料的摘要依規則填入類別，找不到規則的填 !Not Found!">
+        <defs><marker id="ill-ah2" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path class="i-acc" d="M0 0 L9 4.5 L0 9 Z"/></marker></defs>
+        <text x="96" y="22" text-anchor="middle" class="i-muted">待分類資料</text>
+        <rect class="i-box" x="6" y="30" width="180" height="88" rx="4"/>
+        <rect class="i-hdr" x="7" y="31" width="178" height="19"/>
+        <text x="12" y="45" class="i-b">摘要</text><text x="122" y="45" class="i-b">類別</text>
+        <rect class="i-mark" x="117" y="51" width="68" height="21"/>
+        <rect class="i-mark" x="117" y="73" width="68" height="21"/>
+        <rect class="i-pink" x="117" y="95" width="68" height="22"/>
+        <text x="12" y="66">搭計程車回公司</text><text x="122" y="66">交通費</text>
+        <text x="12" y="88">會議便當 10 份</text><text x="122" y="88">餐費</text>
+        <text x="12" y="110">郵寄掛號</text><text x="121" y="110" class="i-mono" style="font-size:9.5px">!Not Found!</text>
+        <path class="i-arrow" d="M212 76 L192 76" marker-end="url(#ill-ah2)"/>
+        <text x="276" y="22" text-anchor="middle" class="i-muted">分類規則表</text>
+        <rect class="i-box" x="216" y="30" width="118" height="88" rx="4"/>
+        <rect class="i-hdr" x="217" y="31" width="116" height="19"/>
+        <text x="222" y="45" class="i-b">關鍵字</text><text x="290" y="45" class="i-b">類別</text>
+        <text x="222" y="66" class="i-mono">*計程車*</text><text x="290" y="66">交通費</text>
+        <text x="222" y="88" class="i-mono">*高鐵*</text><text x="290" y="88">交通費</text>
+        <text x="222" y="110" class="i-mono">*便當*</text><text x="290" y="110">餐費</text>
+      </svg>
+      <figcaption>依規則表（可以用萬用字元）幫每一筆資料分類</figcaption>
+    </figure>
+    <div class="intro-txt">
+      <h3>這個功能在做什麼</h3>
+      <p>準備一張<b>待分類資料</b>和一張<b>分類規則表</b>。程式拿每一筆資料的 Key 去規則表比對，把符合那條規則的值寫回來。可以當成<b class="hl">批次 VLOOKUP</b>；而且規則表的 Key 可以用 <b class="hl">萬用字元</b>，例如「<code>*計程車*</code>＝交通費」，一條規則就能涵蓋很多種寫法。程式內部的名稱是「資料分類」。</p>
+      <div class="intro-cols">
+        <div>
+          <h4>適合這些時候用</h4>
+          <ul class="tight">
+            <li>依商品代碼對照表，幫交易明細補上商品名稱、類別</li>
+            <li>依摘要裡的關鍵字，把費用自動歸類</li>
+            <li>依號碼開頭判斷類型，例如 09 開頭是手機</li>
+            <li>依「區域＋商品」的組合，套用不同的獎金比例</li>
+          </ul>
+        </div>
+        <div>
+          <h4>練完你會</h4>
+          <ul class="tight goals">
+            <li>設定兩張表各自的 Key 與填入、來源欄</li>
+            <li>用 <code>*</code>、<code>?</code>、<code>#</code> 寫分類規則</li>
+            <li>安排規則的先後順序，並決定要不要帶回最後一項相符者</li>
+            <li>看懂並處理 <code>!Not Found!</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="panel">
+      <h3>四個欄位怎麼填</h3>
+      <div class="scroll" style="margin-top:8px">
+      <table class="sheet wrap">
+        <tr class="title-row"><th>表</th><th>欄位</th><th>範例</th></tr>
+        <tr><td rowspan="2"><b>待分類資料</b></td><td>Key值組成欄</td><td><code>B1</code>／<code>A;B;1</code></td></tr>
+        <tr><td>分類填入欄（結果寫在這裡）</td><td><code>D</code>／<code>D;E</code></td></tr>
+        <tr><td rowspan="2"><b>分類規則表</b></td><td>Key值組成欄（可用萬用字元）</td><td><code>A1</code>／<code>A;B;1</code></td></tr>
+        <tr><td>分類來源欄（要帶回的值）</td><td><code>B</code>／<code>B;C</code></td></tr>
+      </table></div>
+      <ul class="tight" style="margin-top:10px">
+        <li>Key 最後的數字是<b class="hl">標題列</b>，兩張表的標題列可以不同</li>
+        <li>分類填入欄和分類來源欄的<b>欄數要一樣</b>，依順序一對一帶回</li>
+        <li>兩張表的 Key 欄數也應該一樣</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>規則表可以用的萬用字元</h3>
+      <div class="scroll" style="margin-top:8px">
+      <table class="sheet wrap">
+        <tr class="title-row"><th>寫法</th><th>意思</th><th>例子</th></tr>
+        <tr><td><code>*</code></td><td>任意多個字（也可以沒有）</td><td><code>*計程車*</code>＝包含「計程車」</td></tr>
+        <tr><td><code>?</code></td><td>任一個字</td><td><code>P00?</code>＝P001～P009、P00A…</td></tr>
+        <tr><td><code>#</code></td><td>任一個數字</td><td><code>09########</code>＝09 開頭的 10 位數字</td></tr>
+        <tr><td><code>[ABC]</code></td><td>括號裡的任一個字</td><td><code>[AB]*</code>＝A 或 B 開頭</td></tr>
+        <tr><td><code>[!A]</code></td><td>不是括號裡的字</td><td><code>[!0]*</code>＝不是 0 開頭</td></tr>
+      </table></div>
+      <p class="note-sm" style="margin-top:8px">比對時<b>不分大小寫</b>。要找真正的 <code>*</code>、<code>?</code>、<code>#</code> 符號，寫成 <code>[*]</code>、<code>[?]</code>、<code>[#]</code>。</p>
+    </div>
+  </div>
+
+  <div class="sub-head">
+    <h3>開始練習</h3>
+    <p class="lead">選一題，在兩張表<b>點表頭切換 Key／填入（來源）</b>，再按「執行單檔收集」。結果旁的小字是「套用規則表第幾列」。</p>
+  </div>
+
+  <div class="scen-pick" id="k-pick" role="group" aria-label="選擇題目"></div>
+
+  <div class="panel task">
+    <div class="eyebrow" id="k-eyebrow"></div>
+    <h3 id="k-title"></h3>
+    <div class="task-text" id="k-text"></div>
+    <div class="teacher-note" id="k-teacher"></div>
+  </div>
+
+  <div class="recon-tables" id="k-tables"></div>
+
+  <div class="panel task">
+    <div class="selui">
+      <div class="field"><label for="k-ak">待分類資料｜Key值組成欄</label><output id="k-ak"></output></div>
+      <div class="field"><label for="k-af">待分類資料｜分類填入欄</label><output id="k-af"></output></div>
+      <div class="field"><label for="k-bk">分類規則表｜Key值組成欄</label><output id="k-bk"></output></div>
+      <div class="field"><label for="k-bs">分類規則表｜分類來源欄</label><output id="k-bs"></output></div>
+    </div>
+    <label class="chk"><input type="checkbox" id="k-ck1"><span>進行全部〔分類規則表〕之Key值判斷，並帶回最後一項相符者</span></label>
+    <div class="runbar">
+      <button class="runbtn k1" id="k-run">執行單檔收集</button>
+      <button class="runbtn" id="k-reset">還原資料</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>要記住的 4 件事</h3>
+    <ol class="tight" style="margin-top:8px">
+      <li>預設由上往下找到<b class="hl">第一個符合</b>的規則就停：特殊規則放上面、通用規則放下面</li>
+      <li>勾選「帶回最後一項相符者」時，會比完全部規則，以<b>最後一個符合</b>的為準</li>
+      <li>分類填入欄會<b>整欄重寫</b>：原本的內容會被蓋掉，找不到規則的填 <code>!Not Found!</code></li>
+      <li><code>#</code> 只代表數字：<code>09########</code> 對不到有「-」的 <code>0912-345-678</code></li>
+    </ol>
+  </div>
+</section>
+
 <!-- ============================ 小測驗 ============================ -->
 <section class="lesson" id="tab-quiz" hidden>
   <div class="head">
@@ -1009,7 +1217,7 @@ const fmtTask=s=>s.split('\n').map(l=>l.startsWith('>')?'<div class="op">'+fmt(l
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 
 /* ---------- tabs & teacher mode ---------- */
-const TABS=['overview','install','filter','recon','cross','collect','quiz'];
+const TABS=['overview','filter','recon','cross','collect','classify','quiz'];
 let curTab='overview';
 function showTab(id){
   if(!TABS.includes(id))id='overview';
@@ -1030,13 +1238,15 @@ function trackTab(id){
   else if(document.readyState!=='complete')window.addEventListener('load',()=>{if(window.goatcounter&&window.goatcounter.count)send();},{once:true});
 }
 // 網址 #分頁 或 #分頁-題號（例如 #recon-7）可直接開到指定位置；切換題目時同步更新網址
-const curIndex=()=>curTab==='filter'?fs.mission:curTab==='recon'?rs.i:curTab==='cross'?cs.i:curTab==='collect'?gs.i:-1;
+const curIndex=()=>curTab==='filter'?fs.mission:curTab==='recon'?rs.i:curTab==='cross'?cs.i:curTab==='collect'?gs.i:curTab==='classify'?ks.i:-1;
 function updateHash(){
   const i=curIndex();
   try{history.replaceState(null,'','#'+curTab+(i>=0?'-'+(i+1):''))}catch(e){}
 }
 function applyHash(){
-  const m=(location.hash||'').slice(1).match(/^(overview|install|filter|recon|cross|collect|quiz)(?:-(\d+))?$/);
+  // #install：安裝方式已摺疊進總覽，開總覽並展開該區塊（舊連結照常可用）
+  if(location.hash==='#install'){showTab('overview');const d=$('#install');d.open=true;d.scrollIntoView();return true;}
+  const m=(location.hash||'').slice(1).match(/^(overview|filter|recon|cross|collect|classify|quiz)(?:-(\d+))?$/);
   if(!m)return false;
   const n=m[2]?Number(m[2])-1:-1;
   if(n>=0){
@@ -1044,13 +1254,25 @@ function applyHash(){
     if(m[1]==='recon'&&n<SCEN.length)setScen(n);
     if(m[1]==='cross'&&n<CSCEN.length)loadCross(CSCEN[n],n);
     if(m[1]==='collect'&&n<GSCEN.length)setCollect(n);
+    if(m[1]==='classify'&&n<KSCEN.length)setClassify(n);
   }
   showTab(m[1]);
   return true;
 }
 window.addEventListener('hashchange',applyHash);
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
-document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.go)));
+// 展開「安裝方式」也記一筆瀏覽，報表上才看得出有多少人看安裝說明
+$('#install').addEventListener('toggle',e=>{if(e.target.open)try{window.goatcounter.count({path:location.pathname+'#install',title:'安裝方式'});}catch(err){}});
+// 總覽卡片的示意圖：直接複製各單元裡的那張，改單元的圖時總覽會跟著變。
+// 圖裡的 id（clipPath、箭頭）要改名，否則會和原圖重複。
+document.querySelectorAll('.lesson-card .ill[data-ill]').forEach(fig=>{
+  const src=$('#tab-'+fig.dataset.ill+' .ill svg');if(!src)return;
+  const svg=src.cloneNode(true);
+  svg.querySelectorAll('[id]').forEach(n=>n.id+='-ov');
+  svg.querySelectorAll('[clip-path],[marker-end]').forEach(n=>['clip-path','marker-end'].forEach(a=>{const v=n.getAttribute(a);if(v)n.setAttribute(a,v.replace(/\)$/,'-ov)'));}));
+  svg.removeAttribute('role');svg.removeAttribute('aria-label');
+  fig.append(svg);
+});
 const tbtn=$('#teacher');
 function setTeacher(on){document.body.classList.toggle('teacher',on);tbtn.setAttribute('aria-checked',String(on));store.set('cj-teacher',on?'1':'0');}
 tbtn.addEventListener('click',()=>setTeacher(tbtn.getAttribute('aria-checked')!=='true'));
@@ -1062,6 +1284,17 @@ function setFs(v){
   store.set('cj-fs',v);
 }
 document.querySelectorAll('.fs').forEach(b=>b.addEventListener('click',()=>setFs(b.dataset.fs)));
+// 明暗模式：沒選過就跟著系統設定；按過之後記住選擇（頁首的小 script 會在載入時先套用）
+const darkMQ=window.matchMedia('(prefers-color-scheme: dark)');
+const curTheme=()=>document.documentElement.dataset.theme||(darkMQ.matches?'dark':'light');
+function updThemeBtn(){
+  const dark=curTheme()==='dark',b=$('#theme-btn');
+  b.querySelector('.ic-moon').toggleAttribute('hidden',dark);b.querySelector('.ic-sun').toggleAttribute('hidden',!dark); // SVG 沒有 .hidden 屬性
+  const lbl=dark?'切換為淺色模式':'切換為深色模式';b.title=lbl;b.setAttribute('aria-label',lbl);
+}
+$('#theme-btn').addEventListener('click',()=>{const t=curTheme()==='dark'?'light':'dark';document.documentElement.dataset.theme=t;store.set('cj-theme',t);updThemeBtn();});
+darkMQ.addEventListener('change',updThemeBtn);
+updThemeBtn();
 
 /* ---------- dialogs ---------- */
 let dlgOpen=false;
@@ -1744,6 +1977,140 @@ $('#g-reset').addEventListener('click',gReset);
 [1,2,3,4].forEach(n=>$('#g-ck'+n).addEventListener('change',()=>{if(gs.ran){gReset();toast('設定已變更，已還原總表，請重新執行');}}));
 
 /* ============================================================
+   單檔收集 (ported from B15_資料分類：PreDataClassify / DataClassify)
+   待分類資料的 Key「Like」規則表的 Key（Option Compare Text：不分大小寫）
+   ============================================================ */
+// VBA Like → RegExp：* 任意字、? 一個字、# 一個數字、[abc]／[!abc] 字元清單
+function likeRe(p){
+  let s='',i=0;
+  while(i<p.length){
+    const ch=p[i];
+    if(ch==='['){const j=p.indexOf(']',i+1);if(j>i){let body=p.slice(i+1,j).replace(/\\/g,'\\\\');if(body.startsWith('!'))body='^'+body.slice(1);s+='['+body+']';i=j+1;continue;}}
+    s+=ch==='*'?'[\\s\\S]*':ch==='?'?'[\\s\\S]':ch==='#'?'\\d':ch.replace(/[.*+?^${}()|[\]\\\/-]/g,'\\$&');
+    i++;
+  }
+  return new RegExp('^'+s+'$','i');
+}
+const kItems=()=>({book:'交易明細.xlsx',sheet:'商品對照',titleRow:1,cols:['商品代碼','商品名稱','類別'],rows:[['P001','蘋果','水果'],['P002','香蕉','水果'],['P003','可樂','飲料'],['P004','綠茶','飲料']],key:[0],src:[1]});
+const kSales=extra=>({book:'交易明細.xlsx',sheet:'明細',titleRow:1,cols:['交易日','商品代碼','數量','商品名稱',...(extra?['類別']:[])],
+  rows:[['10/01','P001',3],['10/01','P003',1],['10/02','p002',5],['10/02','P009',2],['10/03','P001',4]].map(r=>[...r,'',...(extra?['']:[])]),key:[1],fill:[3]});
+const KSCEN=[
+ {t:'批次 VLOOKUP',A:kSales(false),B:kItems(),
+  text:'依「商品代碼」到商品對照表帶回「商品名稱」（已設定好）。\n>按「執行單檔收集」\n>哪一筆變成 `!Not Found!`？小寫的 `p002` 有對到嗎？',
+  teach:'P009 不在對照表，所以是 !Not Found!。p002 有對到香蕉，因為比對不分大小寫。這就是批次 VLOOKUP：不用寫公式，一次填好整欄。'},
+ {t:'一次帶回多欄',A:kSales(true),B:kItems(),
+  text:'同樣的資料，這次要把「類別」也一起帶回。\n>待分類資料的「類別」表頭點**兩次**（設為填入）\n>分類規則表的「類別」表頭也點**兩次**（設為來源）→ 執行\n填入欄和來源欄依點選順序一對一對應。',
+  teach:'填入欄 D;E、來源欄 B;C，欄數一樣才能執行。只設定一邊就執行，程式會提示「分類欄位數量不一致」，可以故意試一次。'},
+ {t:'關鍵字分類',A:{book:'費用明細.xlsx',sheet:'9月',titleRow:1,cols:['日期','摘要','金額','費用類別'],
+    rows:[['09/02','搭計程車拜訪客戶',350,''],['09/05','高鐵 台北-台中',700,''],['09/09','會議便當 10 份',1000,''],['09/12','影印紙與文具',460,''],['09/15','星巴克咖啡',320,''],['09/20','郵寄掛號',80,''],['09/25','計程車回公司',260,'']],key:[1],fill:[3]},
+  B:{book:'費用明細.xlsx',sheet:'分類規則',titleRow:1,cols:['摘要關鍵字','費用類別'],rows:[['*計程車*','交通費'],['*高鐵*','交通費'],['*便當*','餐費'],['*咖啡*','餐費'],['*文具*','辦公用品']],key:[0],src:[1]},
+  text:'規則表的關鍵字前後都加了 `*`，代表摘要裡**包含**這個字。\n>執行，看每一筆套到規則表的第幾列\n>「郵寄掛號」沒有對應的規則，要怎麼補？',
+  teach:'在規則表加一列「*郵寄*＝郵電費」就能涵蓋。兩筆計程車的寫法不同，但都套到第 2 列規則：一條規則就能處理很多種寫法。'},
+ {t:'規則順序',A:{book:'客戶名單.xlsx',sheet:'名單',titleRow:1,cols:['姓名','電話','號碼類型'],
+    rows:[['王小明','0912345678',''],['李小華','0223456789',''],['陳美麗','0912-345-678',''],['林志強','+886912345678',''],['張志豪','12345','']],key:[1],fill:[2]},
+  B:{book:'客戶名單.xlsx',sheet:'號碼規則',titleRow:1,cols:['電話規則','號碼類型'],rows:[['0*','市話'],['09########','手機'],['+886*','國際格式']],key:[0],src:[1]},
+  text:'規則表把通用的「`0*`＝市話」放在最上面。\n>先**不勾**選項執行：0912345678 被分成什麼？\n>勾選「帶回最後一項相符者」再執行\n>為什麼 0912-345-678 還是市話？',
+  teach:'不勾選：找到第一個符合就停，09 開頭的號碼先符合「0*」，被當成市話。勾選：比完全部規則，最後符合的「09########」生效，變成手機。0912-345-678 有「-」，# 只代表數字，所以只符合 0*。另一種解法：不勾選項，把「09########」移到「0*」上面。'},
+ {t:'多欄 Key',A:{book:'業績表.xlsx',sheet:'明細',titleRow:1,cols:['區域','商品','金額','獎金比例'],
+    rows:[['北區','蘋果',1200,''],['北區','香蕉',800,''],['南區','蘋果',950,''],['南區','芭樂',400,'']],key:[],fill:[3]},
+  B:{book:'業績表.xlsx',sheet:'獎金規則',titleRow:1,cols:['區域','商品','獎金比例'],rows:[['北區','蘋果','5%'],['北區','*','3%'],['*','*','1%']],key:[],src:[2]},
+  text:'獎金比例依「區域＋商品」決定，規則表的 `*` 代表任何值。\n>兩張表都依序點「區域」「商品」設為 Key → 執行\n>如果勾選「帶回最後一項相符者」，結果會變怎樣？',
+  teach:'兩邊的 Key 都是 A;B;1。不勾選：特殊規則在上面，北區蘋果 5%、北區其他 3%、其他區 1%。勾選：每筆最後都符合「*＋*」，全部變成 1%。由特殊排到通用的規則表，不要勾選這個選項。'}
+];
+const ks={i:0,sc:null,A:{key:[],fill:[]},B:{key:[],src:[]},res:null};
+const KROLE={A:'fill',B:'src'},KLBL={A:'填入',B:'來源'},KNAME={A:'待分類資料',B:'分類規則表'};
+function renderKPick(){
+  const box=$('#k-pick');box.innerHTML='';
+  KSCEN.forEach((s,i)=>box.append(el('button',{class:'scen','aria-pressed':String(i===ks.i),text:'題 '+(i+1)+' '+s.t,onclick:()=>setClassify(i)})));
+}
+function setClassify(i){
+  ks.i=i;ks.sc=KSCEN[i];ks.res=null;
+  ks.A={key:[...ks.sc.A.key],fill:[...ks.sc.A.fill]};ks.B={key:[...ks.sc.B.key],src:[...ks.sc.B.src]};
+  $('#k-ck1').checked=false;
+  $('#k-eyebrow').textContent='題目 '+(i+1);$('#k-title').textContent=ks.sc.t;$('#k-text').innerHTML=fmtTask(ks.sc.text);
+  $('#k-teacher').textContent=ks.sc.teach;
+  renderKPick();renderK();
+  if(curTab==='classify')updateHash();
+}
+function kCycle(T,c){
+  const st=ks[T],role=KROLE[T],k=st.key.indexOf(c),d=st[role].indexOf(c);
+  if(k>=0){st.key.splice(k,1);st[role].push(c);}
+  else if(d>=0)st[role].splice(d,1);
+  else st.key.push(c);
+  if(ks.res){ks.res=null;toast('設定已變更，已還原資料');}
+  renderK();
+}
+function kTable(T){
+  const s=ks.sc[T],st=ks[T],role=KROLE[T];
+  const tbl=el('table',{class:'sheet'});
+  const lr=el('tr',{class:'colL'},[el('th',{})]);s.cols.forEach((_,c)=>lr.append(el('th',{text:colLetter(c)})));tbl.append(lr);
+  const hr=el('tr',{class:'title-row'},[el('th',{class:'rn',text:String(s.titleRow)})]);
+  s.cols.forEach((name,c)=>{
+    const ki=st.key.indexOf(c),di=st[role].indexOf(c);
+    const th=el('th',{class:'keyhdr'+(ki>=0?' th-key':di>=0?' th-col':'')+(T==='A'&&di>=0&&ks.res?' cmt':''),tabindex:'0',role:'button',title:'點選切換 Key／'+KLBL[T]+'／取消'},[el('span',{text:name})]);
+    if(ki>=0)th.append(el('span',{class:'badge key',text:'Key'+(ki+1)}));
+    if(di>=0)th.append(el('span',{class:'badge col',text:KLBL[T]+(st[role].length>1?di+1:'')}));
+    th.addEventListener('click',()=>kCycle(T,c));th.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();kCycle(T,c);}});
+    hr.append(th);
+  });
+  tbl.append(hr);
+  s.rows.forEach((row,r)=>{
+    const tr=el('tr',{},[el('td',{class:'rn',text:String(s.titleRow+1+r)})]);
+    row.forEach((v,c)=>{
+      const hit=T==='A'&&ks.res&&ks.res.get(r)&&ks.res.get(r)[c];
+      if(hit){
+        const td=el('td',{class:hit.v==='!Not Found!'?'nf':'g-w',text:hit.v});
+        if(hit.ref)td.append(el('span',{class:'ref',text:'←'+hit.ref,title:'套用規則表第 '+hit.ref+' 列'}));
+        tr.append(td);
+      }else tr.append(el('td',{class:typeof v==='number'?'num':'',text:gText(v)}));
+    });
+    tbl.append(tr);
+  });
+  return el('div',{class:'xl'},[el('div',{class:'xl-top'},[el('span',{class:'namebox',text:KNAME[T]}),el('span',{class:'fx',text:s.book+'﹝'+s.sheet+'﹞'})]),el('div',{class:'scroll'},tbl)]);
+}
+function kAddr(T){const k=ks[T].key,tr=ks.sc[T].titleRow;return !k.length?'（點表頭設定）':k.length===1?colLetter(k[0])+tr:k.map(colLetter).join(';')+';'+tr;}
+function renderK(){
+  const box=$('#k-tables');box.innerHTML='';box.append(kTable('A'),kTable('B'));
+  $('#k-ak').textContent=kAddr('A');$('#k-bk').textContent=kAddr('B');
+  $('#k-af').textContent=ks.A.fill.length?ks.A.fill.map(colLetter).join(';'):'（表頭點兩次＝填入）';
+  $('#k-bs').textContent=ks.B.src.length?ks.B.src.map(colLetter).join(';'):'（表頭點兩次＝來源）';
+}
+async function runClassify(){
+  if(dlgOpen)return;
+  const sc=ks.sc,A=ks.A,B=ks.B;
+  if(!A.key.length||!A.fill.length||!B.key.length||!B.src.length){await dialog({title:'資料分類',body:'請設定兩張表的 Key 欄位，以及待分類資料的「填入」欄、分類規則表的「來源」欄。'});return;}
+  const fmtC=(T,cols)=>cols.map(c=>'['+colLetter(c)+']'+sc[T].cols[c]).join('\n');
+  const ok=await dialog({title:'資料分類',body:'即將於以下工作表進行資料分類：\n\n待分類資料【'+sc.A.book+'】之﹝'+sc.A.sheet+'﹞\nKey值組成欄：\n'+fmtC('A',A.key)+'\n分類填入欄：\n'+fmtC('A',A.fill)+
+    '\n\n分類規則表【'+sc.B.book+'】之﹝'+sc.B.sheet+'﹞\nKey值組成欄：\n'+fmtC('B',B.key)+'\n分類來源欄：\n'+fmtC('B',B.src)+'\n\n是否繼續？',buttons:[{label:'否',value:null},{label:'是',value:1,primary:true}]});
+  if(ok==null)return;
+  if(A.fill.length!==B.src.length){
+    await dialog({title:'資料分類',body:'分類欄位數量不一致，請確認。\n\n待分類資料：'+A.fill.length+'欄 ('+A.fill.map(colLetter).join(';')+')\n分類規則表：'+B.src.length+'欄 ('+B.src.map(colLetter).join(';')+')'});
+    return;
+  }
+  // Key 欄數不一致時，各欄直接接起來比對（不加分隔字串）
+  const sep=A.key.length===B.key.length?';;;':'';
+  const last=$('#k-ck1').checked;
+  const keyA=sc.A.rows.map(r=>A.key.map(c=>gText(r[c])).join(sep));
+  const pats=sc.B.rows.map(r=>likeRe(B.key.map(c=>gText(r[c])).join(sep)));
+  const res=new Map();
+  A.fill.forEach((fc,p)=>{
+    const src=B.src[p];
+    keyA.forEach((k,r)=>{
+      let v='',ref=-1;
+      for(let b=0;b<pats.length;b++){if(pats[b].test(k)){v=gText(sc.B.rows[b][src]);ref=b;if(!last)break;}}
+      if(v==='')v='!Not Found!';
+      if(!res.has(r))res.set(r,{});
+      res.get(r)[fc]={v,ref:ref>=0?sc.B.titleRow+1+ref:null};
+    });
+  });
+  ks.res=res;renderK();
+  await dialog({title:'資料分類',body:'資料分類完成'});
+}
+$('#k-run').addEventListener('click',runClassify);
+$('#k-reset').addEventListener('click',()=>{ks.res=null;renderK();});
+$('#k-ck1').addEventListener('change',()=>{if(ks.res){ks.res=null;renderK();toast('設定已變更，請重新執行');}});
+
+/* ============================================================
    小測驗
    ============================================================ */
 const QUIZ=[
@@ -1758,7 +2125,9 @@ const QUIZ=[
  {f:'cross',q:'比對完成後，整列變灰色代表？',o:['資料不一致','這組 Key 只有一筆，找不到可比較的資料','Key 重複','被篩選掉'],a:1,w:'灰色＝不成對。粉紅才是資料不一致。'},
  {f:'cross',q:'「英文大小寫視為不同」和「文字與數值視為不同」兩個選項都不勾選時，文字「012」和數值 12 會被判斷為？',o:['相同','不同','程式報錯'],a:0,w:'不勾選時會先把能轉成數字的文字轉成數字再比。勾「文字與數值視為不同」才會變粉紅。'},
  {f:'collect',q:'Key值組成欄是 A、B 兩欄，標題在第 3 列，要帶回 D、E 兩欄。「資料回收欄」要怎麼輸入？',o:['D3;E3','D;E;3','D;E','D:E'],a:2,w:'資料回收欄只寫欄名，列號沿用 Key值組成欄的標題列。'},
- {f:'collect',q:'總表的「數量」在 C 欄，匯入檔案的「數量」在 F 欄。執行資料收集時會怎樣？',o:['找不到，要先把欄位順序調成一樣','可以正確帶回，因為是用標題文字找欄位','只會帶回第一筆'],a:1,w:'匯入檔案是用標題文字找欄位，位置不同沒關係，但標題文字必須完全一樣。'}
+ {f:'collect',q:'總表的「數量」在 C 欄，匯入檔案的「數量」在 F 欄。執行多檔收集時會怎樣？',o:['找不到，要先把欄位順序調成一樣','可以正確帶回，因為是用標題文字找欄位','只會帶回第一筆'],a:1,w:'匯入檔案是用標題文字找欄位，位置不同沒關係，但標題文字必須完全一樣。'},
+ {f:'classify',q:'分類規則表的 Key 寫成「*計程車*」，代表什麼？',o:['只有剛好是「計程車」三個字才符合','內容包含「計程車」就符合','以「計程車」開頭才符合'],a:1,w:'* 代表任意多個字（也可以沒有），前後都加 * 就是「包含」。'},
+ {f:'classify',q:'規則表由上往下是「0*＝市話」「09########＝手機」。不勾選「帶回最後一項相符者」時，0912345678 會被分成？',o:['市話','手機','!Not Found!'],a:0,w:'不勾選時找到第一個符合的就停，0912345678 先符合「0*」。把特殊規則移到上面，或勾選該選項，就會變成手機。'}
 ];
 const qs={ans:{}};
 function renderQuiz(){
@@ -1792,7 +2161,11 @@ setMission(0);
 setScen(0);
 loadCross(CSCEN[0],0);
 setCollect(0);
+setClassify(0);
 renderQuiz();
+// 總覽卡片的題數，依題目資料自動計算
+const LC_N={filter:MISSIONS.length,recon:SCEN.length,cross:CSCEN.length,collect:GSCEN.length,classify:KSCEN.length,quiz:QUIZ.length};
+document.querySelectorAll('.lesson-card').forEach(a=>{const n=a.querySelector('.lc-n');if(n)n.textContent=LC_N[a.getAttribute('href').slice(1)];});
 setTeacher(store.get('cj-teacher')==='1');
 setFs(store.get('cj-fs'));
 // 網址沒有指定分頁時一律從總覽開始（不記住上次的分頁，避免使用者找不到路）
