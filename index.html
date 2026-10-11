@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- 搜尋關鍵字：CJP、增益集、VBA、Add-in。標題、簡介、首頁說明與下方的結構化資料要一起維護 -->
-<meta name="description" content="CJP 增益集 (CJPsAddin、CJP's VBA Tools) 是一個 Excel VBA Add-in，提供篩選強化、兩表比對、單表比對、多檔收集、單檔收集、資料拆檔等功能。附教學與線上練習，直接在瀏覽器操作。">
+<meta name="description" content="CJP 增益集 (CJPsAddin、CJP's VBA Tools) 是一個 Excel VBA Add-in，提供篩選強化、兩表比對、單表比對、多檔收集、單檔收集、資料拆檔、樞紐明細等功能。附教學與線上練習，直接在瀏覽器操作。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CJPsAddin">
 <meta property="og:url" content="https://foolkidchang.github.io/CJPsAddin/">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:title" content="CJP 增益集 CJPsAddin｜Excel VBA Tools (附教學)">
-<meta property="og:description" content="CJP 增益集 (CJPsAddin、CJP's VBA Tools) 是一個 Excel VBA Add-in，提供篩選強化、兩表比對、單表比對、多檔收集、單檔收集、資料拆檔等功能。附教學與線上練習，直接在瀏覽器操作。">
+<meta property="og:description" content="CJP 增益集 (CJPsAddin、CJP's VBA Tools) 是一個 Excel VBA Add-in，提供篩選強化、兩表比對、單表比對、多檔收集、單檔收集、資料拆檔、樞紐明細等功能。附教學與線上練習，直接在瀏覽器操作。">
 <meta name="google-site-verification" content="buucDtRrcJYY-0kigrYnWsXKJyp51EqlqKGfyQU-9uo">
 <link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/">
 <title>CJP 增益集 CJPsAddin｜Excel VBA Tools (附教學)</title>
@@ -100,7 +100,7 @@ b.hl,.hl{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:
 .bar-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
 .brand{font-family:var(--f-display);font-weight:900;font-size:1.05rem;display:flex;align-items:center;gap:8px}
 .brand-mark{width:22px;height:22px;border-radius:4px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--f-mono);font-size:.7rem;font-weight:600}
-.tabs{display:flex;gap:2px;flex-wrap:wrap}
+.tabs{display:flex;gap:2px;flex-wrap:wrap;align-items:center}
 .tab{border:0;background:transparent;color:var(--muted);padding:6px 12px;border-radius:6px;font-weight:500}
 .tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
 .tab:hover:not([aria-selected="true"]){color:var(--ink);background:var(--hdr)}
@@ -129,6 +129,16 @@ b.hl,.hl{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:
 .switch[aria-checked="true"]::after{transform:translateX(16px);background:var(--accent-ink)}
 
 main{max-width:1180px;margin:0 auto;padding:26px 16px 64px}
+/* 第二層頁籤：接在所屬的第一層按鈕右邊同一行展開，兩者連成一塊 (例如「資料比對｜兩表比對 單表比對」)；
+   有第二層、但目前沒展開的組加上 ▾，提示點下去還有選項 */
+.subgrp{display:inline-flex;align-items:center;gap:2px;background:var(--accent-soft);border-radius:0 6px 6px 0;padding:3px;flex:none}
+.tab.open{border-radius:6px 0 0 6px}
+.tab.has-sub{display:inline-flex;align-items:center;gap:5px}
+.tab.has-sub:not(.open)::after{content:attr(data-n);display:inline-flex;align-items:center;gap:2px;font-size:.78em;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:1px 7px 1px 6px;line-height:1.4}
+.tab.has-sub:not(.open)::before{content:"";order:2;width:0;height:0;border-left:.38em solid transparent;border-right:.38em solid transparent;border-top:.46em solid var(--accent);margin-right:-2px}
+.subtab{border:0;background:transparent;color:var(--accent);padding:3px 10px;border-radius:4px;font-weight:500;font-size:.92em;white-space:nowrap}
+.subtab[aria-selected="true"]{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(20,40,80,.15)}
+.subtab:hover:not([aria-selected="true"]){background:var(--surface)}
 section.lesson{display:grid;gap:20px}
 .eyebrow{font-size:.75rem;letter-spacing:.12em;color:var(--accent);font-weight:700}
 .lead{color:var(--muted)}
@@ -376,6 +386,22 @@ table.wrap td,table.wrap th{white-space:normal}
 .shot{justify-items:center}
 .shot img{display:block;max-width:100%;height:auto}
 
+/* pivot lab（樞紐明細） */
+.pv-ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px;align-items:start}
+.pv-ctl select{font:inherit;font-size:.88rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:4px;padding:4px 6px;width:100%}
+.pv-sw{display:flex;align-items:center;gap:10px;font-weight:700}
+.slicer{display:flex;flex-wrap:wrap;gap:4px}
+.slicer button{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:4px;padding:3px 12px;font-size:.85rem}
+.slicer button[aria-pressed="true"]{background:var(--accent-soft);color:var(--ink);border-color:var(--accent);font-weight:700}
+.sheet td.pv{cursor:pointer;text-align:right;font-family:var(--f-mono)}
+.sheet td.pv:hover{background:var(--accent-soft)}
+.sheet .pv-tot{font-weight:700}
+.sheet td.info{font-family:var(--f-mono);font-size:.82rem}
+.sheet td.info b{color:var(--filterblue)}
+.sheet tr.tbl-h th:not(.rn){background:#4472c4;color:#fff}
+.sheet tr.tbl-b td:not(.rn){background:#d9e1f2;color:#1f2a3c}
+.sheet td.src-h{font-weight:700;background:var(--hdr)}
+
 /* quiz */
 .quiz{display:grid;gap:12px}
 .q{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:8px}
@@ -414,14 +440,20 @@ table.wrap td,table.wrap th{white-space:normal}
   <div class="bar-in">
     <div class="brand"><span class="brand-mark">JP</span>CJPsAddin 使用教學</div>
     <nav class="tabs" role="tablist" aria-label="功能單元">
-      <button class="tab" role="tab" data-tab="overview" id="t-overview">總覽</button>
-      <button class="tab" role="tab" data-tab="filter" id="t-filter">篩選強化</button>
-      <button class="tab" role="tab" data-tab="recon" id="t-recon">兩表比對</button>
-      <button class="tab" role="tab" data-tab="cross" id="t-cross">單表比對</button>
-      <button class="tab" role="tab" data-tab="collect" id="t-collect">多檔收集</button>
-      <button class="tab" role="tab" data-tab="classify" id="t-classify">單檔收集</button>
-      <button class="tab" role="tab" data-tab="split" id="t-split">資料拆檔</button>
-      <button class="tab" role="tab" data-tab="quiz" id="t-quiz">小測驗</button>
+      <button class="tab" role="tab" data-group="overview">總覽</button>
+      <span class="subgrp" data-group="overview" role="group" hidden><button class="subtab" role="tab" data-tab="overview" data-group="overview" id="t-overview">總覽</button></span>
+      <button class="tab" role="tab" data-group="filter">篩選強化</button>
+      <span class="subgrp" data-group="filter" role="group" hidden><button class="subtab" role="tab" data-tab="filter" data-group="filter" id="t-filter">篩選強化</button></span>
+      <button class="tab" role="tab" data-group="compare">資料比對</button>
+      <span class="subgrp" data-group="compare" role="group" hidden><button class="subtab" role="tab" data-tab="recon" data-group="compare" id="t-recon">兩表比對</button><button class="subtab" role="tab" data-tab="cross" data-group="compare" id="t-cross">單表比對</button></span>
+      <button class="tab" role="tab" data-group="collect">資料收集</button>
+      <span class="subgrp" data-group="collect" role="group" hidden><button class="subtab" role="tab" data-tab="collect" data-group="collect" id="t-collect">多檔收集</button><button class="subtab" role="tab" data-tab="classify" data-group="collect" id="t-classify">單檔收集</button></span>
+      <button class="tab" role="tab" data-group="split">資料拆檔</button>
+      <span class="subgrp" data-group="split" role="group" hidden><button class="subtab" role="tab" data-tab="split" data-group="split" id="t-split">資料拆檔</button></span>
+      <button class="tab" role="tab" data-group="settings">設定切換</button>
+      <span class="subgrp" data-group="settings" role="group" hidden><button class="subtab" role="tab" data-tab="pivot" data-group="settings" id="t-pivot">樞紐明細</button></span>
+      <button class="tab" role="tab" data-group="quiz">小測驗</button>
+      <span class="subgrp" data-group="quiz" role="group" hidden><button class="subtab" role="tab" data-tab="quiz" data-group="quiz" id="t-quiz">小測驗</button></span>
     </nav>
     <div class="bar-tools">
       <button class="theme-btn" id="theme-btn" type="button">
@@ -551,7 +583,7 @@ table.wrap td,table.wrap th{white-space:normal}
           <li class="grp">設定切換…<ul>
             <li data-tip="自動處理功能開/關" tabindex="0"><span class="mi">自動事件 (套用至整個Excel)</span></li>
             <li data-tip="允許/不允許直接在儲存格內編輯公式" tabindex="0"><span class="mi">公式編輯 (套用至整個Excel)</span></li>
-            <li data-tip="當使用者對樞紐分析點兩下產生明細時，顯示/不顯示來源資訊" tabindex="0"><span class="mi">樞紐明細來源功能 (套用至整個Excel)</span></li>
+            <li data-tip="當使用者對樞紐分析點兩下產生明細時，顯示/不顯示來源資訊" tabindex="0"><span class="mi">樞紐明細來源功能 (套用至整個Excel)</span><a class="lab-tag" href="#pivot-1">練習 →</a></li>
             <li data-tip="將本檔案的日期篩選切換為分組/不分組" tabindex="0"><span class="mi">日期篩選變更 (僅當前檔案)</span></li>
             <li data-tip="將所選工作表的具有零值的儲存格切換為顯示零/不顯示零" tabindex="0"><span class="mi">零值顯示變更 (僅所選工作表)</span></li>
           </ul></li>
@@ -636,6 +668,14 @@ table.wrap td,table.wrap th{white-space:normal}
         <span class="lc-go">開始練習 (<span class="lc-n"></span> 題) →</span>
       </div>
     </a>
+    <a class="lesson-card" href="#pivot">
+      <h3 class="lc-title">樞紐明細</h3>
+      <figure class="ill" data-ill="pivot" aria-hidden="true"></figure>
+      <div class="lc-txt">
+        <p>雙擊樞紐分析表的數值產生明細時，自動記下<b class="hl">來源與篩選條件</b>，工作表名稱改成那一格的數值，格式照來源資料。預設就是開啟的。</p>
+        <span class="lc-go">開始練習 (<span class="lc-n"></span> 題) →</span>
+      </div>
+    </a>
     <a class="lesson-card" href="#quiz">
       <h3 class="lc-title">小測驗</h3>
       <figure class="ill" aria-hidden="true">
@@ -649,7 +689,7 @@ table.wrap td,table.wrap th{white-space:normal}
         </svg>
       </figure>
       <div class="lc-txt">
-        <p>涵蓋以上 6 個功能，點選答案後<b class="hl">立即顯示對錯</b>與說明。</p>
+        <p>涵蓋以上 7 個功能，點選答案後<b class="hl">立即顯示對錯</b>與說明。</p>
         <span class="lc-go">開始作答 (<span class="lc-n"></span> 題) →</span>
       </div>
     </a>
@@ -1389,6 +1429,116 @@ table.wrap td,table.wrap th{white-space:normal}
   </div>
 </section>
 
+<!-- ============================ 樞紐明細 ============================ -->
+<section class="lesson" id="tab-pivot" hidden>
+  <div class="head">
+    <div class="eyebrow">練習 7</div>
+    <h2>樞紐明細</h2>
+  </div>
+
+  <div class="panel intro">
+    <figure class="ill">
+      <svg viewBox="0 0 340 126" role="img" aria-label="示意圖：雙擊樞紐分析表的數值 1,250，產生名為 1,250 的明細工作表，上方記錄來源和篩選條件">
+        <defs><marker id="ill-ah4" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path class="i-acc" d="M0 0 L9 4.5 L0 9 Z"/></marker></defs>
+        <text x="66" y="22" text-anchor="middle" class="i-muted">樞紐分析表</text>
+        <rect class="i-box" x="6" y="30" width="120" height="88" rx="4"/>
+        <rect class="i-hdr" x="7" y="31" width="118" height="19"/>
+        <text x="12" y="45" class="i-b">業務員</text><text x="92" y="45" class="i-b">飲料</text>
+        <text x="12" y="66">王小明</text><rect class="i-mark" x="80" y="53" width="44" height="19"/><text x="84" y="66" class="i-b">1,250</text>
+        <text x="12" y="88">李小華</text><text x="90" y="88">810</text>
+        <text x="12" y="110" class="i-b">總計</text><text x="84" y="110" class="i-b">2,060</text>
+        <text x="146" y="55" text-anchor="middle" class="i-muted" style="font-size:10px">雙擊</text>
+        <path class="i-arrow" d="M132 62 L160 62" marker-end="url(#ill-ah4)"/>
+        <text x="250" y="22" text-anchor="middle" class="i-muted">明細工作表「1,250」</text>
+        <rect class="i-box" x="166" y="30" width="168" height="88" rx="4"/>
+        <text x="172" y="46" style="font-size:10px"><tspan class="i-acc">來源資訊：</tspan>樞紐分析表1</text>
+        <text x="172" y="60" style="font-size:10px"><tspan class="i-acc">樞紐分析表選項：</tspan>…</text>
+        <text x="172" y="74" style="font-size:10px"><tspan class="i-acc">交叉篩選器選項：</tspan>…</text>
+        <text x="172" y="88" style="font-size:10px"><tspan class="i-acc">時間表選項：</tspan>…</text>
+        <rect class="i-hdr" x="167" y="96" width="166" height="21"/>
+        <text x="172" y="111" class="i-b" style="font-size:10px">日期　區域　業務員　金額</text>
+      </svg>
+      <figcaption>雙擊數值產生明細時，自動記下這份明細是怎麼來的</figcaption>
+    </figure>
+    <div class="intro-txt">
+      <h3>這個功能在做什麼</h3>
+      <p>在樞紐分析表的數值上<b>雙擊</b>，Excel 會新增一張工作表，列出組成這個數字的明細。可是這張表只有一串流水號的名字 (例如「工作表3」)，過幾天就看不出是從哪一格、在什麼篩選條件下點出來的。安裝增益集後，<b class="hl">預設就會自動整理</b>這張明細工作表，不用做任何設定。</p>
+      <div class="intro-cols">
+        <div>
+          <h4>增益集會自動做這些事</h4>
+          <ul class="tight">
+            <li>上方插入 4 列：來源、樞紐分析表選項、交叉篩選器選項、時間表選項</li>
+            <li>工作表名稱改成雙擊那一格的數值，例如「1,250」；重複時加上 _2、_3</li>
+            <li>拿掉 Excel 自動套用的藍色表格樣式，格式和欄寬照來源資料</li>
+            <li>選取明細的標題列，方便接著篩選或排序</li>
+          </ul>
+        </div>
+        <div>
+          <h4>練完你會</h4>
+          <ul class="tight goals">
+            <li>知道雙擊哪裡才會產生明細</li>
+            <li>看懂上方 4 列記錄的條件</li>
+            <li>知道怎麼開啟、關閉這個功能</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="panel">
+      <h3>開啟或關閉</h3>
+      <ul class="tight" style="margin-top:8px">
+        <li><b>預設是開啟的</b>：每次開 Excel，增益集都會自動開啟這個功能</li>
+        <li>要暫時關閉：增益集選單「常用功能二 → 設定切換… → 樞紐明細來源功能 (套用至整個Excel)」，會跳出「已開啟／已關閉」</li>
+        <li>開關會套用到<b>所有開著的活頁簿</b>；關閉 Excel 再開，又會恢復成開啟</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>什麼時候會處理</h3>
+      <ul class="tight" style="margin-top:8px">
+        <li>只處理樞紐分析表<b class="hl">數值區</b>的一格，包括總計；雙擊列標籤、欄標籤不會處理</li>
+        <li>來源資料的活頁簿要開著，才能照來源資料套用格式和欄寬；沒開著時，上方 4 列和工作表名稱照樣會處理</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub-head">
+    <h3>開始練習</h3>
+    <p class="lead">選一題，在下方的「樞紐分析」工作表<b>雙擊數值格</b> (手機請點一下)，看看產生的明細工作表。可以用下方的工作表標籤切換各張工作表。</p>
+  </div>
+
+  <div class="scen-pick" id="p-pick" role="group" aria-label="選擇題目"></div>
+
+  <div class="panel task">
+    <div class="eyebrow" id="p-eyebrow"></div>
+    <h3 id="p-title"></h3>
+    <div class="task-text" id="p-text"></div>
+    <div class="teacher-note" id="p-teacher"></div>
+  </div>
+
+  <div class="panel task">
+    <div class="pv-ctl">
+      <div class="field"><label>樞紐明細來源功能</label><div class="pv-sw"><button class="switch" id="p-on" role="switch" aria-checked="true" aria-label="樞紐明細來源功能"></button><span id="p-on-lbl"></span></div></div>
+      <div class="field"><label for="p-area">報表篩選｜區域</label><select id="p-area"><option>(全部)</option><option>北區</option><option>南區</option></select></div>
+      <div class="field"><label>交叉篩選器｜通路</label><div class="slicer" id="p-ch"></div></div>
+      <div class="field"><label for="p-tl">時間表｜日期</label><select id="p-tl"><option value="">所有期間</option><option value="7">2026 年 7 月</option><option value="8">2026 年 8 月</option><option value="9">2026 年 9 月</option><option value="89">2026 年 8～9 月</option></select></div>
+    </div>
+    <div class="runbar" style="margin-top:12px"><button class="runbtn" id="p-reset">刪除產生的明細工作表</button></div>
+  </div>
+
+  <div id="p-book"></div>
+
+  <div class="panel">
+    <h3>要記住的 3 件事</h3>
+    <ol class="tight" style="margin-top:8px">
+      <li>上方 4 列記錄的是<b class="hl">雙擊當下</b>的條件；之後改了樞紐分析表的篩選，已產生的明細不會跟著變</li>
+      <li>「樞紐分析表選項」包含報表篩選 (全部選取時寫「(全部)」)、雙擊那一格所在的列和欄；其他列、欄欄位有篩選時也會列出</li>
+      <li>明細是雙擊當下的資料快照，來源資料之後修改也不會更新；要最新的結果，請重新整理樞紐分析表後再雙擊一次</li>
+    </ol>
+  </div>
+</section>
+
 <!-- ============================ 小測驗 ============================ -->
 <section class="lesson" id="tab-quiz" hidden>
   <div class="head">
@@ -1414,12 +1564,20 @@ const fmtTask=s=>s.split('\n').map(l=>l.startsWith('>')?'<div class="op">'+fmt(l
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 
 /* ---------- tabs & teacher mode ---------- */
-const TABS=['overview','filter','recon','cross','collect','classify','split','quiz'];
+const TABS=['overview','filter','recon','cross','collect','classify','split','pivot','quiz'];
 let curTab='overview';
+const lastInGroup={};
 function showTab(id){
   if(!TABS.includes(id))id='overview';
   curTab=id;
   TABS.forEach(t=>{$('#tab-'+t).hidden=t!==id;$('#t-'+t).setAttribute('aria-selected',String(t===id));});
+  // 兩層頁籤：第一層標示所在的組；同一組有兩個以上的功能時，顯示第二層並記住這一組最後看的功能
+  const g=$('#t-'+id).dataset.group;
+  document.querySelectorAll('.subgrp').forEach(x=>x.hidden=!(x.dataset.group===g&&x.children.length>1));
+  document.querySelectorAll('.tab').forEach(b=>{const on=b.dataset.group===g;b.setAttribute('aria-selected',String(on));b.classList.toggle('open',on&&b.nextElementSibling.children.length>1);});
+  lastInGroup[g]=id;
+  // 手機上頁籤列可以左右捲動：切換後讓目前的組捲進畫面
+  try{$('.tab[aria-selected="true"]').scrollIntoView({block:'nearest',inline:'nearest'});}catch(e){}
   updateHash();
   window.scrollTo(0,0);
   trackTab(id);
@@ -1435,7 +1593,7 @@ function trackTab(id){
   else if(document.readyState!=='complete')window.addEventListener('load',()=>{if(window.goatcounter&&window.goatcounter.count)send();},{once:true});
 }
 // 網址 #分頁 或 #分頁-題號（例如 #recon-7）可直接開到指定位置；切換題目時同步更新網址
-const curIndex=()=>curTab==='filter'?fs.mission:curTab==='recon'?rs.i:curTab==='cross'?cs.i:curTab==='collect'?gs.i:curTab==='classify'?ks.i:curTab==='split'?ss.i:-1;
+const curIndex=()=>curTab==='filter'?fs.mission:curTab==='recon'?rs.i:curTab==='cross'?cs.i:curTab==='collect'?gs.i:curTab==='classify'?ks.i:curTab==='split'?ss.i:curTab==='pivot'?ps.i:-1;
 function updateHash(){
   const i=curIndex();
   try{history.replaceState(null,'','#'+curTab+(i>=0?'-'+(i+1):''))}catch(e){}
@@ -1443,7 +1601,7 @@ function updateHash(){
 function applyHash(){
   // #install：安裝方式已摺疊進總覽，開總覽並展開該區塊（舊連結照常可用）
   if(location.hash==='#install'){showTab('overview');const d=$('#install');d.open=true;d.scrollIntoView();return true;}
-  const m=(location.hash||'').slice(1).match(/^(overview|filter|recon|cross|collect|classify|split|quiz)(?:-(\d+))?$/);
+  const m=(location.hash||'').slice(1).match(/^(overview|filter|recon|cross|collect|classify|split|pivot|quiz)(?:-(\d+))?$/);
   if(!m)return false;
   const n=m[2]?Number(m[2])-1:-1;
   if(n>=0){
@@ -1453,12 +1611,17 @@ function applyHash(){
     if(m[1]==='collect'&&n<GSCEN.length)setCollect(n);
     if(m[1]==='classify'&&n<KSCEN.length)setClassify(n);
     if(m[1]==='split'&&n<SSCEN.length)setSplit(n);
+    if(m[1]==='pivot'&&n<PSCEN.length)setPivot(n);
   }
   showTab(m[1]);
   return true;
 }
 window.addEventListener('hashchange',applyHash);
-document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+// 有第二層的組加上 ▾ 記號
+document.querySelectorAll('.tab').forEach(b=>{const n=b.nextElementSibling.children.length;b.classList.toggle('has-sub',n>1);if(n>1){b.dataset.n=n+' 項';b.title='底下有 '+n+' 個功能';}});
+// 第一層：開這一組上次看的功能 (沒看過就開第一個)；第二層：直接開該功能
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{const g=b.dataset.group;showTab(lastInGroup[g]||document.querySelector('.subtab[data-group="'+g+'"]').dataset.tab);}));
+document.querySelectorAll('.subtab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
 // 展開「安裝方式」也記一筆瀏覽，報表上才看得出有多少人看安裝說明
 $('#install').addEventListener('toggle',e=>{if(e.target.open)try{window.goatcounter.count({path:location.pathname+'#install',title:'安裝方式'});}catch(err){}});
 // 總覽卡片的示意圖：直接複製各單元裡的那張，改單元的圖時總覽會跟著變。
@@ -2475,6 +2638,139 @@ $('#s-reset').addEventListener('click',()=>{ss.out=null;renderSplit();});
 $('#s-grp').addEventListener('change',spChanged);
 
 /* ============================================================
+   樞紐明細 (ported from clsAppEventsPivot：App_SheetBeforeDoubleClick / App_WorkbookNewSheet)
+   雙擊樞紐分析表數值區 → Excel 產生明細工作表 → 增益集插入 4 列來源／篩選資訊、改名、套用來源格式
+   ============================================================ */
+const PV_BOOK='第3季銷售.xlsx',PV_PT='樞紐分析表1';
+const PV_COLS=['日期','區域','業務員','通路','類別','金額'];
+const PV_DATA=[
+ ['2026/07/03','北區','王小明','門市','飲料',1250],['2026/07/08','北區','王小明','網路','零食',860],
+ ['2026/07/15','南區','陳美麗','門市','飲料',940],['2026/07/22','北區','李小華','門市','零食',720],
+ ['2026/08/02','北區','王小明','門市','飲料',1100],['2026/08/09','南區','陳美麗','網路','零食',1320],
+ ['2026/08/14','北區','李小華','網路','飲料',680],['2026/08/21','南區','林志強','門市','零食',450],
+ ['2026/08/28','北區','王小明','網路','飲料',930],['2026/09/04','南區','林志強','網路','飲料',1500],
+ ['2026/09/11','北區','李小華','門市','飲料',810],['2026/09/18','南區','陳美麗','門市','零食',590],
+ ['2026/09/25','北區','王小明','門市','零食',1020],['2026/09/30','南區','林志強','門市','飲料',660]
+];
+const PV_ROWS=['王小明','李小華','陳美麗','林志強'],PV_CATS=['飲料','零食'],PV_CH=['門市','網路'];
+const PV_TL={'7':['2026/07/01','2026/07/31'],'8':['2026/08/01','2026/08/31'],'9':['2026/09/01','2026/09/30'],'89':['2026/08/01','2026/09/30']};
+const PSCEN=[
+ {t:'雙擊數值',
+  text:'在「樞紐分析」工作表，雙擊「王小明」那一列、「飲料」那一欄的數值。\n>看新工作表的**名稱**\n>上方 4 列分別記了什麼？\n>用下方的工作表標籤切回「樞紐分析」',
+  teach:'工作表名稱是雙擊那一格顯示的數值「3,280」。第 1 列是來源 (檔案、工作表、樞紐分析表名稱)；第 2 列是樞紐分析表選項：報表篩選「區域=(全部)」，加上這一格所在的列「業務員=王小明」和欄「類別=飲料」。沒有設定交叉篩選器和時間表的條件時，第 3、4 列是「通路=(全部)」和「(無)」。'},
+ {t:'雙擊總計',
+  text:'雙擊最下面「總計」列、「零食」那一欄的數值。\n>和上一題比，「樞紐分析表選項」少了哪一項？\n>雙擊列標籤「李小華」會怎樣？',
+  teach:'總計列不屬於任何一位業務員，所以只記「區域=(全部)；類別=零食」。雙擊列標籤、欄標籤不是數值區，增益集不會處理 (Excel 會詢問要展開哪個欄位)。'},
+ {t:'篩選條件',
+  text:'先設定篩選，再雙擊。\n>報表篩選「區域」選**北區**\n>交叉篩選器「通路」只留**門市** (點「網路」取消)\n>時間表選 **2026 年 8～9 月** → 雙擊任一格數值',
+  teach:'第 2 列記「區域=北區」和雙擊那一格的列、欄；第 3 列「通路=門市」；第 4 列「日期=2026/08/01～2026/09/30」。這就是這份明細的完整條件，過幾天打開也知道數字是怎麼來的。'},
+ {t:'名稱重複',
+  text:'同一格雙擊兩次。\n>第二張明細工作表叫什麼？',
+  teach:'名稱已經有人用時，依序加上 _2、_3。工作表名稱最多 31 個字，太長時會截斷並加上「(略)」；不能用在工作表名稱的字元也會自動處理。'},
+ {t:'關閉功能',
+  text:'把上方「樞紐明細來源功能」切換成**關閉**，再雙擊任一格數值。\n>和開啟時產生的明細比較，差在哪裡？',
+  teach:'關閉時就是 Excel 原本的明細：工作表叫「工作表1」這類流水號、套上藍色表格樣式、沒有記錄來源和篩選條件。實際使用時，這個開關在增益集選單「常用功能二 → 設定切換…」，關閉 Excel 再開會恢復成開啟。'}
+];
+const ps={i:0,on:true,area:'(全部)',ch:new Set(PV_CH),tl:'',sheets:[],view:'樞紐分析',offN:0,tap:0};
+const pvFmt=n=>Number(n).toLocaleString('en-US');
+function pvRows(){ // 目前篩選下的來源資料 (報表篩選、交叉篩選器、時間表)
+  const r=PV_TL[ps.tl];
+  return PV_DATA.filter(d=>(ps.area==='(全部)'||d[1]===ps.area)&&ps.ch.has(d[3])&&(!r||(d[0]>=r[0]&&d[0]<=r[1])));
+}
+function renderPPick(){
+  const box=$('#p-pick');box.innerHTML='';
+  PSCEN.forEach((s,i)=>box.append(el('button',{class:'scen','aria-pressed':String(i===ps.i),text:'題 '+(i+1)+' '+s.t,onclick:()=>setPivot(i)})));
+}
+function setPivot(i){
+  ps.i=i;const sc=PSCEN[i];
+  $('#p-eyebrow').textContent='題目 '+(i+1);$('#p-title').textContent=sc.t;$('#p-text').innerHTML=fmtTask(sc.text);
+  $('#p-teacher').textContent=sc.teach;
+  ps.view='樞紐分析';
+  renderPPick();renderPivot();
+  if(curTab==='pivot')updateHash();
+}
+function pvCtl(){
+  $('#p-on').setAttribute('aria-checked',String(ps.on));$('#p-on-lbl').textContent=ps.on?'已開啟 (預設)':'已關閉';
+  $('#p-area').value=ps.area;$('#p-tl').value=ps.tl;
+  const box=$('#p-ch');box.innerHTML='';
+  PV_CH.forEach(c=>box.append(el('button',{'aria-pressed':String(ps.ch.has(c)),text:c,onclick:()=>{
+    if(ps.ch.has(c)){if(ps.ch.size===1){toast('交叉篩選器至少要選一項');return;}ps.ch.delete(c);}else ps.ch.add(c);
+    renderPivot();}})));
+}
+// 雙擊數值格：Excel 產生明細工作表；功能開啟時，增益集再整理
+function pvDrill(row,cat){
+  const rows=pvRows().filter(d=>(row==null||d[2]===row)&&(cat==null||d[4]===cat));
+  if(!rows.length){toast('這一格沒有資料');return;}
+  const val=pvFmt(rows.reduce((a,d)=>a+d[5],0));
+  let name,info=null;
+  if(ps.on){
+    // GetAvailableSheetName：以顯示的數值為名稱，重複時加 _2、_3…
+    name=val;let n=1;while(ps.sheets.some(s=>s.name===name)||name==='樞紐分析'||name==='銷售明細'){n++;name=val+'_'+n;}
+    const cond=[];const add=(f,v)=>cond.push(f+'='+v);
+    add('區域',ps.area);                                   // 報表篩選 (單選；全部時為「(全部)」)
+    if(row!=null)add('業務員',row);                        // 這一格所在的列
+    if(cat!=null)add('類別',cat);                          // 這一格所在的欄
+    const tl=PV_TL[ps.tl];
+    info=[['來源資訊：','檔案名稱='+PV_BOOK+'；  工作表名稱=樞紐分析；  樞紐分析表名稱='+PV_PT],
+          ['樞紐分析表選項：',cond.join('；  ')],
+          ['交叉篩選器選項：','通路='+(ps.ch.size===PV_CH.length?'(全部)':[...ps.ch].join(', '))],
+          ['時間表選項：',tl?'日期='+tl[0]+'～'+tl[1]:'(無)']];
+  }else{ps.offN++;name='工作表'+ps.offN;}
+  ps.sheets.push({name,info,rows,on:ps.on});
+  ps.view=name;renderPivot();
+  $('#p-book').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function pvPivotTable(){
+  const rows=pvRows(),sum=(r,c)=>rows.filter(d=>(r==null||d[2]===r)&&(c==null||d[4]===c)).reduce((a,d)=>a+d[5],0);
+  const tbl=el('table',{class:'sheet'});
+  const tl=PV_TL[ps.tl];
+  tbl.append(el('tr',{},[el('td',{class:'rn',text:'1'}),el('td',{class:'src-h',text:'區域'}),el('td',{text:ps.area}),el('td',{}),el('td',{})]));
+  tbl.append(el('tr',{},[el('td',{class:'rn',text:'2'}),el('td',{}),el('td',{}),el('td',{}),el('td',{})]));
+  tbl.append(el('tr',{class:'title-row'},[el('th',{class:'rn',text:'3'}),el('th',{text:'加總 - 金額'}),...PV_CATS.map(c=>el('th',{text:c})),el('th',{text:'總計'})]));
+  let rn=4;
+  const cell=(r,c,tot)=>{const v=sum(r,c);const td=el('td',{class:'pv'+(tot?' pv-tot':''),text:v?pvFmt(v):'',title:'雙擊產生明細'});
+    // 滑鼠：雙擊；觸控：點一下 (觸控點兩下也會觸發 dblclick，剛點過就略過，避免重複產生)
+    td.addEventListener('dblclick',()=>{if(Date.now()-ps.tap>800)pvDrill(r,c);});
+    td.addEventListener('pointerup',e=>{if(e.pointerType==='touch'){if(Date.now()-ps.tap<800)return;ps.tap=Date.now();pvDrill(r,c);}});return td;};
+  PV_ROWS.filter(r=>sum(r,null)).forEach(r=>{
+    const lbl=el('td',{text:r,title:'列標籤 (不是數值區)'});lbl.addEventListener('dblclick',()=>toast('雙擊的是列標籤，不是數值區：增益集不會處理'));
+    tbl.append(el('tr',{},[el('td',{class:'rn',text:String(rn++)}),lbl,...PV_CATS.map(c=>cell(r,c,false)),cell(r,null,true)]));
+  });
+  tbl.append(el('tr',{},[el('td',{class:'rn',text:String(rn)}),el('td',{class:'pv-tot',text:'總計'}),...PV_CATS.map(c=>cell(null,c,true)),cell(null,null,true)]));
+  return tbl;
+}
+function pvSheetTable(sh){
+  const tbl=el('table',{class:'sheet'});
+  const lr=el('tr',{class:'colL'},[el('th',{})]);PV_COLS.forEach((_,c)=>lr.append(el('th',{text:colLetter(c)})));tbl.append(lr);
+  let rn=1;
+  if(sh.info){
+    sh.info.forEach(([t,v])=>tbl.append(el('tr',{},[el('td',{class:'rn',text:String(rn++)}),el('td',{class:'info',colspan:String(PV_COLS.length),html:'<b>'+esc(t)+'</b>'+esc(v)})])));
+    tbl.append(el('tr',{},[el('td',{class:'rn',text:String(rn++)}),el('td',{colspan:String(PV_COLS.length)})]));
+  }
+  const fmtV=(v,c)=>sh.on?(c===5?pvFmt(v):v):(c===5?String(v):v.replace(/\/0?(\d+)\/0?(\d+)$/,'/$1/$2')); // 開啟：格式照來源；關閉：Excel 預設格式
+  tbl.append(el('tr',{class:sh.on?'title-row':'tbl-h'},[el('th',{class:'rn',text:String(rn++)}),...PV_COLS.map(c=>el('th',{class:sh.on?'src-h':'',text:c}))]));
+  sh.rows.forEach((d,j)=>tbl.append(el('tr',{class:!sh.on&&j%2===0?'tbl-b':''},[el('td',{class:'rn',text:String(rn++)}),...d.map((v,c)=>el('td',{class:c===5?'num':'',text:fmtV(v,c)}))])));
+  return tbl;
+}
+function renderPivot(){
+  pvCtl();
+  const names=['銷售明細','樞紐分析',...ps.sheets.map(s=>s.name)];
+  if(!names.includes(ps.view))ps.view='樞紐分析';
+  let body,top;
+  if(ps.view==='樞紐分析'){body=pvPivotTable();top='樞紐分析表1　雙擊數值格產生明細';}
+  else if(ps.view==='銷售明細'){body=pvSheetTable({on:true,info:null,rows:PV_DATA});top='樞紐分析表的來源資料';}
+  else{const sh=ps.sheets.find(s=>s.name===ps.view);body=pvSheetTable(sh);top=sh.on?'增益集整理過的明細 (功能開啟)':'Excel 原本的明細 (功能關閉)';}
+  const tabs=el('div',{class:'sheet-tabs',role:'tablist','aria-label':PV_BOOK+' 的工作表'});
+  names.forEach(n=>tabs.append(el('button',{class:'sheet-tab',role:'tab','aria-selected':String(n===ps.view),text:n,onclick:()=>{ps.view=n;renderPivot();}})));
+  const box=$('#p-book');box.innerHTML='';
+  box.append(el('div',{class:'xl'},[el('div',{class:'xl-top'},[el('span',{class:'namebox',text:ps.view}),el('span',{class:'fx',text:PV_BOOK+'　'+top})]),el('div',{class:'scroll'},body),tabs]));
+}
+$('#p-on').addEventListener('click',()=>{ps.on=!ps.on;renderPivot();toast('樞紐明細來源功能：'+(ps.on?'已開啟':'已關閉'));});
+$('#p-area').addEventListener('change',e=>{ps.area=e.target.value;ps.view='樞紐分析';renderPivot();});
+$('#p-tl').addEventListener('change',e=>{ps.tl=e.target.value;ps.view='樞紐分析';renderPivot();});
+$('#p-reset').addEventListener('click',()=>{ps.sheets=[];ps.offN=0;ps.view='樞紐分析';renderPivot();});
+
+/* ============================================================
    小測驗
    ============================================================ */
 const QUIZ=[
@@ -2494,7 +2790,10 @@ const QUIZ=[
  {f:'classify',q:'規則表由上往下是「0*＝市話」「09########＝手機」。不勾選「帶回最後一項相符者」時，0912345678 會被分成？',o:['市話','手機','!Not Found!'],a:0,w:'不勾選時找到第一個符合的就停，0912345678 先符合「0*」。把特殊規則移到上面，或勾選該選項，就會變成手機。'},
  {f:'split',q:'依「科別」拆檔，但有一段業務一科的資料排在業務二科後面。按「確定」會怎樣？',o:['照樣拆，業務一科會拆成兩個檔案','後面那段業務一科的資料會被漏掉','還沒產生任何檔案就提示「跳列」，請你先排序','程式自動排序後再拆'],a:2,w:'程式會先檢查全部的 Key，相同 Key 的資料必須連在一起。先依 Key 值欄排序再拆檔。'},
  {f:'split',q:'報表第 1～3 列是報表標題和日期，標題列在第 4 列。拆出的檔案不要前 3 列，保留範圍要怎麼填？',o:['上：從第 4 列起','上：從第 3 列起','下：到第 4 列','左：從 D 欄起'],a:0,w:'保留範圍「上」填標題列，上面的列都會刪除。上、左是「從…起」，下、右是「到…」。'},
- {f:'split',q:'「北區」那一列的區域和科別都是「北區」。勾選「跳過群組標題列」時，這一列會怎樣？',o:['北區會拆成一個檔案','不算任何 Key，拆出的檔案裡都不會有這一列','原樣出現在每個檔案'],a:1,w:'Key 值欄和左邊一欄內容相同的列是群組標題列，不拆成檔案，也不放進任何檔案。不勾選時，北區會被當成一個 Key。'}
+ {f:'split',q:'「北區」那一列的區域和科別都是「北區」。勾選「跳過群組標題列」時，這一列會怎樣？',o:['北區會拆成一個檔案','不算任何 Key，拆出的檔案裡都不會有這一列','原樣出現在每個檔案'],a:1,w:'Key 值欄和左邊一欄內容相同的列是群組標題列，不拆成檔案，也不放進任何檔案。不勾選時，北區會被當成一個 Key。'},
+ {f:'pivot',q:'在樞紐分析表的哪裡雙擊，增益集才會整理產生的明細工作表？',o:['列標籤，例如業務員姓名','數值區的一格，包括總計','報表篩選的欄位','任何儲存格'],a:1,w:'只處理數值區的一格。雙擊列標籤、欄標籤時，Excel 會詢問要展開哪個欄位，增益集不會處理。'},
+ {f:'pivot',q:'雙擊數值「3,280」產生的明細工作表，名稱會是什麼？',o:['工作表3','3,280','樞紐分析表1','明細'],a:1,w:'名稱是雙擊那一格顯示的數值；名稱已經有人用時，依序加上 _2、_3。'},
+ {f:'pivot',q:'用選單把樞紐明細來源功能關閉後，關掉 Excel 再重新開啟，這個功能是？',o:['維持關閉','恢復成開啟','要重新安裝增益集才會開啟'],a:1,w:'這個功能預設開啟，每次開 Excel 都會自動開啟。關閉只對這次開著的 Excel 有效。'}
 ];
 const qs={ans:{}};
 function renderQuiz(){
@@ -2530,9 +2829,10 @@ loadCross(CSCEN[0],0);
 setCollect(0);
 setClassify(0);
 setSplit(0);
+setPivot(0);
 renderQuiz();
 // 總覽卡片的題數，依題目資料自動計算
-const LC_N={filter:MISSIONS.length,recon:SCEN.length,cross:CSCEN.length,collect:GSCEN.length,classify:KSCEN.length,split:SSCEN.length,quiz:QUIZ.length};
+const LC_N={filter:MISSIONS.length,recon:SCEN.length,cross:CSCEN.length,collect:GSCEN.length,classify:KSCEN.length,split:SSCEN.length,pivot:PSCEN.length,quiz:QUIZ.length};
 document.querySelectorAll('.lesson-card').forEach(a=>{const n=a.querySelector('.lc-n');if(n)n.textContent=LC_N[a.getAttribute('href').slice(1)];});
 setTeacher(store.get('cj-teacher')==='1');
 setFs(store.get('cj-fs'));
