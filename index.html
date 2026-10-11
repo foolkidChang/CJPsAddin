@@ -1016,7 +1016,6 @@ function showTab(id){
   curTab=id;
   TABS.forEach(t=>{$('#tab-'+t).hidden=t!==id;$('#t-'+t).setAttribute('aria-selected',String(t===id));});
   updateHash();
-  store.set('cj-tab',id);
   window.scrollTo(0,0);
   trackTab(id);
 }
@@ -1796,7 +1795,8 @@ setCollect(0);
 renderQuiz();
 setTeacher(store.get('cj-teacher')==='1');
 setFs(store.get('cj-fs'));
-if(!applyHash())showTab(store.get('cj-tab')||'overview');
+// 網址沒有指定分頁時一律從總覽開始（不記住上次的分頁，避免使用者找不到路）
+if(!applyHash())showTab('overview');
 })();
 </script>
 </body>
