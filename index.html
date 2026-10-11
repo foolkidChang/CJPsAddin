@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- 搜尋關鍵字：CJP、增益集、VBA、Add-in。標題、簡介、首頁說明與下方的結構化資料要一起維護 -->
-<meta name="description" content="CJP 增益集 (CJPsAddin、CJP's VBA Tools) 是一個 Excel VBA Add-in，提供篩選強化、兩表比對、單表比對、多檔收集、單檔收集等功能。附教學與線上練習，直接在瀏覽器操作。">
+<meta name="description" content="CJP 增益集 (CJPsAddin、CJP's VBA Tools) 是一個 Excel VBA Add-in，提供篩選強化、兩表比對、單表比對、多檔收集、單檔收集、資料拆檔等功能。附教學與線上練習，直接在瀏覽器操作。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CJPsAddin">
 <meta property="og:url" content="https://foolkidchang.github.io/CJPsAddin/">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:title" content="CJP 增益集 CJPsAddin｜Excel VBA Tools (附教學)">
-<meta property="og:description" content="CJP 增益集 (CJPsAddin、CJP's VBA Tools) 是一個 Excel VBA Add-in，提供篩選強化、兩表比對、單表比對、多檔收集、單檔收集等功能。附教學與線上練習，直接在瀏覽器操作。">
+<meta property="og:description" content="CJP 增益集 (CJPsAddin、CJP's VBA Tools) 是一個 Excel VBA Add-in，提供篩選強化、兩表比對、單表比對、多檔收集、單檔收集、資料拆檔等功能。附教學與線上練習，直接在瀏覽器操作。">
 <meta name="google-site-verification" content="buucDtRrcJYY-0kigrYnWsXKJyp51EqlqKGfyQU-9uo">
 <link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/">
 <title>CJP 增益集 CJPsAddin｜Excel VBA Tools (附教學)</title>
@@ -359,6 +359,23 @@ table.wrap td,table.wrap th{white-space:normal}
 .sheet .ref{font-size:.7rem;color:var(--muted);margin-left:6px;font-weight:400;font-family:var(--f-mono)}
 .sheet td.nf .ref{color:inherit}
 
+/* split lab（資料拆檔） */
+.sheet .cut{opacity:.35;text-decoration:line-through}
+.sheet tr.grp td:not(.rn){color:var(--muted);font-style:italic}
+.field input{font-family:var(--f-mono);font-size:.9rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:4px;padding:4px 8px;min-height:30px;width:100%}
+.keep-h{font-size:.78rem;color:var(--muted);margin:12px 0 6px}
+/* 保留範圍：依實際方位排成十字，同增益集的設定視窗 */
+.xcross{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 8px;align-items:center;max-width:560px}
+.xc{display:flex;align-items:center;justify-content:center;gap:4px;font-size:.85rem;white-space:nowrap}
+.xc.t{grid-column:2;grid-row:1}.xc.l{grid-column:1;grid-row:2;justify-content:flex-end}.xc.r{grid-column:3;grid-row:2;justify-content:flex-start}.xc.b{grid-column:2;grid-row:3}
+.xc input{width:3.4em;text-align:center;font-family:var(--f-mono);font-size:.9rem;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:4px;padding:4px 2px}
+.xcross output{grid-column:2;grid-row:2;text-align:center;font-family:var(--f-mono);font-size:.9rem;color:var(--accent);background:var(--hdr);border:1px solid var(--line);border-radius:4px;padding:4px 6px}
+@media (max-width:520px){.xc{font-size:.72rem;gap:2px}.xc input{width:2.6em}}
+.s-pv{white-space:pre-line;font-size:.88rem;border:1px solid var(--line);border-radius:6px;padding:8px 10px;background:var(--bg);margin:12px 0}
+.s-pv.err{background:var(--pink);color:var(--pink-ink);border-color:var(--pink-ink)}
+.shot{justify-items:center}
+.shot img{display:block;max-width:100%;height:auto}
+
 /* quiz */
 .quiz{display:grid;gap:12px}
 .q{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:8px}
@@ -403,6 +420,7 @@ table.wrap td,table.wrap th{white-space:normal}
       <button class="tab" role="tab" data-tab="cross" id="t-cross">單表比對</button>
       <button class="tab" role="tab" data-tab="collect" id="t-collect">多檔收集</button>
       <button class="tab" role="tab" data-tab="classify" id="t-classify">單檔收集</button>
+      <button class="tab" role="tab" data-tab="split" id="t-split">資料拆檔</button>
       <button class="tab" role="tab" data-tab="quiz" id="t-quiz">小測驗</button>
     </nav>
     <div class="bar-tools">
@@ -436,7 +454,7 @@ table.wrap td,table.wrap th{white-space:normal}
     <div class="more-body">
     <p class="lead">執行一次安裝程式，之後<b class="hl">每次開 Excel 都會自動載入</b>，不用再設定。</p>
 
-    <div class="pending"><span>📦</span><span><b>下載檔案準備中</b>：增益集、安裝程式與練習檔將於之後提供。</span></div>
+    <div class="pending"><span>📦</span><span><b>下載檔案準備中</b>：增益集與安裝程式將於之後提供。練習檔已經可以下載，在篩選強化、兩表比對、單表比對、資料拆檔各單元的「開始練習」。</span></div>
 
     <div class="steps">
       <div class="step"><span class="step-n">步驟 1</span><h3>關閉 Excel，執行安裝檔</h3><p><code>CJPsAddin_Installer_v1.11.cmd</code>，按 <kbd>Y</kbd></p></div>
@@ -544,6 +562,7 @@ table.wrap td,table.wrap th{white-space:normal}
           <li class="grp">資料收集<ul>
             <li data-tip="將相同Key值的特定欄位帶回至總表" tabindex="0"><span class="mi">多檔收集</span><a class="lab-tag" href="#collect-1">練習 →</a></li>
             <li data-tip="依據〔分類規則表〕Key值進行資料收集；可當成批次VLOOKUP使用" tabindex="0"><span class="mi">單檔收集</span><a class="lab-tag" href="#classify-1">練習 →</a></li>
+            <li data-tip="依Key值欄的內容，把工作表拆成多個檔案" tabindex="0"><span class="mi">資料拆檔</span><a class="lab-tag" href="#split-1">練習 →</a></li>
           </ul></li>
           <li class="grp">批量檔案處理…<ul>
             <li class="grp">更改檔名…<ul><li>檔名讀取</li><li>檔名更改</li></ul></li>
@@ -609,6 +628,14 @@ table.wrap td,table.wrap th{white-space:normal}
         <span class="lc-go">開始練習 (<span class="lc-n"></span> 題) →</span>
       </div>
     </a>
+    <a class="lesson-card" href="#split">
+      <h3 class="lc-title">資料拆檔</h3>
+      <figure class="ill" data-ill="split" aria-hidden="true"></figure>
+      <div class="lc-txt">
+        <p>依 Key 值欄把一張表<b class="hl">拆成多個檔案</b>，每個檔案只留下自己的資料。可以順便刪掉報表標題、備註和內部欄位，也能加上密碼。</p>
+        <span class="lc-go">開始練習 (<span class="lc-n"></span> 題) →</span>
+      </div>
+    </a>
     <a class="lesson-card" href="#quiz">
       <h3 class="lc-title">小測驗</h3>
       <figure class="ill" aria-hidden="true">
@@ -622,7 +649,7 @@ table.wrap td,table.wrap th{white-space:normal}
         </svg>
       </figure>
       <div class="lc-txt">
-        <p>涵蓋以上 5 個功能，點選答案後<b class="hl">立即顯示對錯</b>與說明。</p>
+        <p>涵蓋以上 6 個功能，點選答案後<b class="hl">立即顯示對錯</b>與說明。</p>
         <span class="lc-go">開始作答 (<span class="lc-n"></span> 題) →</span>
       </div>
     </a>
@@ -690,6 +717,7 @@ table.wrap td,table.wrap th{white-space:normal}
   <div class="sub-head">
     <h3>開始練習</h3>
     <p class="lead">把條件<b class="hl">複製</b>過來，或在輸入框用 <b class="hl">半形分號 ;</b> 分隔，一次篩出多個值。先選題目，再照步驟操作。</p>
+    <p class="note-sm">想在 Excel 裡用增益集練習：<a href="files/filter_practice.xlsx" download="篩選強化_課堂練習檔.xlsx">下載課堂練習檔</a> (資料全部虛構；「00_使用說明」有題目順序，「99_講師答案」有解答)</p>
   </div>
 
   <div class="lab">
@@ -800,6 +828,7 @@ table.wrap td,table.wrap th{white-space:normal}
   <div class="sub-head">
     <h3>開始練習</h3>
     <p class="lead">選一題，<b>點表頭設定 Key</b> (點的順序＝Key 的順序)，再按「執行兩表比對」。</p>
+    <p class="note-sm">想在 Excel 裡用增益集練習：<a href="files/recon_practice.xlsx" download="兩表比對_課堂練習檔.xlsx">下載課堂練習檔</a> (資料全部虛構；「00_使用說明」有題目順序，「99_講師答案」有解答)</p>
   </div>
 
   <div class="scen-pick" id="scen-pick" role="group" aria-label="選擇題目"></div>
@@ -894,6 +923,7 @@ table.wrap td,table.wrap th{white-space:normal}
   <div class="sub-head">
     <h3>開始練習</h3>
     <p class="lead">選一題，點表頭切換 <b>Key／比對</b>，再按「執行單表比對」。結果的顏色代表：</p>
+    <p class="note-sm">想在 Excel 裡用增益集練習：<a href="files/cross_practice.xlsx" download="單表比對_課堂練習檔.xlsx">下載課堂練習檔</a> (資料全部虛構；「00_使用說明」有題目順序，「99_講師答案」有解答)</p>
     <div class="legend">
       <span><span class="sw pink">粉紅</span> 資料不一致</span>
       <span><span class="sw grey">灰色整列</span> 找不到配對</span>
@@ -1215,6 +1245,150 @@ table.wrap td,table.wrap th{white-space:normal}
   </div>
 </section>
 
+<!-- ============================ 資料拆檔 ============================ -->
+<section class="lesson" id="tab-split" hidden>
+  <div class="head">
+    <div class="eyebrow">練習 6</div>
+    <h2>資料拆檔</h2>
+  </div>
+
+  <div class="panel intro">
+    <figure class="ill">
+      <svg viewBox="0 0 340 126" role="img" aria-label="示意圖：一張業績表依科別拆成業務一科、業務二科、業務三科三個檔案">
+        <defs><marker id="ill-ah3" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path class="i-acc" d="M0 0 L9 4.5 L0 9 Z"/></marker></defs>
+        <text x="81" y="22" text-anchor="middle" class="i-muted">業績明細</text>
+        <rect class="i-box" x="6" y="30" width="150" height="88" rx="4"/>
+        <rect class="i-hdr" x="7" y="31" width="148" height="19"/>
+        <text x="12" y="45" class="i-b">科別</text><text x="96" y="45" class="i-b">業績</text>
+        <rect class="i-mark" x="7" y="51" width="148" height="33"/>
+        <rect class="i-both" x="7" y="85" width="148" height="16"/>
+        <rect class="i-cond" x="7" y="102" width="148" height="15"/>
+        <text x="12" y="64">業務一科</text><text x="96" y="64">85</text>
+        <text x="12" y="80">業務一科</text><text x="96" y="80">72</text>
+        <text x="12" y="97">業務二科</text><text x="96" y="97">64</text>
+        <text x="12" y="113">業務三科</text><text x="96" y="113">88</text>
+        <path class="i-arrow" d="M162 76 L192 76" marker-end="url(#ill-ah3)"/>
+        <text x="266" y="22" text-anchor="middle" class="i-muted">拆出的檔案</text>
+        <rect class="i-box" x="200" y="30" width="134" height="26" rx="4"/><rect class="i-mark" x="201" y="31" width="10" height="24"/><text x="218" y="48">業務一科.xlsx</text>
+        <rect class="i-box" x="200" y="61" width="134" height="26" rx="4"/><rect class="i-both" x="201" y="62" width="10" height="24"/><text x="218" y="79">業務二科.xlsx</text>
+        <rect class="i-box" x="200" y="92" width="134" height="26" rx="4"/><rect class="i-cond" x="201" y="93" width="10" height="24"/><text x="218" y="110">業務三科.xlsx</text>
+      </svg>
+      <figcaption>依 Key 值欄的內容，一個 Key 拆成一個檔案</figcaption>
+    </figure>
+    <div class="intro-txt">
+      <h3>這個功能在做什麼</h3>
+      <p>一張報表裡有好幾個單位的資料，要分別寄給各單位時，用<b class="hl">資料拆檔</b>。程式依 <b>Key 值欄</b> (例如「科別」) 的內容，每個 Key 拆成一個檔案。每個檔案都是<b>整張工作表的複本</b>，只留下該 Key 的資料列，標題、格式、欄寬都會保留。也可以同時拆好幾張工作表，相同 Key 的資料會放進同一個檔案。</p>
+      <div class="intro-cols">
+        <div>
+          <h4>適合這些時候用</h4>
+          <ul class="tight">
+            <li>各科的業績明細，拆給各科主管</li>
+            <li>各分行的報表，拆檔後分別寄出</li>
+            <li>拆好的檔案，要加上開啟密碼</li>
+            <li>每個單位要收到好幾張表 (例如明細＋客戶清單)</li>
+          </ul>
+        </div>
+        <div>
+          <h4>練完你會</h4>
+          <ul class="tight goals">
+            <li>設定 Key 值欄與資料最後一列</li>
+            <li>用保留範圍刪掉報表標題、合計、內部欄位</li>
+            <li>處理群組標題列</li>
+            <li>看懂「跳列」等錯誤提示</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-head">
+    <h3>設定視窗</h3>
+    <p class="lead">在功能選單「資料收集」群組點<b>資料拆檔</b>，會開啟這個設定視窗。視窗下方隨時預覽會拆成幾個檔案；設定有問題時，預覽會變成紅字說明原因，「確定」不能按。設定會記在工作表裡，下次開啟自動帶入 (密碼除外)。</p>
+  </div>
+  <div class="grid-2">
+    <figure class="shot">
+      <img src="img/split_sheet.png" width="483" height="779" loading="lazy" alt="資料拆檔設定視窗的「工作表設定」分頁：勾選要拆的工作表、Key值欄標題格、資料最後一列，以及排成十字的保留範圍">
+      <figcaption>「工作表設定」分頁 (用練習檔開啟)</figcaption>
+    </figure>
+    <div class="panel">
+      <h3>工作表設定：每張表各一組參數</h3>
+      <ol class="tight" style="margin-top:8px">
+        <li><b>要拆分的工作表</b>：勾選要拆的表。右側是每張表的摘要，例如「B4｜5～22列」是 Key 值欄和資料範圍，「列4～22｜欄A～F」是保留範圍</li>
+        <li><b>← →</b>：切換要設定哪一張表，Excel 會同步跳到那張工作表</li>
+        <li><b>Key值欄標題格</b>：雙擊後用滑鼠點標題，例如「科別」。資料最後一列會自動偵測，下方有合計列時要改小</li>
+        <li><b>保留範圍</b>：依上下左右排成十字，一開始就填好這張表的邊界。要刪哪一邊就改哪一格，範圍外的列、欄都會刪除；中間顯示目前的範圍</li>
+        <li>欄名輸入小寫會自動轉成大寫</li>
+      </ol>
+    </div>
+  </div>
+  <div class="grid-2">
+    <figure class="shot">
+      <img src="img/split_file.png" width="483" height="779" loading="lazy" alt="資料拆檔設定視窗的「檔案設定」分頁：檔名與資料夾的前後文字、檔案開啟密碼與工作表保護密碼、參數表、拆檔選項">
+      <figcaption>「檔案設定」分頁 (所有工作表共用)</figcaption>
+    </figure>
+    <div class="panel">
+      <h3>檔案設定：所有工作表共用</h3>
+      <ol class="tight" style="margin-top:8px">
+        <li><b>檔名</b>：字首＋Key＋字尾，例如「9月業績_業務一科.xlsx」</li>
+        <li><b>資料夾</b>：建在原檔所在的資料夾裡；兩格都空白時，名稱是「資料分檔_活頁簿名稱_年月日時分」</li>
+        <li><b>密碼</b>：檔案開啟密碼和工作表保護密碼都要<b class="hl">輸入兩次</b>，避免打錯。密碼不會被記住，每次都要重新輸入</li>
+        <li><b>參數表</b>：一起複製到每個檔案並設為隱藏，使用時只能拆一張工作表</li>
+        <li><b>公式轉成值</b>：刪掉其他 Key 的資料後，公式可能算錯或變成 <code>#REF!</code>，勾選可以避免</li>
+        <li><b>跳過群組標題列</b>：Key 值欄和左邊一欄內容相同的列 (例如「北區｜北區」) 不當成一個 Key</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="sub-head">
+    <h3>開始練習</h3>
+    <p class="lead">下面是「工作表設定」的簡化版。選一題，<b>點表頭設定 Key 值欄</b>，調整參數後按「執行資料拆檔」，看看會拆出哪些檔案。工作表上的刪除線表示在保留範圍外、會被刪除。想在 Excel 裡用增益集練習，可以<a href="files/split_practice.xlsx" download="資料拆檔_練習檔.xlsx">下載練習檔</a> (資料全部虛構)，檔案裡的「說明」工作表有 9 個練習。</p>
+  </div>
+
+  <div class="scen-pick" id="s-pick" role="group" aria-label="選擇題目"></div>
+
+  <div class="panel task">
+    <div class="eyebrow" id="s-eyebrow"></div>
+    <h3 id="s-title"></h3>
+    <div class="task-text" id="s-text"></div>
+    <div class="teacher-note" id="s-teacher"></div>
+  </div>
+
+  <div id="s-src"></div>
+
+  <div class="panel task">
+    <div class="selui">
+      <div class="field"><label for="s-key">Key值欄標題格 (點表頭設定)</label><output id="s-key"></output></div>
+      <div class="field"><label for="s-end">資料最後一列</label><input id="s-end" inputmode="numeric" autocomplete="off"></div>
+    </div>
+    <div class="keep-h">保留範圍 (已預填工作表內容的邊界；範圍外的列、欄都會刪除)</div>
+    <div class="xcross">
+      <label class="xc t">上：從第<input id="s-top" inputmode="numeric" autocomplete="off" aria-label="保留範圍上：從第幾列起">列起</label>
+      <label class="xc l">左：從<input id="s-left" autocomplete="off" aria-label="保留範圍左：從哪一欄起">欄起</label>
+      <output id="s-keep" title="目前的保留範圍"></output>
+      <label class="xc r">右：到<input id="s-right" autocomplete="off" aria-label="保留範圍右：到哪一欄">欄</label>
+      <label class="xc b">下：到第<input id="s-bottom" inputmode="numeric" autocomplete="off" aria-label="保留範圍下：到第幾列">列</label>
+    </div>
+    <label class="chk" style="margin-top:12px"><input type="checkbox" id="s-grp" checked><span>跳過群組標題列 (Key 值欄和左邊一欄內容相同的列)</span></label>
+    <div class="s-pv" id="s-pv" role="status"></div>
+    <div class="runbar">
+      <button class="runbtn k1" id="s-run">執行資料拆檔</button>
+      <button class="runbtn" id="s-reset">清除結果</button>
+    </div>
+  </div>
+
+  <div class="g-files" id="s-out"></div>
+
+  <div class="panel">
+    <h3>要記住的 4 件事</h3>
+    <ol class="tight" style="margin-top:8px">
+      <li>資料要先依 Key 值欄<b class="hl">排序</b>：相同 Key 的資料要連在一起，否則會被擋下 (跳列)</li>
+      <li>資料最後一列下方的內容 (合計、簽核欄) 不屬於任何 Key，會<b>原樣出現在每個檔案</b>；不要的話用保留範圍「下」刪掉</li>
+      <li>拆檔前會先檢查全部的 Key：空白、錯誤值、檔名不能用的字元。有問題時<b>一個檔案都還沒產生</b>就會提示</li>
+      <li>拆出的是整張表的複本，格式、欄寬、隱藏欄都保留；有公式時，建議勾選「公式轉成值」</li>
+    </ol>
+  </div>
+</section>
+
 <!-- ============================ 小測驗 ============================ -->
 <section class="lesson" id="tab-quiz" hidden>
   <div class="head">
@@ -1240,7 +1414,7 @@ const fmtTask=s=>s.split('\n').map(l=>l.startsWith('>')?'<div class="op">'+fmt(l
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 
 /* ---------- tabs & teacher mode ---------- */
-const TABS=['overview','filter','recon','cross','collect','classify','quiz'];
+const TABS=['overview','filter','recon','cross','collect','classify','split','quiz'];
 let curTab='overview';
 function showTab(id){
   if(!TABS.includes(id))id='overview';
@@ -1261,7 +1435,7 @@ function trackTab(id){
   else if(document.readyState!=='complete')window.addEventListener('load',()=>{if(window.goatcounter&&window.goatcounter.count)send();},{once:true});
 }
 // 網址 #分頁 或 #分頁-題號（例如 #recon-7）可直接開到指定位置；切換題目時同步更新網址
-const curIndex=()=>curTab==='filter'?fs.mission:curTab==='recon'?rs.i:curTab==='cross'?cs.i:curTab==='collect'?gs.i:curTab==='classify'?ks.i:-1;
+const curIndex=()=>curTab==='filter'?fs.mission:curTab==='recon'?rs.i:curTab==='cross'?cs.i:curTab==='collect'?gs.i:curTab==='classify'?ks.i:curTab==='split'?ss.i:-1;
 function updateHash(){
   const i=curIndex();
   try{history.replaceState(null,'','#'+curTab+(i>=0?'-'+(i+1):''))}catch(e){}
@@ -1269,7 +1443,7 @@ function updateHash(){
 function applyHash(){
   // #install：安裝方式已摺疊進總覽，開總覽並展開該區塊（舊連結照常可用）
   if(location.hash==='#install'){showTab('overview');const d=$('#install');d.open=true;d.scrollIntoView();return true;}
-  const m=(location.hash||'').slice(1).match(/^(overview|filter|recon|cross|collect|classify|quiz)(?:-(\d+))?$/);
+  const m=(location.hash||'').slice(1).match(/^(overview|filter|recon|cross|collect|classify|split|quiz)(?:-(\d+))?$/);
   if(!m)return false;
   const n=m[2]?Number(m[2])-1:-1;
   if(n>=0){
@@ -1278,6 +1452,7 @@ function applyHash(){
     if(m[1]==='cross'&&n<CSCEN.length)loadCross(CSCEN[n],n);
     if(m[1]==='collect'&&n<GSCEN.length)setCollect(n);
     if(m[1]==='classify'&&n<KSCEN.length)setClassify(n);
+    if(m[1]==='split'&&n<SSCEN.length)setSplit(n);
   }
   showTab(m[1]);
   return true;
@@ -2134,6 +2309,172 @@ $('#k-reset').addEventListener('click',()=>{ks.res=null;renderK();});
 $('#k-ck1').addEventListener('change',()=>{if(ks.res){ks.res=null;renderK();toast('設定已變更，請重新執行');}});
 
 /* ============================================================
+   資料拆檔 (ported from B15_資料拆檔：DataSplitCheckKeys / DataSplitFile；設定方式同設定視窗 DataSplitUI)
+   ============================================================ */
+const SP_TR=4,SP_BOOK='9月業績.xlsx',SP_SHT='業績明細';
+const SP_COLS=['區域','科別','業務員','業績(萬)','內部備註'];
+// jump：業務一科被業務二科隔開 (跳列)
+const spRows=jump=>[
+  ['2026 年 9 月 各科業績明細表','','','',''],
+  ['資料日期：2026/09/30　單位：萬元','','','',''],
+  ['','','','',''],
+  SP_COLS,
+  ['北區','北區','','',''],
+  ['北區','業務一科','王小明',85,'新客戶 3 家'],
+  jump?['北區','業務二科','林雅婷',64,'待追蹤']:['北區','業務一科','李小華',72,''],
+  jump?['北區','業務一科','李小華',72,'']:['北區','業務二科','林雅婷',64,'待追蹤'],
+  ['南區','南區','','',''],
+  ['南區','業務三科','黃建國',88,''],
+  ['南區','業務三科','吳佳蓉',55,''],
+  ['','合計','',364,''],
+  ['','','','',''],
+  ['主管簽核：＿＿＿＿＿＿','','','','']
+];
+const SSCEN=[
+ {t:'基本拆檔',rows:spRows(false),key:-1,
+  text:'依「科別」把業績明細拆成各科一個檔案。\n>點「科別」表頭，設為 Key 值欄\n>看預覽：為什麼會多出一個「合計」？\n>把「資料最後一列」改成 11 → 執行',
+  teach:'資料最後一列會自動偵測成 Key 值欄最後有內容的一列，這張表是第 12 列的「合計」，所以被當成一個 Key。改成 11 後拆成 3 個檔案。第 12～14 列在資料最後一列下方，不屬於任何 Key，會原樣出現在每個檔案裡 (下一題用保留範圍處理)。'},
+ {t:'群組標題列',rows:spRows(false),key:1,end:11,
+  text:'「北區」「南區」這兩列的區域和科別相同，是群組標題。\n>取消勾選「跳過群組標題列」，看預覽多了哪些檔案\n>再勾回來，執行後看看拆出的檔案裡有沒有「北區」那一列',
+  teach:'Key 值欄和左邊一欄內容相同的列，視為群組標題列。不跳過時，「北區」「南區」也會各拆成一個檔案。勾選後，群組標題列不算任何 Key，拆出的檔案裡都不會有這一列。'},
+ {t:'保留範圍：上下 (列)',rows:spRows(false),key:1,end:11,
+  text:'每個檔案上方都有報表標題，下方有全部科別的合計和主管簽核欄。\n>保留範圍「上」從 1 改成 4 (標題列)\n>「下」從 14 改成 11 → 執行',
+  teach:'上＝4：第 1～3 列刪除，標題列變成第 1 列。下＝11：資料最後一列下面的合計、簽核欄都刪除。合計是全部科別的總和，拆給各科時通常要刪掉。上、左是「從…起」，下、右是「到…」。'},
+ {t:'保留範圍：左右 (欄)',rows:spRows(false),key:1,end:11,
+  text:'「內部備註」不想讓各科看到，「區域」欄也用不到。\n>保留範圍「右」從 E 改成 D\n>「左」從 A 改成 B → 執行\n欄名輸入小寫也可以，會自動轉成大寫。',
+  teach:'左＝B：A 欄刪除；右＝D：E 欄以後刪除。範圍外的欄整欄刪除，拆出的檔案欄位會往左移。注意 A 欄刪掉後，A 欄裡的報表標題也會一起不見；要保留標題，就不要刪 A 欄。'},
+ {t:'跳列錯誤',rows:spRows(true),key:1,end:11,
+  text:'這張表沒有依科別排序：業務一科的資料被業務二科隔開了。\n>看預覽的紅字，按「執行」也會跳出同樣的說明\n>在 Excel 裡要怎麼處理？',
+  teach:'相同 Key 的資料必須連在一起。程式在產生任何檔案之前就會檢查，發現跳列會停下來，並說明是第幾列。先依 Key 值欄排序再拆檔。Key 值是空白、錯誤值，或含有 \\ / : * ? " < > | 這些檔名不能用的字元，也會在這一步擋下。'}
+];
+const ss={i:0,sc:null,rows:[],key:-1,out:null};
+const spT=v=>v===''||v==null?'':String(v);
+const spCell=(r,c)=>spT((ss.rows[r-1]||[])[c]);
+function spBounds(){let t=0,b=0,l=99,r=-1;ss.rows.forEach((row,i)=>row.forEach((v,c)=>{if(spT(v)!==''){if(!t)t=i+1;b=i+1;l=Math.min(l,c);r=Math.max(r,c);}}));return {t,b,l:colLetter(l),r:colLetter(r)};}
+function spAutoEnd(){let e=SP_TR;ss.rows.forEach((row,i)=>{if(spT(row[ss.key])!=='')e=Math.max(e,i+1);});return e;} // GetTotalRow：Key 值欄最後有內容的一列
+const spColNum=s=>{s=s.trim().toUpperCase();if(s==='')return 0;if(!/^[A-Z]{1,3}$/.test(s))return -1;let n=0;for(const ch of s)n=n*26+ch.charCodeAt(0)-64;return n;};
+const spVal=id=>$('#'+id).value.trim();
+function renderSPick(){
+  const box=$('#s-pick');box.innerHTML='';
+  SSCEN.forEach((s,i)=>box.append(el('button',{class:'scen','aria-pressed':String(i===ss.i),text:'題 '+(i+1)+' '+s.t,onclick:()=>setSplit(i)})));
+}
+function setSplit(i){
+  ss.i=i;ss.sc=SSCEN[i];ss.rows=ss.sc.rows.map(r=>[...r]);ss.key=ss.sc.key;ss.out=null;
+  const b=spBounds();
+  $('#s-end').value=ss.key<0?'':String(ss.sc.end??spAutoEnd());
+  $('#s-top').value=b.t;$('#s-bottom').value=b.b;$('#s-left').value=b.l;$('#s-right').value=b.r; // 預填工作表內容的邊界
+  $('#s-grp').checked=true;
+  $('#s-eyebrow').textContent='題目 '+(i+1);$('#s-title').textContent=ss.sc.t;$('#s-text').innerHTML=fmtTask(ss.sc.text);
+  $('#s-teacher').textContent=ss.sc.teach;
+  renderSPick();renderSplit();
+  if(curTab==='split')updateHash();
+}
+// 設定視窗的 BuildPlan：檢查設定、換算保留範圍，再用 DataSplitCheckKeys 的規則找出每個 Key
+function spPlan(){
+  const T='〔'+SP_SHT+'〕',S='工作表〔'+SP_SHT+'〕';
+  if(ss.key<0)return {err:T+'還沒設定 Key 值欄：請點 Key 值欄的表頭 (例如「科別」)。'};
+  const ev=spVal('s-end');
+  if(!/^\d+$/.test(ev))return {err:T+'的「資料最後一列」請填數字。'};
+  const end=Number(ev);
+  if(end<=SP_TR)return {err:T+'的「資料最後一列」必須在標題列（第 '+SP_TR+' 列）的下面。'};
+  let top=0,bottom=0,L=0,R=0;
+  const tv=spVal('s-top'),bv=spVal('s-bottom'),lv=spVal('s-left'),rv=spVal('s-right');
+  if(tv!==''){if(!/^\d+$/.test(tv))return {err:T+'的保留範圍「上：從第幾列起」請填列號。'};top=Number(tv);if(top<1||top>SP_TR)return {err:T+'的保留範圍「上」要介於 1 和標題列（第 '+SP_TR+' 列）之間。'};}
+  if(bv!==''){if(!/^\d+$/.test(bv))return {err:T+'的保留範圍「下：到第幾列」請填列號。'};bottom=Number(bv);if(bottom<end)return {err:T+'的保留範圍「下」不能比資料最後一列（第 '+end+' 列）小。'};}
+  if(lv!==''){L=spColNum(lv)-1;if(L<0)return {err:T+'的保留範圍「左：從哪欄起」請填欄名，例如 D。'};}
+  if(rv!==''){const n=spColNum(rv);if(n<0)return {err:T+'的保留範圍「右：到哪欄」請填欄名，例如 F。'};R=n+1;if(R-1<=L)return {err:T+'的保留範圍「右」必須在「左」的右邊。'};}
+  // DataSplitCheckKeys
+  const kc=ss.key,grp=$('#s-grp').checked,seen=new Map(),keys=[],rowKey=new Map(),grpRows=new Set();
+  let topR=0;
+  for(let r=SP_TR+1;r<=end;r++){
+    const now=spCell(r,kc);
+    if(grp&&kc>0&&now===spCell(r,kc-1)){grpRows.add(r);continue;}   // 群組標題列
+    if(!topR)topR=r;
+    rowKey.set(r,now);
+    if(now===spCell(r+1,kc)&&r<end)continue;                          // 同一組尚未結束
+    if(now==='')return {err:S+'第 '+topR+(r>topR?'～'+r:'')+' 列的 Key 值是空白，無法做為檔名。\n\n※請刪除空白列，或把「資料最後一列」設在空白列之前。'};
+    const bad=[...'\\/:*?"<>|'].find(ch=>now.includes(ch));
+    if(bad)return {err:S+'第 '+r+' 列的 Key 值「'+now+'」含有檔名不能使用的字元「'+bad+'」。\n\n※檔名不能使用：\\ / : * ? " < > |'};
+    if(seen.has(now))return {err:S+'的 Key 值「'+now+'」在第 '+seen.get(now)+' 列和第 '+topR+' 列各出現一次，中間夾了其他資料（跳列）。\n\n※請先依 Key 值欄排序，讓相同 Key 的資料連在一起。'};
+    seen.set(now,topR);keys.push(now);topR=0;
+  }
+  if(!keys.length)return {err:'Key 值欄找不到可以拆檔的資料（可能全部都是群組標題列）。'};
+  return {keys,rowKey,grpRows,end,top,bottom,L,R};
+}
+// 保留範圍外的列、欄 (輸入不完整時照目前能讀到的值標示)
+function spCutRow(r){const t=Number(spVal('s-top'))||0,b=Number(spVal('s-bottom'))||0;return (t&&r<t)||(b&&r>b);}
+function spCutCol(c){const l=spColNum(spVal('s-left')),r=spColNum(spVal('s-right'));return (l>0&&c<l-1)||(r>0&&c>r-1);}
+// 畫一張表：rowNums＝要顯示的原始列號、cols＝要顯示的原始欄；src＝來源工作表 (表頭可點、標示保留範圍)，否則是拆出的檔案 (列號、欄名重新編排)
+function spTable(rowNums,cols,src){
+  const tbl=el('table',{class:'sheet'}),end=Number(spVal('s-end'))||0,grp=$('#s-grp').checked;
+  const lr=el('tr',{class:'colL'},[el('th',{})]);cols.forEach((c,j)=>lr.append(el('th',{class:src&&spCutCol(c)?'cut':'',text:colLetter(src?c:j)})));tbl.append(lr);
+  rowNums.forEach((r,j)=>{
+    const row=ss.rows[r-1],rn=String(src?r:j+1),cutR=src&&spCutRow(r);
+    if(r===SP_TR){
+      const hr=el('tr',{class:'title-row'},[el('th',{class:'rn'+(cutR?' cut':''),text:rn})]);
+      cols.forEach(c=>{
+        if(!src){hr.append(el('th',{text:row[c]}));return;}
+        const th=el('th',{class:'keyhdr'+(c===ss.key?' th-key':'')+(cutR||spCutCol(c)?' cut':''),tabindex:'0',role:'button',title:'點選設為 Key 值欄 (再點一次取消)'},[el('span',{text:row[c]})]);
+        if(c===ss.key)th.append(el('span',{class:'badge key',text:'Key'}));
+        th.addEventListener('click',()=>spSetKey(c));th.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();spSetKey(c);}});
+        hr.append(th);
+      });
+      tbl.append(hr);return;
+    }
+    const isGrp=src&&grp&&ss.key>0&&r>SP_TR&&r<=end&&spCell(r,ss.key)!==''&&spCell(r,ss.key)===spCell(r,ss.key-1);
+    const tr=el('tr',{class:isGrp?'grp':''},[el('td',{class:'rn'+(cutR?' cut':''),text:rn})]);
+    // 只有 A 欄有字 (報表標題、簽核欄)：像 Excel 一樣延伸到右邊的空白格
+    if(cols[0]===0&&spT(row[0])!==''&&row.every((v,c)=>c===0||spT(v)==='')){
+      tr.append(el('td',{class:'pre'+(cutR||(src&&spCutCol(0))?' cut':''),colspan:String(cols.length),text:row[0]}));
+    }else cols.forEach(c=>tr.append(el('td',{class:(typeof row[c]==='number'?'num':'')+(cutR||(src&&spCutCol(c))?' cut':''),text:spT(row[c])})));
+    tbl.append(tr);
+  });
+  return tbl;
+}
+function spSetKey(c){
+  ss.key=ss.key===c?-1:c;
+  $('#s-end').value=ss.key<0?'':String(spAutoEnd());   // 換 Key 時重新偵測資料最後一列 (同設定視窗)
+  spChanged();
+}
+function spChanged(){if(ss.out){ss.out=null;toast('設定已變更，請重新執行');}renderSplit();}
+function renderSplit(){
+  const all=ss.rows.map((_,i)=>i+1),cols=SP_COLS.map((_,c)=>c);
+  const box=$('#s-src');box.innerHTML='';
+  box.append(el('div',{class:'xl'},[el('div',{class:'xl-top'},[el('span',{class:'namebox',text:SP_SHT}),el('span',{class:'fx',text:SP_BOOK+'﹝'+SP_SHT+'﹞　點表頭設定 Key 值欄'})]),el('div',{class:'scroll'},spTable(all,cols,true))]));
+  $('#s-key').textContent=ss.key<0?'(點表頭設定)':colLetter(ss.key)+SP_TR;
+  const b=spBounds(),v=id=>spVal(id);
+  $('#s-keep').textContent=(v('s-left').toUpperCase()||b.l)+(v('s-top')||b.t)+' ～ '+(v('s-right').toUpperCase()||b.r)+(v('s-bottom')||b.b);
+  const p=spPlan(),pv=$('#s-pv');
+  pv.classList.toggle('err',!!p.err);
+  pv.textContent=p.err||'將拆成 '+p.keys.length+' 個檔案：'+p.keys.join('、')+'\n檔名範例：'+p.keys[0]+'.xlsx';
+  $('#s-run').disabled=false;
+  const out=$('#s-out');out.innerHTML='';
+  if(!ss.out)return;
+  const o=ss.out;
+  o.keys.forEach(K=>{
+    const keepR=r=>(!o.top||r>=o.top)&&(!o.bottom||r<=o.bottom)&&(r<=SP_TR||r>o.end||(!o.grpRows.has(r)&&o.rowKey.get(r)===K));
+    const keepC=c=>c>=o.L&&(!o.R||c<o.R-1);
+    const tabs=el('div',{class:'sheet-tabs'},[el('span',{class:'sheet-tab','aria-selected':'true',text:SP_SHT})]);
+    out.append(el('div',{class:'xl'},[el('div',{class:'xl-top'},[el('span',{class:'namebox',text:K+'.xlsx'})]),el('div',{class:'scroll'},spTable(all.filter(keepR),cols.filter(keepC),false)),tabs]));
+  });
+}
+async function runSplit(){
+  if(dlgOpen)return;
+  const p=spPlan();
+  if(p.err){await dialog({title:'資料拆檔',body:p.err});return;}
+  ss.out=p;renderSplit();
+  const d=new Date(),z=n=>String(n).padStart(2,'0');
+  await dialog({title:'資料拆檔',body:'拆檔完成，共 '+p.keys.length+' 個檔案。\n\n存放位置：\n(原檔所在資料夾)\\資料分檔_'+SP_BOOK+'_'+d.getFullYear()+z(d.getMonth()+1)+z(d.getDate())+z(d.getHours())+z(d.getMinutes())+'\\\n\n拆出的檔案顯示在下方。'});
+  $('#s-out').scrollIntoView({behavior:'smooth',block:'start'});
+}
+$('#s-run').addEventListener('click',runSplit);
+$('#s-reset').addEventListener('click',()=>{ss.out=null;renderSplit();});
+['s-end','s-top','s-bottom'].forEach(id=>$('#'+id).addEventListener('input',spChanged));
+// 欄名輸入後自動轉大寫 (同設定視窗)，游標位置不變
+['s-left','s-right'].forEach(id=>$('#'+id).addEventListener('input',e=>{const t=e.target,p=t.selectionStart;t.value=t.value.toUpperCase();try{t.setSelectionRange(p,p);}catch(err){}spChanged();}));
+$('#s-grp').addEventListener('change',spChanged);
+
+/* ============================================================
    小測驗
    ============================================================ */
 const QUIZ=[
@@ -2150,7 +2491,10 @@ const QUIZ=[
  {f:'collect',q:'Key值組成欄是 A、B 兩欄，標題在第 3 列，要帶回 D、E 兩欄。「資料回收欄」要怎麼輸入？',o:['D3;E3','D;E;3','D;E','D:E'],a:2,w:'資料回收欄只寫欄名，列號沿用 Key值組成欄的標題列。'},
  {f:'collect',q:'總表的「數量」在 C 欄，匯入檔案的「數量」在 F 欄。執行多檔收集時會怎樣？',o:['找不到，要先把欄位順序調成一樣','可以正確帶回，因為是用標題文字找欄位','只會帶回第一筆'],a:1,w:'匯入檔案是用標題文字找欄位，位置不同沒關係，但標題文字必須完全一樣。'},
  {f:'classify',q:'分類規則表的 Key 寫成「*計程車*」，代表什麼？',o:['只有剛好是「計程車」三個字才符合','內容包含「計程車」就符合','以「計程車」開頭才符合'],a:1,w:'* 代表任意多個字 (也可以沒有)，前後都加 * 就是「包含」。'},
- {f:'classify',q:'規則表由上往下是「0*＝市話」「09########＝手機」。不勾選「帶回最後一項相符者」時，0912345678 會被分成？',o:['市話','手機','!Not Found!'],a:0,w:'不勾選時找到第一個符合的就停，0912345678 先符合「0*」。把特殊規則移到上面，或勾選該選項，就會變成手機。'}
+ {f:'classify',q:'規則表由上往下是「0*＝市話」「09########＝手機」。不勾選「帶回最後一項相符者」時，0912345678 會被分成？',o:['市話','手機','!Not Found!'],a:0,w:'不勾選時找到第一個符合的就停，0912345678 先符合「0*」。把特殊規則移到上面，或勾選該選項，就會變成手機。'},
+ {f:'split',q:'依「科別」拆檔，但有一段業務一科的資料排在業務二科後面。按「確定」會怎樣？',o:['照樣拆，業務一科會拆成兩個檔案','後面那段業務一科的資料會被漏掉','還沒產生任何檔案就提示「跳列」，請你先排序','程式自動排序後再拆'],a:2,w:'程式會先檢查全部的 Key，相同 Key 的資料必須連在一起。先依 Key 值欄排序再拆檔。'},
+ {f:'split',q:'報表第 1～3 列是報表標題和日期，標題列在第 4 列。拆出的檔案不要前 3 列，保留範圍要怎麼填？',o:['上：從第 4 列起','上：從第 3 列起','下：到第 4 列','左：從 D 欄起'],a:0,w:'保留範圍「上」填標題列，上面的列都會刪除。上、左是「從…起」，下、右是「到…」。'},
+ {f:'split',q:'「北區」那一列的區域和科別都是「北區」。勾選「跳過群組標題列」時，這一列會怎樣？',o:['北區會拆成一個檔案','不算任何 Key，拆出的檔案裡都不會有這一列','原樣出現在每個檔案'],a:1,w:'Key 值欄和左邊一欄內容相同的列是群組標題列，不拆成檔案，也不放進任何檔案。不勾選時，北區會被當成一個 Key。'}
 ];
 const qs={ans:{}};
 function renderQuiz(){
@@ -2185,9 +2529,10 @@ setScen(0);
 loadCross(CSCEN[0],0);
 setCollect(0);
 setClassify(0);
+setSplit(0);
 renderQuiz();
 // 總覽卡片的題數，依題目資料自動計算
-const LC_N={filter:MISSIONS.length,recon:SCEN.length,cross:CSCEN.length,collect:GSCEN.length,classify:KSCEN.length,quiz:QUIZ.length};
+const LC_N={filter:MISSIONS.length,recon:SCEN.length,cross:CSCEN.length,collect:GSCEN.length,classify:KSCEN.length,split:SSCEN.length,quiz:QUIZ.length};
 document.querySelectorAll('.lesson-card').forEach(a=>{const n=a.querySelector('.lc-n');if(n)n.textContent=LC_N[a.getAttribute('href').slice(1)];});
 setTeacher(store.get('cj-teacher')==='1');
 setFs(store.get('cj-fs'));
