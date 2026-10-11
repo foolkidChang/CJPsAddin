@@ -48,7 +48,11 @@
 
 [hidden]{display:none!important}
 *,*::before,*::after{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7;margin:0}
+/* 字級切換：所有字級都用 rem，改 html 的 font-size 就能整頁放大 */
+html[data-fs="l"]{font-size:112.5%}
+html[data-fs="xl"]{font-size:125%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:.9375rem;line-height:1.7;margin:0}
+img{max-width:100%;height:auto}
 h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.3;margin:0}
 h2{font-size:1.55rem}
 h3{font-size:1.08rem}
@@ -73,10 +77,17 @@ b.hl,.hl{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:
 .tab{border:0;background:transparent;color:var(--muted);padding:6px 12px;border-radius:6px;font-weight:500}
 .tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
 .tab:hover:not([aria-selected="true"]){color:var(--ink);background:var(--hdr)}
-.teacher-toggle{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted)}
+.bar-tools{margin-left:auto;display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap}
+.teacher-toggle{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted)}
+.fs-pick{display:flex;align-items:center;gap:2px;font-size:.85rem;color:var(--muted)}
+.fs-pick .fs-lbl{margin-right:4px}
+.fs{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;width:2rem;height:1.9rem;padding:0;line-height:1;font-family:var(--f-display);font-weight:700}
+.fs[data-fs="m"]{font-size:.8rem}.fs[data-fs="l"]{font-size:1rem}.fs[data-fs="xl"]{font-size:1.2rem}
+.fs[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.fs:hover:not([aria-pressed="true"]){border-color:var(--accent)}
 @media (max-width:720px){
   .bar-in{gap:6px 12px;padding-block:8px}
-  .teacher-toggle{order:2}
+  .bar-tools{order:2}
   .tabs{order:3;width:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-4px}
   .tabs::-webkit-scrollbar{display:none}
   .tab{flex:none;padding:5px 10px}
@@ -104,6 +115,48 @@ details.more{background:var(--surface);border:1px solid var(--line);border-radiu
 details.more>summary{cursor:pointer;font-weight:700;font-family:var(--f-display)}
 details.more[open]>summary{margin-bottom:10px}
 .tight{margin:0;padding-left:1.2em;display:grid;gap:3px;font-size:.92rem}
+
+/* 功能簡介：示意圖 + 做什麼／什麼時候用／練完你會 */
+.intro{display:grid;grid-template-columns:minmax(0,24rem) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.intro{grid-template-columns:1fr}}
+.intro-txt{display:grid;gap:12px;align-content:start}
+.intro-txt>p{font-size:.95rem}
+.intro-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:14px}
+.intro h4{margin:0 0 4px;font-size:.92rem;color:var(--accent)}
+.goals{list-style:none;padding-left:0}
+.goals li{padding-left:1.3em;position:relative}
+.goals li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:700}
+.sub-head{display:grid;gap:4px;border-top:1px solid var(--line);padding-top:18px}
+/* 示意圖（inline SVG，顏色跟著主題變） */
+.ill{margin:0;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px}
+.ill svg{display:block;width:100%;height:auto}
+.ill figcaption{font-size:.8rem;color:var(--muted);text-align:center;margin-top:6px}
+.ill text{font-family:var(--f-body);font-size:12px;fill:var(--ink)}
+.ill .i-mono{font-family:var(--f-mono);font-size:11px}
+.ill .i-b{font-weight:700}
+.ill .i-muted{fill:var(--muted)}
+.ill .i-faint{opacity:.35}
+.ill .i-box{fill:var(--surface);stroke:var(--line)}
+.ill .i-hdr{fill:var(--hdr)}
+.ill .i-cond{fill:var(--cond)}
+.ill text.i-cond-t{fill:var(--cond-ink)}
+.ill .i-mark{fill:var(--mark)}
+.ill .i-acc{fill:var(--accent)}
+.ill text.i-acc{font-weight:700}
+.ill .i-arrow{stroke:var(--accent);stroke-width:2;fill:none}
+.ill .i-only-f{fill:var(--only)}
+.ill .i-ring{fill:none;stroke:var(--only-ink);stroke-width:1.5}
+.ill .i-both{fill:var(--both)}
+.ill text.i-only-t{fill:var(--only-ink);font-weight:700}
+.ill text.i-both-t{fill:var(--both-ink);font-weight:700}
+.ill .i-pink{fill:var(--pink)}
+.ill .i-grey{fill:var(--grey)}
+.ill .i-sep{stroke:var(--ink);stroke-width:2}
+.ill .i-grid{stroke:var(--grid)}
+/* Excel 截圖：<figure class="shot"><img src="img/檔名.png" alt="說明"><figcaption>說明</figcaption></figure> */
+.shot{margin:0;display:grid;gap:6px}
+.shot img{border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow)}
+.shot figcaption{font-size:.8rem;color:var(--muted)}
 
 /* overview */
 .hero{display:grid;gap:6px}
@@ -269,6 +322,7 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
 </style>
 </head>
 <body>
+<script>try{var f=localStorage.getItem('cj-fs');if(f==='l'||f==='xl')document.documentElement.dataset.fs=f;}catch(e){}</script>
 <header class="bar">
   <div class="bar-in">
     <div class="brand"><span class="brand-mark">JP</span>CJPsAddin 互動教材</div>
@@ -280,7 +334,15 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
       <button class="tab" role="tab" data-tab="cross" id="t-cross">單表比對</button>
       <button class="tab" role="tab" data-tab="quiz" id="t-quiz">小測驗</button>
     </nav>
-    <div class="teacher-toggle"><span id="teacher-lbl">顯示解答</span><button class="switch" id="teacher" role="switch" aria-checked="false" aria-labelledby="teacher-lbl"></button></div>
+    <div class="bar-tools">
+      <div class="fs-pick" role="group" aria-label="字級">
+        <span class="fs-lbl" aria-hidden="true">字級</span>
+        <button class="fs" data-fs="m" aria-pressed="true" aria-label="字級：標準">A</button>
+        <button class="fs" data-fs="l" aria-pressed="false" aria-label="字級：大">A</button>
+        <button class="fs" data-fs="xl" aria-pressed="false" aria-label="字級：特大">A</button>
+      </div>
+      <div class="teacher-toggle"><span id="teacher-lbl">顯示解答</span><button class="switch" id="teacher" role="switch" aria-checked="false" aria-labelledby="teacher-lbl"></button></div>
+    </div>
   </div>
 </header>
 
@@ -447,7 +509,61 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
   <div class="head">
     <div class="eyebrow">練習 1</div>
     <h2>篩選強化</h2>
-    <p class="lead">把條件<b class="hl">複製</b>過來，或在輸入框用 <b class="hl">半形分號 ;</b> 分隔，一次篩出多個值。</p>
+  </div>
+
+  <div class="panel intro">
+    <figure class="ill">
+      <svg viewBox="0 0 340 186" role="img" aria-label="示意圖：複製 002、008、009 三個條件，按 Alt+1 後，表格只留下這三筆">
+        <rect class="i-box" x="6" y="30" width="98" height="126" rx="8"/>
+        <text x="55" y="52" text-anchor="middle" class="i-muted">複製的條件</text>
+        <rect class="i-cond" x="23" y="64" width="64" height="22" rx="3"/><text class="i-cond-t i-mono" x="55" y="79" text-anchor="middle">002</text>
+        <rect class="i-cond" x="23" y="94" width="64" height="22" rx="3"/><text class="i-cond-t i-mono" x="55" y="109" text-anchor="middle">008</text>
+        <rect class="i-cond" x="23" y="124" width="64" height="22" rx="3"/><text class="i-cond-t i-mono" x="55" y="139" text-anchor="middle">009</text>
+        <text x="129" y="84" text-anchor="middle" class="i-acc">Alt+1</text>
+        <line class="i-arrow" x1="110" y1="95" x2="144" y2="95"/><path class="i-acc" d="M150 95 L141 90 L141 100 Z"/>
+        <rect class="i-box" x="156" y="12" width="178" height="164" rx="6"/>
+        <rect class="i-hdr" x="157" y="13" width="176" height="21" rx="5"/>
+        <text x="166" y="28" class="i-b">業務代碼</text><text x="262" y="28" class="i-b">區域</text>
+        <g class="i-faint"><text x="166" y="50" class="i-mono">004</text><text x="262" y="50">南區</text></g>
+        <rect class="i-mark" x="160" y="55" width="170" height="16" rx="3"/><text x="166" y="67" class="i-mono i-b">002</text><text x="262" y="67">北區</text>
+        <g class="i-faint"><text x="166" y="84" class="i-mono">010</text><text x="262" y="84">南區</text></g>
+        <rect class="i-mark" x="160" y="89" width="170" height="16" rx="3"/><text x="166" y="101" class="i-mono i-b">008</text><text x="262" y="101">中區</text>
+        <g class="i-faint"><text x="166" y="118" class="i-mono">001</text><text x="262" y="118">東區</text></g>
+        <rect class="i-mark" x="160" y="123" width="170" height="16" rx="3"/><text x="166" y="135" class="i-mono i-b">009</text><text x="262" y="135">北區</text>
+        <g class="i-faint"><text x="166" y="152" class="i-mono">003</text><text x="262" y="152">南區</text></g>
+        <g class="i-faint"><text x="166" y="169" class="i-mono">005</text><text x="262" y="169">中區</text></g>
+      </svg>
+      <figcaption>複製一串值，按一次快捷鍵就篩好</figcaption>
+    </figure>
+    <div class="intro-txt">
+      <h3>這個功能在做什麼</h3>
+      <p>Excel 內建的篩選，要在下拉清單裡<b>一個一個勾</b>。篩選強化讓你把<b class="hl">一串值直接當條件</b>：複製幾個儲存格，或輸入用分號分隔的文字，按一次 <kbd>Alt</kbd>+<kbd>1</kbd> 就篩好。</p>
+      <div class="intro-cols">
+        <div>
+          <h4>適合這些時候用</h4>
+          <ul class="tight">
+            <li>主管傳來一串客戶編號，要從大表裡把這些人挑出來</li>
+            <li>要篩的值有十幾個，散在下拉清單的不同位置</li>
+            <li>想找名稱<b>包含</b>某幾個關鍵字的資料</li>
+            <li>套了好幾欄篩選，想一次全部取消</li>
+          </ul>
+        </div>
+        <div>
+          <h4>練完你會</h4>
+          <ul class="tight goals">
+            <li>用複製或輸入兩種方式帶入多個條件</li>
+            <li>分辨什麼時候用完全比對、什麼時候用模糊比對</li>
+            <li>處理資料本身含有分號的情況</li>
+            <li>知道數值欄位不能用模糊比對</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-head">
+    <h3>開始練習</h3>
+    <p class="lead">把條件<b class="hl">複製</b>過來，或在輸入框用 <b class="hl">半形分號 ;</b> 分隔，一次篩出多個值。先選題目，再照步驟操作。</p>
   </div>
 
   <div class="lab">
@@ -506,7 +622,58 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
   <div class="head">
     <div class="eyebrow">練習 2</div>
     <h2>兩表比對</h2>
-    <p class="lead">用 <b class="hl">Key</b> 判斷每一筆是 <span class="res both">兩表皆有</span>、<span class="res only">僅在A表</span> 或 <span class="res only">僅在B表</span>。<b>點表頭設定 Key</b>，點的順序＝Key 的順序。</p>
+  </div>
+
+  <div class="panel intro">
+    <figure class="ill">
+      <svg viewBox="0 0 340 186" role="img" aria-label="示意圖：A 表和 B 表兩個圓形重疊，左邊是僅在A表的 P003，中間重疊處是兩表皆有的 P001、P002，右邊是僅在B表的 P005">
+        <defs><clipPath id="ill-ra"><circle cx="132" cy="96" r="74"/></clipPath></defs>
+        <circle class="i-only-f" cx="132" cy="96" r="74"/>
+        <circle class="i-only-f" cx="208" cy="96" r="74"/>
+        <circle class="i-both" cx="208" cy="96" r="74" clip-path="url(#ill-ra)"/>
+        <circle class="i-ring" cx="132" cy="96" r="74"/>
+        <circle class="i-ring" cx="208" cy="96" r="74"/>
+        <text x="40" y="34" text-anchor="middle" class="i-b">A 表</text>
+        <text x="300" y="34" text-anchor="middle" class="i-b">B 表</text>
+        <text x="96" y="90" text-anchor="middle" class="i-only-t">僅在A表</text>
+        <text x="96" y="110" text-anchor="middle" class="i-mono">P003</text>
+        <text x="170" y="82" text-anchor="middle" class="i-both-t">兩表皆有</text>
+        <text x="170" y="102" text-anchor="middle" class="i-mono">P001</text>
+        <text x="170" y="118" text-anchor="middle" class="i-mono">P002</text>
+        <text x="244" y="90" text-anchor="middle" class="i-only-t">僅在B表</text>
+        <text x="244" y="110" text-anchor="middle" class="i-mono">P005</text>
+      </svg>
+      <figcaption>用 Key（例如商品代碼）判斷每一筆在不在另一張表</figcaption>
+    </figure>
+    <div class="intro-txt">
+      <h3>這個功能在做什麼</h3>
+      <p>兩張表用同一個 <b class="hl">Key</b>（例如客戶編號）對照，在每一列標上 <span class="res both">兩表皆有</span>、<span class="res only">僅在A表</span> 或 <span class="res only">僅在B表</span>。它只看這筆資料<b>有沒有</b>，不比較其他欄位的內容。</p>
+      <div class="intro-cols">
+        <div>
+          <h4>適合這些時候用</h4>
+          <ul class="tight">
+            <li>這個月和上個月的名單，誰是新增、誰不見了</li>
+            <li>系統匯出的清單和手上的對帳表，有沒有漏掉的</li>
+            <li>兩份名單合併前，先確認差在哪幾筆</li>
+            <li>原本要用 VLOOKUP 一筆一筆查「找不找得到」</li>
+          </ul>
+        </div>
+        <div>
+          <h4>練完你會</h4>
+          <ul class="tight goals">
+            <li>選對 Key，包含多欄組成的 Key</li>
+            <li>兩張表欄位順序不同時，也能正確對應</li>
+            <li>看懂「_有重複項」，以及重複資料選項的差別</li>
+            <li>判斷什麼時候該接著用單表比對</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-head">
+    <h3>開始練習</h3>
+    <p class="lead">選一題，<b>點表頭設定 Key</b>（點的順序＝Key 的順序），再按「執行兩表比對」。</p>
   </div>
 
   <div class="scen-pick" id="scen-pick" role="group" aria-label="選擇題目"></div>
@@ -542,7 +709,65 @@ table.sheet{border-collapse:collapse;font-size:.85rem;width:100%;font-variant-nu
   <div class="head">
     <div class="eyebrow">練習 3</div>
     <h2>單表比對</h2>
-    <p class="lead">同一張表裡，<b class="hl">相同 Key</b> 的資料是否一致？程式會依 Key <b>排序</b>，再上色標示。</p>
+  </div>
+
+  <div class="panel intro">
+    <figure class="ill">
+      <svg viewBox="0 0 340 176" role="img" aria-label="示意圖：依客戶編號排序後，C002 的電話、C003 的分行不一致標成粉紅，C004 只有一筆所以整列灰色，每換一組客戶編號畫一條分隔線">
+        <rect class="i-box" x="6" y="12" width="228" height="153" rx="4"/>
+        <rect class="i-hdr" x="7" y="13" width="226" height="19"/>
+        <text x="12" y="27" class="i-b">編號</text><text x="62" y="27" class="i-b">來源</text><text x="98" y="27" class="i-b">電話</text><text x="176" y="27" class="i-b">分行</text>
+        <rect class="i-pink" x="92" y="70" width="78" height="38"/>
+        <rect class="i-pink" x="170" y="108" width="63" height="38"/>
+        <rect class="i-grey" x="7" y="146" width="226" height="18"/>
+        <line class="i-grid" x1="6" y1="51" x2="234" y2="51"/><line class="i-grid" x1="6" y1="89" x2="234" y2="89"/><line class="i-grid" x1="6" y1="127" x2="234" y2="127"/>
+        <line class="i-sep" x1="6" y1="70" x2="234" y2="70"/><line class="i-sep" x1="6" y1="108" x2="234" y2="108"/><line class="i-sep" x1="6" y1="146" x2="234" y2="146"/>
+        <g class="i-mono">
+          <text x="12" y="46">C001</text><text x="62" y="46">A</text><text x="98" y="46">0912-678</text>
+          <text x="12" y="65">C001</text><text x="62" y="65">B</text><text x="98" y="65">0912-678</text>
+          <text x="12" y="84">C002</text><text x="62" y="84">A</text><text x="98" y="84">0922-333</text>
+          <text x="12" y="103">C002</text><text x="62" y="103">B</text><text x="98" y="103">0922-334</text>
+          <text x="12" y="122">C003</text><text x="62" y="122">A</text><text x="98" y="122">0933-111</text>
+          <text x="12" y="141">C003</text><text x="62" y="141">B</text><text x="98" y="141">0933-111</text>
+          <text x="12" y="160">C004</text><text x="62" y="160">B</text><text x="98" y="160">0966-456</text>
+        </g>
+        <text x="176" y="46">信義</text><text x="176" y="65">信義</text><text x="176" y="84">台中</text><text x="176" y="103">台中</text>
+        <text x="176" y="122">敦南</text><text x="176" y="141">天母</text><text x="176" y="160">新竹</text>
+        <rect class="i-pink" x="246" y="40" width="16" height="12" rx="2"/><text x="268" y="51">資料不一致</text>
+        <rect class="i-grey" x="246" y="74" width="16" height="12" rx="2"/><text x="268" y="85">找不到配對</text>
+        <line class="i-sep" x1="246" y1="114" x2="262" y2="114"/><text x="268" y="118">換一組 Key</text>
+      </svg>
+      <figcaption>依 Key 排序後，相同 Key 的列上下互相比較</figcaption>
+    </figure>
+    <div class="intro-txt">
+      <h3>這個功能在做什麼</h3>
+      <p>把兩份資料貼在同一張表，指定 <b class="hl">Key</b> 和要比較的欄位。程式會依 Key 排序，<b>相同 Key 的列互相比較</b>，內容不一樣的格子標成粉紅，一眼就看出差在哪裡。</p>
+      <div class="intro-cols">
+        <div>
+          <h4>適合這些時候用</h4>
+          <ul class="tight">
+            <li>兩個系統的客戶資料，檢查電話、地址有沒有不一樣</li>
+            <li>同一批訂單被重複匯入，金額有沒有被改過</li>
+            <li>新舊兩版報表，逐筆核對數字</li>
+            <li>兩表比對後兩邊都剩一些「僅在」，想找出是哪一欄打錯</li>
+          </ul>
+        </div>
+        <div>
+          <h4>練完你會</h4>
+          <ul class="tight goals">
+            <li>分清楚哪些欄當 Key、哪些欄拿來比對</li>
+            <li>看懂粉紅、灰色、藍字、分隔線四種標記</li>
+            <li>調整大小寫、文字與數值的比對規則</li>
+            <li>用統計列判斷問題出在哪一欄</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-head">
+    <h3>開始練習</h3>
+    <p class="lead">選一題，點表頭切換 <b>Key／比對</b>，再按「執行單表比對」。結果的顏色代表：</p>
     <div class="legend">
       <span><span class="sw pink">粉紅</span> 資料不一致</span>
       <span><span class="sw grey">灰色整列</span> 找不到配對</span>
@@ -643,6 +868,14 @@ document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=
 const tbtn=$('#teacher');
 function setTeacher(on){document.body.classList.toggle('teacher',on);tbtn.setAttribute('aria-checked',String(on));store.set('cj-teacher',on?'1':'0');}
 tbtn.addEventListener('click',()=>setTeacher(tbtn.getAttribute('aria-checked')!=='true'));
+// 字級：m 標準／l 大／xl 特大（頁首的小 script 會在載入時先套用，避免閃一下）
+function setFs(v){
+  if(v!=='l'&&v!=='xl')v='m';
+  if(v==='m')delete document.documentElement.dataset.fs;else document.documentElement.dataset.fs=v;
+  document.querySelectorAll('.fs').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.fs===v)));
+  store.set('cj-fs',v);
+}
+document.querySelectorAll('.fs').forEach(b=>b.addEventListener('click',()=>setFs(b.dataset.fs)));
 
 /* ---------- dialogs ---------- */
 let dlgOpen=false;
@@ -1188,6 +1421,7 @@ setScen(0);
 loadCross(CSCEN[0],0);
 renderQuiz();
 setTeacher(store.get('cj-teacher')==='1');
+setFs(store.get('cj-fs'));
 if(!applyHash())showTab(store.get('cj-tab')||'overview');
 })();
 </script>
