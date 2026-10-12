@@ -23,6 +23,7 @@
   "url": "https://foolkidchang.github.io/CJPsAddin/",
   "inLanguage": "zh-Hant",
   "description": "CJP 增益集 (CJPsAddin) 是一個 Excel VBA Add-in。本站提供教學與線上練習。",
+  "author": {"@type": "Person", "name": "CJP"},
   "about": {
     "@type": "SoftwareApplication",
     "name": "CJPsAddin",
@@ -133,6 +134,10 @@ b.hl,.hl{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:
 .switch[aria-checked="true"]::after{transform:translateX(16px);background:var(--accent-ink)}
 
 main{max-width:1180px;margin:0 auto;padding:26px 16px 64px}
+/* 頁尾：作者與免責聲明 (著作權歸屬待確認前，不寫 © 與使用限制) */
+.site-foot{border-top:1px solid var(--line);background:var(--surface)}
+.site-foot-in{max-width:1180px;margin:0 auto;padding:18px 16px 26px;font-size:.82rem;color:var(--muted);display:grid;gap:6px}
+.site-foot-in b{color:var(--ink)}
 /* 第二層頁籤：接在所屬的第一層按鈕右邊同一行展開，兩者連成一塊 (例如「資料比對｜兩表比對 單表比對」)；
    有第二層、但目前沒展開的組加上 ▾，提示點下去還有選項 */
 .subgrp{display:inline-flex;align-items:center;gap:2px;background:var(--accent-soft);border-radius:0 6px 6px 0;padding:3px;flex:none}
@@ -1655,6 +1660,13 @@ table.wrap td,table.wrap th{white-space:normal}
   <div class="runbar"><button class="runbtn" id="quiz-reset">重新作答</button></div>
 </section>
 </main>
+
+<footer class="site-foot">
+  <div class="site-foot-in">
+    <p><b>作者：CJP</b>　歡迎下載使用、分享本網站連結。</p>
+    <p><b>免責聲明</b>　本工具依現狀提供，不保證沒有錯誤，也不保證適用於所有情況。增益集會刪除資料列、拆分檔案、設定密碼，使用前請先備份資料；使用所造成的任何損失，由使用者自行負責。練習檔的資料全部為虛構。</p>
+  </div>
+</footer>
 
 <script>
 (function(){
