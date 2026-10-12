@@ -173,6 +173,11 @@ details.more[open]>summary{padding-bottom:10px;border-bottom:1px solid var(--lin
 .goals li{padding-left:1.3em;position:relative}
 .goals li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:700}
 .sub-head{display:grid;gap:4px;border-top:1px solid var(--line);padding-top:18px}
+/* 「開始練習」右側的練習檔下載按鈕 (各單元同一個格式) */
+.sub-head-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
+.dl-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--accent);color:var(--accent);background:var(--surface);border-radius:8px;padding:5px 12px;font-size:.88rem;font-weight:700;text-decoration:none}
+.dl-btn:hover{background:var(--accent);color:var(--accent-ink)}
+.dl-btn svg{width:1.05em;height:1.05em;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 /* 示意圖（inline SVG，顏色跟著主題變） */
 .ill{margin:0;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px}
 .ill svg{display:block;width:100%;height:auto}
@@ -226,6 +231,7 @@ kbd{display:inline-block;border:1px solid var(--line);border-bottom-width:2px;bo
 .step-n{background:var(--accent);color:var(--accent-ink);font-size:.8rem;font-weight:700;padding:6px 12px}
 .step h3{padding:8px 14px 0}
 .step p{font-size:.9rem;color:var(--muted);padding:0 14px 14px}
+.step{min-width:0} .step code{overflow-wrap:anywhere} /* 長檔名換行，不要把卡片撐寬 */
 /* 總覽的練習卡片：一張一行，左圖右文；手機改成上圖下文 */
 .lessons{display:grid;gap:14px}
 .lesson-card{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:16px 18px;color:var(--ink);text-decoration:none;display:grid;grid-template-columns:minmax(0,20rem) minmax(0,1fr);gap:14px 22px;align-items:center;transition:border-color .12s,box-shadow .12s}
@@ -444,13 +450,13 @@ table.wrap td,table.wrap th{white-space:normal}
       <span class="subgrp" data-group="overview" role="group" hidden><button class="subtab" role="tab" data-tab="overview" data-group="overview" id="t-overview">總覽</button></span>
       <button class="tab" role="tab" data-group="filter">篩選強化</button>
       <span class="subgrp" data-group="filter" role="group" hidden><button class="subtab" role="tab" data-tab="filter" data-group="filter" id="t-filter">篩選強化</button></span>
-      <button class="tab" role="tab" data-group="compare">資料比對</button>
+      <button class="tab" role="tab" data-group="compare" data-label="資料比對">資料比對</button>
       <span class="subgrp" data-group="compare" role="group" hidden><button class="subtab" role="tab" data-tab="recon" data-group="compare" id="t-recon">兩表比對</button><button class="subtab" role="tab" data-tab="cross" data-group="compare" id="t-cross">單表比對</button></span>
-      <button class="tab" role="tab" data-group="collect">資料收集</button>
+      <button class="tab" role="tab" data-group="collect" data-label="資料收集">資料收集</button>
       <span class="subgrp" data-group="collect" role="group" hidden><button class="subtab" role="tab" data-tab="collect" data-group="collect" id="t-collect">多檔收集</button><button class="subtab" role="tab" data-tab="classify" data-group="collect" id="t-classify">單檔收集</button></span>
       <button class="tab" role="tab" data-group="split">資料拆檔</button>
       <span class="subgrp" data-group="split" role="group" hidden><button class="subtab" role="tab" data-tab="split" data-group="split" id="t-split">資料拆檔</button></span>
-      <button class="tab" role="tab" data-group="settings">設定切換</button>
+      <button class="tab" role="tab" data-group="settings" data-label="設定切換">設定切換</button>
       <span class="subgrp" data-group="settings" role="group" hidden><button class="subtab" role="tab" data-tab="pivot" data-group="settings" id="t-pivot">樞紐明細</button></span>
       <button class="tab" role="tab" data-group="quiz">小測驗</button>
       <span class="subgrp" data-group="quiz" role="group" hidden><button class="subtab" role="tab" data-tab="quiz" data-group="quiz" id="t-quiz">小測驗</button></span>
@@ -486,13 +492,15 @@ table.wrap td,table.wrap th{white-space:normal}
     <div class="more-body">
     <p class="lead">執行一次安裝程式，之後<b class="hl">每次開 Excel 都會自動載入</b>，不用再設定。</p>
 
-    <div class="pending"><span>📦</span><span><b>下載檔案準備中</b>：增益集與安裝程式將於之後提供。練習檔已經可以下載，在篩選強化、兩表比對、單表比對、資料拆檔各單元的「開始練習」。</span></div>
+    <div class="pending"><span>📦</span><span><a class="dl-btn" href="files/CJPsAddin_v1.12.zip" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>下載增益集 v1.12 (zip)</a> 內含增益集 <code>CJPsAddin.xla</code> 與安裝程式。練習檔在篩選強化、兩表比對、單表比對、資料拆檔各單元的「開始練習」。</span></div>
 
     <div class="steps">
-      <div class="step"><span class="step-n">步驟 1</span><h3>關閉 Excel，執行安裝檔</h3><p><code>CJPsAddin_Installer_v1.11.cmd</code>，按 <kbd>Y</kbd></p></div>
-      <div class="step"><span class="step-n">步驟 2</span><h3>重新開啟 Excel</h3><p>「增益集」索引標籤出現三組選單</p></div>
-      <div class="step"><span class="step-n">步驟 3</span><h3>開始練習</h3><p>從下方卡片或上方頁簽選一個練習單元</p></div>
+      <div class="step"><span class="step-n">步驟 1</span><h3>下載並解壓縮</h3><p>在 zip 上按右鍵 →「全部解壓縮」。不要直接在 zip 裡執行，安裝程式要和 <code>CJPsAddin.xla</code> 放在同一個資料夾</p></div>
+      <div class="step"><span class="step-n">步驟 2</span><h3>關閉 Excel，執行安裝檔</h3><p>雙擊 <code>CJPsAddin_Installer_v1.12.cmd</code>，按 <kbd>Y</kbd>。出現「Windows 已保護您的電腦」時，按「其他資訊」→「仍要執行」</p></div>
+      <div class="step"><span class="step-n">步驟 3</span><h3>重新開啟 Excel</h3><p>「增益集」索引標籤出現三組選單</p></div>
+      <div class="step"><span class="step-n">步驟 4</span><h3>開始練習</h3><p>從下方卡片或上方頁簽選一個練習單元</p></div>
     </div>
+    <p class="note-sm" style="margin-top:10px">更新版本：下載新版，同樣執行安裝程式即可，會直接覆蓋舊版。</p>
 
     <div class="install-grid">
       <div class="qat" aria-label="快速存取工具列示意">
@@ -577,15 +585,15 @@ table.wrap td,table.wrap th{white-space:normal}
       <div><h3>常用功能二</h3>
         <ul>
           <li class="grp">顯示切換…<ul>
-            <li data-tip="分頁線顯示/不顯示" tabindex="0"><span class="mi">分頁線切換 (僅當前工作表)</span></li>
-            <li data-tip="格線顯示/不顯示" tabindex="0"><span class="mi">顯示格線切換 (僅當前工作表)</span></li>
+            <li data-tip="分頁線顯示/不顯示" tabindex="0"><span class="mi">分頁線切換(僅當前工作表)</span></li>
+            <li data-tip="格線顯示/不顯示" tabindex="0"><span class="mi">顯示格線切換(僅當前工作表)</span></li>
           </ul></li>
           <li class="grp">設定切換…<ul>
-            <li data-tip="自動處理功能開/關" tabindex="0"><span class="mi">自動事件 (套用至整個Excel)</span></li>
-            <li data-tip="允許/不允許直接在儲存格內編輯公式" tabindex="0"><span class="mi">公式編輯 (套用至整個Excel)</span></li>
-            <li data-tip="當使用者對樞紐分析點兩下產生明細時，顯示/不顯示來源資訊" tabindex="0"><span class="mi">樞紐明細來源功能 (套用至整個Excel)</span><a class="lab-tag" href="#pivot-1">練習 →</a></li>
-            <li data-tip="將本檔案的日期篩選切換為分組/不分組" tabindex="0"><span class="mi">日期篩選變更 (僅當前檔案)</span></li>
-            <li data-tip="將所選工作表的具有零值的儲存格切換為顯示零/不顯示零" tabindex="0"><span class="mi">零值顯示變更 (僅所選工作表)</span></li>
+            <li data-tip="自動處理功能開/關" tabindex="0"><span class="mi">自動事件(套用至整個Excel)</span></li>
+            <li data-tip="允許/不允許直接在儲存格內編輯公式" tabindex="0"><span class="mi">公式編輯(套用至整個Excel)</span></li>
+            <li data-tip="當使用者對樞紐分析點兩下產生明細時，顯示/不顯示來源資訊" tabindex="0"><span class="mi">樞紐明細來源功能(套用至整個Excel)</span><a class="lab-tag" href="#pivot-1">練習 →</a></li>
+            <li data-tip="將本檔案的日期篩選切換為分組/不分組" tabindex="0"><span class="mi">日期篩選變更(僅當前檔案)</span></li>
+            <li data-tip="將所選工作表的具有零值的儲存格切換為顯示零/不顯示零" tabindex="0"><span class="mi">零值顯示變更(僅所選工作表)</span></li>
           </ul></li>
           <li class="grp">資料比對<ul>
             <li data-tip="將兩個工作表組指定欄位內容進行交叉比對，並回報比對結果" tabindex="0"><span class="mi">兩表比對</span><a class="lab-tag" href="#recon-1">練習 →</a></li>
@@ -594,12 +602,18 @@ table.wrap td,table.wrap th{white-space:normal}
           <li class="grp">資料收集<ul>
             <li data-tip="將相同Key值的特定欄位帶回至總表" tabindex="0"><span class="mi">多檔收集</span><a class="lab-tag" href="#collect-1">練習 →</a></li>
             <li data-tip="依據〔分類規則表〕Key值進行資料收集；可當成批次VLOOKUP使用" tabindex="0"><span class="mi">單檔收集</span><a class="lab-tag" href="#classify-1">練習 →</a></li>
-            <li data-tip="依Key值欄的內容，把工作表拆成多個檔案" tabindex="0"><span class="mi">資料拆檔</span><a class="lab-tag" href="#split-1">練習 →</a></li>
           </ul></li>
+          <li data-tip="依Key值欄的內容，把工作表拆成多個檔案" tabindex="0"><span class="mi">資料拆檔</span><a class="lab-tag" href="#split-1">練習 →</a></li>
           <li class="grp">批量檔案處理…<ul>
-            <li class="grp">更改檔名…<ul><li>檔名讀取</li><li>檔名更改</li></ul></li>
-            <li class="grp">取得檔案清單…<ul><li>資料下載</li><li>資料整理</li></ul></li>
-            <li data-tip="為所選Excel檔案批次加密，或檢查是否已加密" tabindex="0"><span class="mi">批量加密 (限Excel)</span></li>
+            <li class="grp">更改檔名…<ul>
+              <li>檔名讀取</li>
+              <li>檔名更改</li>
+            </ul></li>
+            <li class="grp">取得檔案清單…<ul>
+              <li>資料下載</li>
+              <li>資料整理</li>
+            </ul></li>
+            <li data-tip="使用部門預設密碼為所選Excel檔案進行加密，或檢查是否已加密" tabindex="0"><span class="mi">批量加密(限Excel)</span></li>
           </ul></li>
           <li data-tip="新增批次寄信功能至當前活頁簿" tabindex="0"><span class="mi">批次寄信</span></li>
           <li data-tip="讀取當前活頁簿的所有樞紐分析表" tabindex="0"><span class="mi">樞紐分析表讀取</span></li>
@@ -755,9 +769,8 @@ table.wrap td,table.wrap th{white-space:normal}
   </div>
 
   <div class="sub-head">
-    <h3>開始練習</h3>
+    <div class="sub-head-top"><h3>開始練習</h3><a class="dl-btn" href="files/filter_practice.xlsx" download="篩選強化_課堂練習檔.xlsx" title="資料全部虛構；「00_使用說明」有題目順序，「99_講師答案」有解答"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>下載練習檔 (Excel)</a></div>
     <p class="lead">把條件<b class="hl">複製</b>過來，或在輸入框用 <b class="hl">半形分號 ;</b> 分隔，一次篩出多個值。先選題目，再照步驟操作。</p>
-    <p class="note-sm">想在 Excel 裡用增益集練習：<a href="files/filter_practice.xlsx" download="篩選強化_課堂練習檔.xlsx">下載課堂練習檔</a> (資料全部虛構；「00_使用說明」有題目順序，「99_講師答案」有解答)</p>
   </div>
 
   <div class="lab">
@@ -866,9 +879,30 @@ table.wrap td,table.wrap th{white-space:normal}
   </div>
 
   <div class="sub-head">
-    <h3>開始練習</h3>
+    <h3>設定視窗</h3>
+    <p class="lead">在增益集選單「常用功能二 → 資料比對 → 兩表比對」開啟。設定會記在工作表裡，下次在同一張工作表開啟時自動帶入。</p>
+  </div>
+  <div class="grid-2">
+    <figure class="shot">
+      <img src="img/recon_form.png" width="429" height="649" loading="lazy" alt="「兩表比對」的設定視窗 (用課堂練習檔第 1 題開啟)">
+      <figcaption>「兩表比對」的設定視窗 (用課堂練習檔第 1 題開啟)</figcaption>
+    </figure>
+    <div class="panel">
+      <h3>欄位說明</h3>
+      <ul class="tight" style="margin-top:8px">
+        <li><b>資料來源 (A)、(B)</b>：各選一個活頁簿和工作表，兩張表可以在不同檔案</li>
+        <li><b>Key值組成欄</b>：單一 Key 填標題格，例如 <code>A9</code>；多欄 Key 填 <code>A;B;9</code> (最後的數字是標題列)</li>
+        <li><b>結果呈現欄</b>：比對結果寫在哪一欄，例如 <code>D</code></li>
+        <li><b>參數快速代入</b>：把 (A) 的檔案、欄位或全部設定帶到 (B)，兩張表格式相同時不用重填</li>
+        <li><b>勾選項</b>：相同 Key 的重複資料，不論筆數一律視為相同</li>
+      </ul>
+      <p class="note-sm" style="margin-top:10px">下方的練習是這個視窗的簡化版：網頁上用點表頭的方式設定欄位，結果和增益集相同。</p>
+    </div>
+  </div>
+
+  <div class="sub-head">
+    <div class="sub-head-top"><h3>開始練習</h3><a class="dl-btn" href="files/recon_practice.xlsx" download="兩表比對_課堂練習檔.xlsx" title="資料全部虛構；「00_使用說明」有題目順序，「99_講師答案」有解答"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>下載練習檔 (Excel)</a></div>
     <p class="lead">選一題，<b>點表頭設定 Key</b> (點的順序＝Key 的順序)，再按「執行兩表比對」。</p>
-    <p class="note-sm">想在 Excel 裡用增益集練習：<a href="files/recon_practice.xlsx" download="兩表比對_課堂練習檔.xlsx">下載課堂練習檔</a> (資料全部虛構；「00_使用說明」有題目順序，「99_講師答案」有解答)</p>
   </div>
 
   <div class="scen-pick" id="scen-pick" role="group" aria-label="選擇題目"></div>
@@ -961,9 +995,29 @@ table.wrap td,table.wrap th{white-space:normal}
   </div>
 
   <div class="sub-head">
-    <h3>開始練習</h3>
+    <h3>設定視窗</h3>
+    <p class="lead">在增益集選單「常用功能二 → 資料比對 → 單表比對」開啟。設定會記在工作表裡，下次在同一張工作表開啟時自動帶入。</p>
+  </div>
+  <div class="grid-2">
+    <figure class="shot">
+      <img src="img/cross_form.png" width="437" height="482" loading="lazy" alt="「單表比對」的設定視窗 (用課堂練習檔第 1 題開啟)">
+      <figcaption>「單表比對」的設定視窗 (用課堂練習檔第 1 題開啟)</figcaption>
+    </figure>
+    <div class="panel">
+      <h3>欄位說明</h3>
+      <ul class="tight" style="margin-top:8px">
+        <li><b>Key值組成欄</b>：哪些欄位可以代表同一組資料，例如 <code>A9</code> 或 <code>A;B;9</code></li>
+        <li><b>資料比對範圍</b>：要比較內容的欄位，例如 <code>C;D;E</code></li>
+        <li><b>英文大小寫、文字與數值</b>：勾選後視為不同 (預設不分)</li>
+        <li><b>前後空白與連續空白</b>：一律視為不同，固定啟用、不能取消</li>
+      </ul>
+      <p class="note-sm" style="margin-top:10px">下方的練習是這個視窗的簡化版：網頁上用點表頭的方式設定欄位，結果和增益集相同。</p>
+    </div>
+  </div>
+
+  <div class="sub-head">
+    <div class="sub-head-top"><h3>開始練習</h3><a class="dl-btn" href="files/cross_practice.xlsx" download="單表比對_課堂練習檔.xlsx" title="資料全部虛構；「00_使用說明」有題目順序，「99_講師答案」有解答"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>下載練習檔 (Excel)</a></div>
     <p class="lead">選一題，點表頭切換 <b>Key／比對</b>，再按「執行單表比對」。結果的顏色代表：</p>
-    <p class="note-sm">想在 Excel 裡用增益集練習：<a href="files/cross_practice.xlsx" download="單表比對_課堂練習檔.xlsx">下載課堂練習檔</a> (資料全部虛構；「00_使用說明」有題目順序，「99_講師答案」有解答)</p>
     <div class="legend">
       <span><span class="sw pink">粉紅</span> 資料不一致</span>
       <span><span class="sw grey">灰色整列</span> 找不到配對</span>
@@ -1091,6 +1145,28 @@ table.wrap td,table.wrap th{white-space:normal}
         <tr><td>三、如果Key值不存在於總表，將該筆資料新增於總表最下方列</td><td>允許各單位自行新增資料；或總表只留標題，全部資料由匯入檔彙整</td></tr>
         <tr><td>四、用總表工作表名稱，在各匯入檔案中找尋資料所在工作表</td><td>匯入檔有好幾張工作表，不確定存檔時停在哪一張</td></tr>
       </table></div>
+    </div>
+  </div>
+
+  <div class="sub-head">
+    <h3>設定視窗</h3>
+    <p class="lead">在增益集選單「常用功能二 → 資料收集 → 多檔收集」開啟。設定會記在工作表裡，下次在同一張工作表開啟時自動帶入。</p>
+  </div>
+  <div class="grid-2">
+    <figure class="shot">
+      <img src="img/collect_form.png" width="365" height="511" loading="lazy" alt="「多檔收集」的設定視窗 (程式內部名稱是「資料收集」)">
+      <figcaption>「多檔收集」的設定視窗 (程式內部名稱是「資料收集」)</figcaption>
+    </figure>
+    <div class="panel">
+      <h3>欄位說明</h3>
+      <ul class="tight" style="margin-top:8px">
+        <li><b>資料彙總之目標活頁簿_工作表</b>：選總表所在的活頁簿和工作表</li>
+        <li><b>Key值組成欄</b>：例如 <code>A3</code>；多欄 Key 填 <code>A;B;3</code></li>
+        <li><b>資料回收欄</b>：要從匯入檔案帶回的欄位，例如 <code>C;D</code></li>
+        <li><b>四個勾選項</b>：空值也寫入、覆蓋前提示、Key 不在總表時新增、依總表名稱找工作表</li>
+        <li>按「確定」後，再選擇要匯入的檔案 (可以複選)</li>
+      </ul>
+      <p class="note-sm" style="margin-top:10px">下方的練習是這個視窗的簡化版：網頁上用點表頭的方式設定欄位，結果和增益集相同。</p>
     </div>
   </div>
 
@@ -1245,6 +1321,27 @@ table.wrap td,table.wrap th{white-space:normal}
   </div>
 
   <div class="sub-head">
+    <h3>設定視窗</h3>
+    <p class="lead">在增益集選單「常用功能二 → 資料收集 → 單檔收集」開啟。設定會記在工作表裡，下次在同一張工作表開啟時自動帶入。</p>
+  </div>
+  <div class="grid-2">
+    <figure class="shot">
+      <img src="img/classify_form.png" width="578" height="649" loading="lazy" alt="「單檔收集」的設定視窗 (程式內部名稱是「資料分類」)">
+      <figcaption>「單檔收集」的設定視窗 (程式內部名稱是「資料分類」)</figcaption>
+    </figure>
+    <div class="panel">
+      <h3>欄位說明</h3>
+      <ul class="tight" style="margin-top:8px">
+        <li><b>待分類資料</b>：要填入結果的工作表；<b>Key值組成欄</b> 例如 <code>B1</code>，<b>分類填入欄</b> 例如 <code>D</code></li>
+        <li><b>分類規則表</b>：對照表或規則表；<b>Key值組成欄</b> 可以用萬用字元，<b>分類來源欄</b> 是要帶回的值</li>
+        <li><b>參數快速代入</b>：把待分類資料的設定帶到分類規則表</li>
+        <li><b>勾選項</b>：比完全部規則，帶回最後一個符合的</li>
+      </ul>
+      <p class="note-sm" style="margin-top:10px">下方的練習是這個視窗的簡化版：網頁上用點表頭的方式設定欄位，結果和增益集相同。</p>
+    </div>
+  </div>
+
+  <div class="sub-head">
     <h3>開始練習</h3>
     <p class="lead">選一題，在兩張表<b>點表頭切換 Key／填入 (來源)</b>，再按「執行單檔收集」。結果旁的小字是「套用規則表第幾列」。</p>
   </div>
@@ -1343,11 +1440,11 @@ table.wrap td,table.wrap th{white-space:normal}
 
   <div class="sub-head">
     <h3>設定視窗</h3>
-    <p class="lead">在功能選單「資料收集」群組點<b>資料拆檔</b>，會開啟這個設定視窗。視窗下方隨時預覽會拆成幾個檔案；設定有問題時，預覽會變成紅字說明原因，「確定」不能按。設定會記在工作表裡，下次開啟自動帶入 (密碼除外)。</p>
+    <p class="lead">在增益集選單「常用功能二」點<b>資料拆檔</b>，會開啟這個設定視窗。視窗下方隨時預覽會拆成幾個檔案；設定有問題時，預覽會變成紅字說明原因，「確定」不能按。設定會記在工作表裡，下次開啟自動帶入 (密碼除外)。</p>
   </div>
   <div class="grid-2">
     <figure class="shot">
-      <img src="img/split_sheet.png" width="483" height="779" loading="lazy" alt="資料拆檔設定視窗的「工作表設定」分頁：勾選要拆的工作表、Key值欄標題格、資料最後一列，以及排成十字的保留範圍">
+      <img src="img/split_sheet.png" width="493" height="757" loading="lazy" alt="資料拆檔設定視窗的「工作表設定」分頁：勾選要拆的工作表、Key值欄標題格、資料最後一列，以及排成十字的保留範圍">
       <figcaption>「工作表設定」分頁 (用練習檔開啟)</figcaption>
     </figure>
     <div class="panel">
@@ -1363,7 +1460,7 @@ table.wrap td,table.wrap th{white-space:normal}
   </div>
   <div class="grid-2">
     <figure class="shot">
-      <img src="img/split_file.png" width="483" height="779" loading="lazy" alt="資料拆檔設定視窗的「檔案設定」分頁：檔名與資料夾的前後文字、檔案開啟密碼與工作表保護密碼、參數表、拆檔選項">
+      <img src="img/split_file.png" width="493" height="757" loading="lazy" alt="資料拆檔設定視窗的「檔案設定」分頁：檔名與資料夾的前後文字、檔案開啟密碼與工作表保護密碼、參數表、拆檔選項">
       <figcaption>「檔案設定」分頁 (所有工作表共用)</figcaption>
     </figure>
     <div class="panel">
@@ -1380,8 +1477,8 @@ table.wrap td,table.wrap th{white-space:normal}
   </div>
 
   <div class="sub-head">
-    <h3>開始練習</h3>
-    <p class="lead">下面是「工作表設定」的簡化版。選一題，<b>點表頭設定 Key 值欄</b>，調整參數後按「執行資料拆檔」，看看會拆出哪些檔案。工作表上的刪除線表示在保留範圍外、會被刪除。想在 Excel 裡用增益集練習，可以<a href="files/split_practice.xlsx" download="資料拆檔_練習檔.xlsx">下載練習檔</a> (資料全部虛構)，檔案裡的「說明」工作表有 9 個練習。</p>
+    <div class="sub-head-top"><h3>開始練習</h3><a class="dl-btn" href="files/split_practice.xlsx" download="資料拆檔_練習檔.xlsx" title="資料全部虛構；「說明」工作表有 9 個練習"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>下載練習檔 (Excel)</a></div>
+    <p class="lead">下面是「工作表設定」的簡化版。選一題，<b>點表頭設定 Key 值欄</b>，調整參數後按「執行資料拆檔」，看看會拆出哪些檔案。工作表上的刪除線表示在保留範圍外、會被刪除。</p>
   </div>
 
   <div class="scen-pick" id="s-pick" role="group" aria-label="選擇題目"></div>
@@ -1600,8 +1697,10 @@ function updateHash(){
 }
 function applyHash(){
   // #install：安裝方式已摺疊進總覽，開總覽並展開該區塊（舊連結照常可用）
-  if(location.hash==='#install'){showTab('overview');const d=$('#install');d.open=true;d.scrollIntoView();return true;}
-  const m=(location.hash||'').slice(1).match(/^(overview|filter|recon|cross|collect|classify|split|pivot|quiz)(?:-(\d+))?$/);
+  // QR Code 的追蹤參數若被接在 # 後面 (例如 #recon?utm_campaign=QRCode)，只取 ? 前面的分頁名稱
+  const raw=(location.hash||'').split('?')[0];
+  if(raw==='#install'){showTab('overview');const d=$('#install');d.open=true;d.scrollIntoView();return true;}
+  const m=raw.slice(1).match(/^(overview|filter|recon|cross|collect|classify|split|pivot|quiz)(?:-(\d+))?$/);
   if(!m)return false;
   const n=m[2]?Number(m[2])-1:-1;
   if(n>=0){
@@ -1618,7 +1717,8 @@ function applyHash(){
 }
 window.addEventListener('hashchange',applyHash);
 // 有第二層的組加上 ▾ 記號
-document.querySelectorAll('.tab').forEach(b=>{const n=b.nextElementSibling.children.length;b.classList.toggle('has-sub',n>1);if(n>1){b.dataset.n=n+' 項';b.title='底下有 '+n+' 個功能';}});
+// 只有一個功能的組，第一層直接顯示功能名稱 (例如「設定切換」目前只有樞紐明細)；兩個以上才顯示組名
+document.querySelectorAll('.tab').forEach(b=>{const kids=b.nextElementSibling.children,n=kids.length;b.classList.toggle('has-sub',n>1);if(n>1){b.dataset.n=n+' 項';b.title='底下有 '+n+' 個功能';}else b.textContent=kids[0].textContent;});
 // 第一層：開這一組上次看的功能 (沒看過就開第一個)；第二層：直接開該功能
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{const g=b.dataset.group;showTab(lastInGroup[g]||document.querySelector('.subtab[data-group="'+g+'"]').dataset.tab);}));
 document.querySelectorAll('.subtab').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
