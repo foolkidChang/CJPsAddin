@@ -97,14 +97,15 @@ b.hl,.hl{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:
 .sw.line{border-top:2px solid var(--ink);border-radius:0}
 
 .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
-.bar-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
-.brand{font-family:var(--f-display);font-weight:900;font-size:1.05rem;display:flex;align-items:center;gap:8px}
-.brand-mark{width:22px;height:22px;border-radius:4px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--f-mono);font-size:.7rem;font-weight:600}
-.tabs{display:flex;gap:2px;flex-wrap:wrap;align-items:center}
+/* 頂端列：圖片佔左邊兩列高；右邊第一列是標題 (左)、明暗／字級／顯示解答 (右)，第二列是功能頁籤 */
+.bar-in{max-width:1180px;margin:0 auto;padding:8px 16px;display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"img brand tools" "img tabs tabs";align-items:center;gap:6px 14px}
+.brand-img{grid-area:img;width:76px;height:76px;border-radius:10px;object-fit:cover;align-self:center}
+.brand{grid-area:brand;font-family:var(--f-display);font-weight:900;font-size:1.15rem}
+.tabs{grid-area:tabs;display:flex;gap:2px;flex-wrap:wrap;align-items:center;min-width:0}
 .tab{border:0;background:transparent;color:var(--muted);padding:6px 12px;border-radius:6px;font-weight:500}
 .tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
 .tab:hover:not([aria-selected="true"]){color:var(--ink);background:var(--hdr)}
-.bar-tools{margin-left:auto;display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap}
+.bar-tools{grid-area:tools;justify-self:end;display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap}
 .teacher-toggle{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted)}
 .fs-pick{display:flex;align-items:center;gap:2px;font-size:.85rem;color:var(--muted)}
 .fs-pick .fs-lbl{margin-right:4px}
@@ -117,9 +118,11 @@ b.hl,.hl{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:
 .theme-btn:hover{border-color:var(--accent)}
 .theme-btn svg{width:1.05rem;height:1.05rem;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 @media (max-width:720px){
-  .bar-in{gap:6px 12px;padding-block:8px}
-  .bar-tools{order:2}
-  .tabs{order:3;width:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-4px}
+  /* 手機：圖片佔左邊兩列 (標題、工具)，頁籤在下面整列 */
+  .bar-in{grid-template-columns:auto 1fr;grid-template-areas:"img brand" "img tools" "tabs tabs";gap:4px 10px;padding-block:6px}
+  .brand-img{width:56px;height:56px}
+  .bar-tools{justify-self:start}
+  .tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-4px}
   .tabs::-webkit-scrollbar{display:none}
   .tab{flex:none;padding:5px 10px}
 }
@@ -159,7 +162,7 @@ details.more>summary{cursor:pointer;font-family:var(--f-display);font-size:1.45r
 details.more>summary:hover{color:var(--accent)}
 details.more[open]>summary{padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:14px}
 .more-body{display:grid;gap:16px}
-#install{scroll-margin-top:90px} /* 捲到安裝方式時，不要被固定的頂端列擋住 */
+#install,#s-out,#p-book{scroll-margin-top:130px} /* 捲到這些區塊時，不要被固定的頂端列 (兩列) 擋住 */
 .tight{margin:0;padding-left:1.2em;display:grid;gap:3px;font-size:.92rem}
 
 /* 功能簡介：示意圖 + 做什麼／什麼時候用／練完你會 */
@@ -444,7 +447,8 @@ table.wrap td,table.wrap th{white-space:normal}
 <script>try{var f=localStorage.getItem('cj-fs');if(f==='l'||f==='xl')document.documentElement.dataset.fs=f;var t=localStorage.getItem('cj-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
 <header class="bar">
   <div class="bar-in">
-    <div class="brand"><span class="brand-mark">JP</span>CJPsAddin 使用教學</div>
+    <img class="brand-img" src="img/logo_mushroom.jpg" alt="" width="76" height="76">
+    <div class="brand">CJPsAddin 使用教學</div>
     <nav class="tabs" role="tablist" aria-label="功能單元">
       <button class="tab" role="tab" data-group="overview">總覽</button>
       <span class="subgrp" data-group="overview" role="group" hidden><button class="subtab" role="tab" data-tab="overview" data-group="overview" id="t-overview">總覽</button></span>
@@ -1444,7 +1448,7 @@ table.wrap td,table.wrap th{white-space:normal}
   </div>
   <div class="grid-2">
     <figure class="shot">
-      <img src="img/split_sheet.png" width="493" height="757" loading="lazy" alt="資料拆檔設定視窗的「工作表設定」分頁：勾選要拆的工作表、Key值欄標題格、資料最後一列，以及排成十字的保留範圍">
+      <img src="img/split_sheet.png" width="493" height="755" loading="lazy" alt="資料拆檔設定視窗的「工作表設定」分頁：勾選要拆的工作表、Key值欄標題格、資料最後一列，以及排成十字的保留範圍">
       <figcaption>「工作表設定」分頁 (用練習檔開啟)</figcaption>
     </figure>
     <div class="panel">
@@ -1460,7 +1464,7 @@ table.wrap td,table.wrap th{white-space:normal}
   </div>
   <div class="grid-2">
     <figure class="shot">
-      <img src="img/split_file.png" width="493" height="757" loading="lazy" alt="資料拆檔設定視窗的「檔案設定」分頁：檔名與資料夾的前後文字、檔案開啟密碼與工作表保護密碼、參數表、拆檔選項">
+      <img src="img/split_file.png" width="493" height="755" loading="lazy" alt="資料拆檔設定視窗的「檔案設定」分頁：檔名與資料夾的前後文字、檔案開啟密碼與工作表保護密碼、參數表、拆檔選項">
       <figcaption>「檔案設定」分頁 (所有工作表共用)</figcaption>
     </figure>
     <div class="panel">
