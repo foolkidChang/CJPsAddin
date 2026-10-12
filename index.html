@@ -121,7 +121,8 @@ b.hl,.hl{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:
   /* 手機：圖片佔左邊兩列 (標題、工具)，頁籤在下面整列 */
   .bar-in{grid-template-columns:auto 1fr;grid-template-areas:"img brand" "img tools" "tabs tabs";gap:4px 10px;padding-block:6px}
   .brand-img{width:56px;height:56px}
-  .bar-tools{justify-self:start}
+  .bar-tools{justify-self:start;gap:6px 10px}
+  .fs-pick .fs-lbl{display:none} /* 手機上拿掉「字級」兩個字，工具才排得進一行 */
   .tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-4px}
   .tabs::-webkit-scrollbar{display:none}
   .tab{flex:none;padding:5px 10px}
@@ -418,12 +419,15 @@ table.wrap td,table.wrap th{white-space:normal}
 .q-group{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;border-left:4px solid var(--accent);padding:2px 0 2px 10px;margin-top:10px}
 .q-group:first-child{margin-top:0}
 .q-group h3{color:var(--accent)}
+.q-group .lab-tag{font-size:.88rem;font-weight:700;padding:3px 12px;border-radius:6px;vertical-align:0} /* 「回到練習 →」：比一般小標籤大、粗，才看得清楚 */
 .opts{display:grid;gap:6px}
 .opt{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:6px 12px;text-align:left}
 .opt:hover:not(:disabled){border-color:var(--accent)}
 .opt.right{background:var(--both);color:var(--both-ink);border-color:var(--both-ink)}
 .opt.wrong{background:var(--only);color:var(--only-ink);border-color:var(--only-ink)}
 .opt:disabled{cursor:default}
+.opt.key{border:2px dashed var(--accent);background:var(--accent-soft)} /* 「顯示解答」打開時的正解 */
+.opt.key::after{content:"　✓ 正解";color:var(--accent);font-weight:700}
 .why{font-size:.88rem;color:var(--muted);border-left:3px solid var(--accent);padding-left:10px}
 .score{font-family:var(--f-mono);font-size:.9rem;color:var(--accent);font-weight:600}
 
@@ -1645,7 +1649,7 @@ table.wrap td,table.wrap th{white-space:normal}
   <div class="head">
     <div class="eyebrow">複習</div>
     <h2>小測驗 <span class="score" id="score"></span></h2>
-    <p class="lead">點選答案，立即顯示對錯與說明。題目依功能分組，忘記了可以點「回到練習 →」再試一次。</p>
+    <p class="lead">點選答案，立即顯示對錯與說明。題目依功能分組，忘記了可以點「回到練習 →」再試一次。打開右上角的「顯示解答」，會直接標出每題的正解。</p>
   </div>
   <div class="quiz" id="quiz-list"></div>
   <div class="runbar"><button class="runbtn" id="quiz-reset">重新作答</button></div>
@@ -1739,7 +1743,7 @@ document.querySelectorAll('.lesson-card .ill[data-ill]').forEach(fig=>{
   fig.append(svg);
 });
 const tbtn=$('#teacher');
-function setTeacher(on){document.body.classList.toggle('teacher',on);tbtn.setAttribute('aria-checked',String(on));store.set('cj-teacher',on?'1':'0');}
+function setTeacher(on){document.body.classList.toggle('teacher',on);tbtn.setAttribute('aria-checked',String(on));store.set('cj-teacher',on?'1':'0');try{renderQuiz();}catch(e){}} // 小測驗也要跟著標出解答 (題目還沒載入時略過)
 tbtn.addEventListener('click',()=>setTeacher(tbtn.getAttribute('aria-checked')!=='true'));
 // 字級：m 標準／l 大／xl 特大（頁首的小 script 會在載入時先套用，避免閃一下）
 function setFs(v){
@@ -2905,10 +2909,12 @@ function renderQuiz(){
   let right=0,done=0;
   QUIZ.forEach((item,i)=>{
     const picked=qs.ans[i];
+    const showKey=picked==null&&document.body.classList.contains('teacher'); // 「顯示解答」：還沒作答的題目標出正解與說明，仍然可以作答
     const opts=el('div',{class:'opts'});
     item.o.forEach((o,j)=>{
       let cls='opt';
       if(picked!=null){if(j===item.a)cls+=' right';else if(j===picked)cls+=' wrong';}
+      else if(showKey&&j===item.a)cls+=' key';
       const b=el('button',{class:cls,text:o,onclick:()=>{qs.ans[i]=j;renderQuiz();}});
       if(picked!=null)b.disabled=true;
       opts.append(b);
@@ -2920,6 +2926,7 @@ function renderQuiz(){
     }
     const q=el('div',{class:'q'},[el('div',{class:'q-n',text:'第 '+(i+1)+' 題'}),el('div',{text:item.q}),opts]);
     if(picked!=null){done++;if(picked===item.a)right++;q.append(el('div',{class:'why',text:(picked===item.a?'答對了。':'答錯了。')+item.w}));}
+    else if(showKey)q.append(el('div',{class:'why',text:'解答：'+item.w}));
     box.append(q);
   });
   $('#score').textContent=done?right+' / '+QUIZ.length:'';
