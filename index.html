@@ -102,7 +102,9 @@ b.hl,.hl{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:
 .bar-in{max-width:1180px;margin:0 auto;padding:8px 16px;display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"img brand tools" "img tabs tabs";align-items:center;gap:6px 14px}
 .brand-img{grid-area:img;width:76px;height:76px;border-radius:10px;object-fit:cover;align-self:center}
 .brand{grid-area:brand;font-family:var(--f-display);font-weight:900;font-size:1.15rem}
-.tabs{grid-area:tabs;display:flex;gap:2px;flex-wrap:wrap;align-items:center;min-width:0}
+.tabs{grid-area:tabs;display:flex;gap:2px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;align-items:center;min-width:0} /* 功能頁籤永遠一行，放不下時左右滑動 */
+.tabs::-webkit-scrollbar{display:none}
+.tabs>*{flex:none}
 .tab{border:0;background:transparent;color:var(--muted);padding:6px 12px;border-radius:6px;font-weight:500}
 .tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
 .tab:hover:not([aria-selected="true"]){color:var(--ink);background:var(--hdr)}
@@ -123,12 +125,11 @@ b.hl,.hl{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:
   .bar-in{grid-template-columns:auto 1fr;grid-template-areas:"img brand" "img tools" "tabs tabs";gap:4px 10px;padding-block:6px}
   .brand-img{width:56px;height:56px}
   .bar-tools{justify-self:end;justify-content:flex-end;gap:6px 10px} /* 換到第二行時靠右，和桌面版一致 */
+  .tabs{margin-inline:-4px}
+  .tab{padding:5px 10px}
 }
 @media (max-width:400px){
   .fs-pick .fs-lbl{display:none} /* 太窄的手機才拿掉「字級」兩個字，工具才排得進一行 */
-  .tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-4px}
-  .tabs::-webkit-scrollbar{display:none}
-  .tab{flex:none;padding:5px 10px}
 }
 .switch{position:relative;width:38px;height:22px;border-radius:11px;border:1px solid var(--line);background:var(--hdr);padding:0}
 .switch::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--muted);transition:transform .15s}
