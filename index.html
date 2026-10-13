@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- 搜尋關鍵字：CJP、增益集、VBA、Add-in。標題、簡介、首頁說明與下方的結構化資料要一起維護 -->
-<meta name="description" content="CJP 增益集 (CJPsAddin、CJP's VBA Tools) 是一個 Excel VBA Add-in，提供篩選強化、兩表比對、單表比對、多檔收集、單檔收集、資料拆檔、樞紐明細等功能。附教學與線上練習，直接在瀏覽器操作。">
+<meta name="description" content="CJP 增益集 (CJPsAddin、CJP's VBA Tools) 是一個 Excel VBA Add-in，提供篩選強化、兩表比對、單表比對、多檔收集、單檔收集、資料拆檔、資料搬移、樞紐明細等功能。附教學與線上練習，直接在瀏覽器操作。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="CJPsAddin">
 <meta property="og:url" content="https://foolkidchang.github.io/CJPsAddin/">
 <meta property="og:locale" content="zh_TW">
 <meta property="og:title" content="CJP 增益集 CJPsAddin｜Excel VBA Tools (附教學)">
-<meta property="og:description" content="CJP 增益集 (CJPsAddin、CJP's VBA Tools) 是一個 Excel VBA Add-in，提供篩選強化、兩表比對、單表比對、多檔收集、單檔收集、資料拆檔、樞紐明細等功能。附教學與線上練習，直接在瀏覽器操作。">
+<meta property="og:description" content="CJP 增益集 (CJPsAddin、CJP's VBA Tools) 是一個 Excel VBA Add-in，提供篩選強化、兩表比對、單表比對、多檔收集、單檔收集、資料拆檔、資料搬移、樞紐明細等功能。附教學與線上練習，直接在瀏覽器操作。">
 <meta name="google-site-verification" content="buucDtRrcJYY-0kigrYnWsXKJyp51EqlqKGfyQU-9uo">
 <link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/">
 <title>CJP 增益集 CJPsAddin｜Excel VBA Tools (附教學)</title>
@@ -475,6 +475,8 @@ table.wrap td,table.wrap th{white-space:normal}
       <span class="subgrp" data-group="collect" role="group" hidden><button class="subtab" role="tab" data-tab="collect" data-group="collect" id="t-collect">多檔收集</button><button class="subtab" role="tab" data-tab="classify" data-group="collect" id="t-classify">單檔收集</button></span>
       <button class="tab" role="tab" data-group="split">資料拆檔</button>
       <span class="subgrp" data-group="split" role="group" hidden><button class="subtab" role="tab" data-tab="split" data-group="split" id="t-split">資料拆檔</button></span>
+      <button class="tab" role="tab" data-group="move">資料搬移</button>
+      <span class="subgrp" data-group="move" role="group" hidden><button class="subtab" role="tab" data-tab="move" data-group="move" id="t-move">資料搬移</button></span>
       <button class="tab" role="tab" data-group="settings" data-label="設定切換">設定切換</button>
       <span class="subgrp" data-group="settings" role="group" hidden><button class="subtab" role="tab" data-tab="pivot" data-group="settings" id="t-pivot">樞紐明細</button></span>
       <button class="tab" role="tab" data-group="quiz">小測驗</button>
@@ -635,6 +637,7 @@ table.wrap td,table.wrap th{white-space:normal}
             <li data-tip="依據〔分類規則表〕Key值進行資料收集；可當成批次VLOOKUP使用" tabindex="0"><span class="mi">單檔收集</span><a class="lab-tag" href="#classify-1">練習 →</a></li>
           </ul></li>
           <li data-tip="依Key值欄的內容，把工作表拆成多個檔案" tabindex="0"><span class="mi">資料拆檔</span><a class="lab-tag" href="#split-1">練習 →</a></li>
+          <li data-tip="把來源活頁簿中同名工作表的資料，整欄搬到目標活頁簿 (只搬值)" tabindex="0"><span class="mi">資料搬移</span><a class="lab-tag" href="#move">說明 →</a></li>
           <li class="grp">批量檔案處理…<ul>
             <li class="grp">更改檔名…<ul>
               <li>檔名讀取</li>
@@ -713,6 +716,14 @@ table.wrap td,table.wrap th{white-space:normal}
         <span class="lc-go">開始練習 (<span class="lc-n"></span> 題) →</span>
       </div>
     </a>
+    <a class="lesson-card" href="#move">
+      <h3 class="lc-title">資料搬移</h3>
+      <figure class="ill" data-ill="move" aria-hidden="true"></figure>
+      <div class="lc-txt">
+        <p>把報表貼進底稿：兩個活頁簿裡<b class="hl">名稱相同的工作表</b>，一次把資料整欄搬過去，只搬值、不帶格式。</p>
+        <span class="lc-go">看說明與練習檔 →</span>
+      </div>
+    </a>
     <a class="lesson-card" href="#pivot">
       <h3 class="lc-title">樞紐明細</h3>
       <figure class="ill" data-ill="pivot" aria-hidden="true"></figure>
@@ -734,7 +745,7 @@ table.wrap td,table.wrap th{white-space:normal}
         </svg>
       </figure>
       <div class="lc-txt">
-        <p>涵蓋以上 7 個功能，點選答案後<b class="hl">立即顯示對錯</b>與說明。</p>
+        <p>涵蓋以上 8 個功能，點選答案後<b class="hl">立即顯示對錯</b>與說明。</p>
         <span class="lc-go">開始作答 (<span class="lc-n"></span> 題) →</span>
       </div>
     </a>
@@ -1557,6 +1568,113 @@ table.wrap td,table.wrap th{white-space:normal}
   </div>
 </section>
 
+<!-- ============================ 資料搬移 ============================ -->
+<section class="lesson" id="tab-move" hidden>
+  <div class="head">
+    <div class="eyebrow">功能說明</div>
+    <h2>資料搬移</h2>
+  </div>
+
+  <div class="panel intro">
+    <figure class="ill">
+      <svg viewBox="0 0 340 126" role="img" aria-label="示意圖：來源活頁簿的損益表、明細搬到目標活頁簿的同名工作表；來源的參考資料在目標沒有同名的表，跳過">
+        <defs><marker id="ill-ah4" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path class="i-acc" d="M0 0 L9 4.5 L0 9 Z"/></marker></defs>
+        <text x="76" y="22" text-anchor="middle" class="i-muted">來源活頁簿</text>
+        <rect class="i-box" x="6" y="30" width="140" height="88" rx="4"/>
+        <rect class="i-mark" x="12" y="37" width="128" height="22" rx="3"/><text x="20" y="52">損益表</text><text x="132" y="52" text-anchor="end" class="i-muted i-mono">A～C</text>
+        <rect class="i-both" x="12" y="63" width="128" height="22" rx="3"/><text x="20" y="78">明細</text><text x="132" y="78" text-anchor="end" class="i-muted i-mono">A～E</text>
+        <rect class="i-box" x="12" y="89" width="128" height="22" rx="3"/><text x="20" y="104" class="i-muted">參考資料</text><text x="132" y="104" text-anchor="end" class="i-muted">跳過</text>
+        <path class="i-arrow" d="M148 48 L190 48" marker-end="url(#ill-ah4)"/>
+        <path class="i-arrow" d="M148 74 L190 74" marker-end="url(#ill-ah4)"/>
+        <text x="264" y="22" text-anchor="middle" class="i-muted">目標活頁簿 (底稿)</text>
+        <rect class="i-box" x="194" y="30" width="140" height="88" rx="4"/>
+        <rect class="i-mark" x="200" y="37" width="128" height="22" rx="3"/><text x="208" y="52" class="i-b">損益表</text>
+        <rect class="i-both" x="200" y="63" width="128" height="22" rx="3"/><text x="208" y="78" class="i-b">明細</text>
+        <rect class="i-box" x="200" y="89" width="128" height="22" rx="3"/><text x="208" y="104" class="i-muted">說明</text><text x="320" y="104" text-anchor="end" class="i-muted">不動</text>
+      </svg>
+      <figcaption>名稱相同的工作表整欄搬過去 (只搬值)，其他的表不動</figcaption>
+    </figure>
+    <div class="intro-txt">
+      <h3>這個功能在做什麼</h3>
+      <p>每個月把系統匯出的報表貼進固定格式的底稿，底稿裡的公式再參照這些資料。工作表一多，一張一張「複製、貼上值」很花時間，這時用<b class="hl">資料搬移</b>：來源活頁簿和目標活頁簿中<b>名稱相同的工作表</b>，一次把來源的資料整欄搬到目標。只搬值，目標的格式、欄寬、公式欄都維持原樣。</p>
+      <div class="intro-cols">
+        <div>
+          <h4>適合這些時候用</h4>
+          <ul class="tight">
+            <li>每月的報表，更新到同一份工作底稿</li>
+            <li>系統匯出好幾張表，底稿也有同名的表</li>
+            <li>底稿的公式、樞紐分析表參照固定的欄位，只要換資料</li>
+          </ul>
+        </div>
+        <div>
+          <h4>使用前準備</h4>
+          <ul class="tight">
+            <li>來源活頁簿先開啟</li>
+            <li>目標的工作表名稱和來源一樣 (前後空白、英文大小寫不影響)</li>
+            <li>目標檔會被覆寫，第一次用請先備份</li>
+          </ul>
+        </div>
+      </div>
+      <p class="note-sm" style="margin-top:10px">※ 目前網站下載的 v1.12 還沒有這個功能，下一版會加入。</p>
+    </div>
+  </div>
+
+  <div class="sub-head">
+    <h3>設定視窗</h3>
+    <p class="lead">先開啟來源活頁簿，再切到要更新的底稿 (目標)，在增益集選單「常用功能二」點<b>資料搬移</b>。視窗會列出配對成功的工作表，確認後按「開始搬移」。</p>
+  </div>
+  <div class="grid-2">
+    <figure class="shot">
+      <img src="img/move_form.png" width="447" height="532" loading="lazy" alt="資料搬移設定視窗：來源與目標活頁簿的下拉選單、勾選要搬移的工作表清單 (右側是來源資料的範圍)，以及跳過的工作表和原因">
+      <figcaption>設定視窗 (用練習檔開啟)</figcaption>
+    </figure>
+    <div class="panel">
+      <h3>視窗裡的設定</h3>
+      <ol class="tight" style="margin-top:8px">
+        <li><b>來源</b>：列出目前開著的活頁簿，自動選第一個不是目標的檔案。要的檔案不在清單裡時，先在 Excel 開啟它，再按一次下拉箭頭，清單會重新整理</li>
+        <li><b>目標</b>：預設是執行時所在的活頁簿</li>
+        <li><b>要搬移的工作表</b>：每一列是一組「[來源表] → [目標表]」，右側是來源資料的範圍，例如「A～C 欄，10 列」。<b class="hl">取消勾選的不搬</b>，例如兩邊都有的「說明」表</li>
+        <li>清單下方的藍字是<b>跳過的表與原因</b>：沒有同名的目標表、來源表是空的、目標表有保護 (請先取消保護)</li>
+        <li>按鈕會顯示要搬幾張，例如「開始搬移 (2 張)」；搬完會列出成功和失敗的工作表</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="sub-head">
+    <h3>只搬值：內容會怎麼變</h3>
+    <p class="lead">只搬值等於把每一格<b>重新輸入一次</b>，和「先貼到記事本、再貼回 Excel」的效果一樣。結果會依目標欄的儲存格格式而不同：</p>
+  </div>
+  <div class="panel">
+    <div class="scroll">
+      <table class="sheet wrap">
+        <tr class="title-row"><th>來源的內容</th><th>目標欄是一般格式</th><th>目標欄是文字格式</th></tr>
+        <tr><td>文字的 <code>1250</code></td><td>數字 1,250 (套用目標欄的數字格式)</td><td>文字 1250</td></tr>
+        <tr><td>文字的 <code>2026/10/02</code></td><td>日期</td><td>文字</td></tr>
+        <tr><td>員編 <code>00123</code></td><td><b class="hl">123</b>：前導零消失</td><td>00123</td></tr>
+        <tr><td>16 碼卡號</td><td><b class="hl">4.31112E+15</b>：超過 15 位的數字會失真</td><td>完整保留</td></tr>
+        <tr><td>開頭是 <code>-</code>、<code>+</code>、<code>@</code>、<code>=</code> 的文字，例如 <code>-已結案</code></td><td colspan="2">保留為文字，不會被當成公式</td></tr>
+        <tr><td>公式</td><td colspan="2">搬過去的是計算結果</td></tr>
+      </table>
+    </div>
+    <p class="note-sm" style="margin-top:8px">員編、卡號、代碼這類要保留原樣的欄位，請先把目標欄設成文字格式。</p>
+  </div>
+
+  <div class="sub-head">
+    <div class="sub-head-top"><h3>練習檔</h3><span style="display:flex;flex-wrap:wrap;gap:8px"><a class="dl-btn" href="files/move_source.xlsx" download="來源_報表.xlsx" title="資料全部虛構"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>來源_報表.xlsx</a><a class="dl-btn" href="files/move_target.xlsx" download="目標_底稿.xlsx" title="資料全部虛構；「說明」工作表有 10 個步驟"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>目標_底稿.xlsx</a></span></div>
+    <p class="lead">兩個檔案下載到同一個資料夾並開啟，切到「目標_底稿」執行資料搬移。目標檔的「說明」工作表列了 10 個步驟和預期結果，照著做可以看到上面每一條規則的效果。重新練習時，兩個檔案都不要存檔、關掉重開即可。</p>
+  </div>
+
+  <div class="panel">
+    <h3>要記住的 4 件事</h3>
+    <ol class="tight" style="margin-top:8px">
+      <li>目標表從 A 欄到來源最後一欄是<b class="hl">整欄清除</b>後再寫入：這幾欄裡原有的內容 (包括資料下方的備註) 都會清掉；更右邊的欄不受影響。底稿自己的公式、備註，請放在來源資料範圍的右邊</li>
+      <li>取消勾選的目標表會<b>記在那張工作表裡</b>，下次預設不勾；目標檔要存檔才記得住，複製工作表時這個記錄不會跟著複製</li>
+      <li>目標欄有跨欄的合併儲存格時，那張表會搬移失敗，結果訊息會列出來；其他表照常搬移</li>
+      <li>改了 Windows 的顯示比例 (例如 100% 改成 150%) 後視窗排版亂掉：把 Excel 全部關掉再重新開啟</li>
+    </ol>
+  </div>
+</section>
+
 <!-- ============================ 樞紐明細 ============================ -->
 <section class="lesson" id="tab-pivot" hidden>
   <div class="head">
@@ -1699,7 +1817,7 @@ const fmtTask=s=>s.split('\n').map(l=>l.startsWith('>')?'<div class="op">'+fmt(l
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 
 /* ---------- tabs & teacher mode ---------- */
-const TABS=['overview','filter','recon','cross','collect','classify','split','pivot','quiz'];
+const TABS=['overview','filter','recon','cross','collect','classify','split','move','pivot','quiz'];
 let curTab='overview';
 const lastInGroup={};
 function showTab(id){
@@ -1738,7 +1856,7 @@ function applyHash(){
   // QR Code 的追蹤參數若被接在 # 後面 (例如 #recon?utm_campaign=QRCode)，只取 ? 前面的分頁名稱
   const raw=(location.hash||'').split('?')[0];
   if(raw==='#install'||raw==='#macro-note'){showTab('overview');const d=$('#install');d.open=true;$(raw).scrollIntoView();return true;} // #macro-note：安裝方式裡「自己的巨集檔被擋下來」的說明
-  const m=raw.slice(1).match(/^(overview|filter|recon|cross|collect|classify|split|pivot|quiz)(?:-(\d+))?$/);
+  const m=raw.slice(1).match(/^(overview|filter|recon|cross|collect|classify|split|move|pivot|quiz)(?:-(\d+))?$/);
   if(!m)return false;
   const n=m[2]?Number(m[2])-1:-1;
   if(n>=0){
@@ -2929,6 +3047,9 @@ const QUIZ=[
  {f:'split',q:'依「科別」拆檔，但有一段業務一科的資料排在業務二科後面。按「確定」會怎樣？',o:['照樣拆，業務一科會拆成兩個檔案','後面那段業務一科的資料會被漏掉','還沒產生任何檔案就提示「跳列」，請你先排序','程式自動排序後再拆'],a:2,w:'程式會先檢查全部的 Key，相同 Key 的資料必須連在一起。先依 Key 值欄排序再拆檔。'},
  {f:'split',q:'報表第 1～3 列是報表標題和日期，標題列在第 4 列。拆出的檔案不要前 3 列，保留範圍要怎麼填？',o:['上：從第 4 列起','上：從第 3 列起','下：到第 4 列','左：從 D 欄起'],a:0,w:'保留範圍「上」填標題列，上面的列都會刪除。上、左是「從…起」，下、右是「到…」。'},
  {f:'split',q:'「北區」那一列的區域和科別都是「北區」。勾選「跳過群組標題列」時，這一列會怎樣？',o:['北區會拆成一個檔案','不算任何 Key，拆出的檔案裡都不會有這一列','原樣出現在每個檔案'],a:1,w:'Key 值欄和左邊一欄內容相同的列是群組標題列，不拆成檔案，也不放進任何檔案。不勾選時，北區會被當成一個 Key。'},
+ {f:'move',q:'來源「損益表」的資料在 A～C 欄。目標「損益表」的 A30 有一段舊附註、F 欄有你的備註。搬移後這兩處會怎樣？',o:['兩處都保留','A30 被清掉，F 欄備註保留','兩處都被清掉'],a:1,w:'目標表從 A 欄到來源最後一欄 (C 欄) 整欄清除後再寫入，A30 在這幾欄裡會被清掉；D 欄以後不受影響。'},
+ {f:'move',q:'來源的員編是文字「00123」，目標欄是一般格式。搬移後目標欄顯示？',o:['00123','123','搬移失敗'],a:1,w:'只搬值等於重新輸入一次，一般格式的欄會把它當成數字，前導零消失。要保留時，先把目標欄設成文字格式。'},
+ {f:'move',q:'這次在清單取消勾選「[說明] → [說明]」並存檔，下次再執行資料搬移時？',o:['[說明] 預設不勾','[說明] 又會被勾選','[說明] 不會出現在清單'],a:0,w:'取消勾選的目標表會記在那張工作表裡，下次預設不勾；要搬時再勾回來即可。'},
  {f:'pivot',q:'在樞紐分析表的哪裡雙擊，增益集才會整理產生的明細工作表？',o:['列標籤，例如業務員姓名','數值區的一格，包括總計','報表篩選的欄位','任何儲存格'],a:1,w:'只處理數值區的一格。雙擊列標籤、欄標籤時，Excel 會詢問要展開哪個欄位，增益集不會處理。'},
  {f:'pivot',q:'雙擊數值「3,280」產生的明細工作表，名稱會是什麼？',o:['工作表3','3,280','樞紐分析表1','明細'],a:1,w:'名稱是雙擊那一格顯示的數值；名稱已經有人用時，依序加上 _2、_3。'},
  {f:'pivot',q:'用選單把樞紐明細來源功能關閉後，關掉 Excel 再重新開啟，這個功能是？',o:['維持關閉','恢復成開啟','要重新安裝增益集才會開啟'],a:1,w:'這個功能預設開啟，每次開 Excel 都會自動開啟。關閉只對這次開著的 Excel 有效。'}
@@ -2952,7 +3073,7 @@ function renderQuiz(){
     // 功能換了就插一行分組標題：「篩選強化　第 1～5 題　回到練習 →」
     if(i===0||QUIZ[i-1].f!==item.f){
       let last=i;while(last+1<QUIZ.length&&QUIZ[last+1].f===item.f)last++;
-      box.append(el('div',{class:'q-group'},[el('h3',{text:$('#t-'+item.f).textContent}),el('span',{class:'note-sm',text:'第 '+(i+1)+(last>i?'～'+(last+1):'')+' 題'}),el('a',{class:'lab-tag',href:'#'+item.f,text:'回到練習 →'})]));
+      box.append(el('div',{class:'q-group'},[el('h3',{text:$('#t-'+item.f).textContent}),el('span',{class:'note-sm',text:'第 '+(i+1)+(last>i?'～'+(last+1):'')+' 題'}),el('a',{class:'lab-tag',href:'#'+item.f,text:item.f==='move'?'回到說明 →':'回到練習 →'})]));
     }
     const q=el('div',{class:'q'},[el('div',{class:'q-n',text:'第 '+(i+1)+' 題'}),el('div',{text:item.q}),opts]);
     if(picked!=null){done++;if(picked===item.a)right++;q.append(el('div',{class:'why',text:(picked===item.a?'答對了。':'答錯了。')+item.w}));}
