@@ -122,8 +122,10 @@ b.hl,.hl{background:var(--mark);color:var(--mark-ink);border-radius:3px;padding:
   /* 手機：圖片佔左邊兩列 (標題、工具)，頁籤在下面整列 */
   .bar-in{grid-template-columns:auto 1fr;grid-template-areas:"img brand" "img tools" "tabs tabs";gap:4px 10px;padding-block:6px}
   .brand-img{width:56px;height:56px}
-  .bar-tools{justify-self:start;gap:6px 10px}
-  .fs-pick .fs-lbl{display:none} /* 手機上拿掉「字級」兩個字，工具才排得進一行 */
+  .bar-tools{justify-self:end;justify-content:flex-end;gap:6px 10px} /* 換到第二行時靠右，和桌面版一致 */
+}
+@media (max-width:400px){
+  .fs-pick .fs-lbl{display:none} /* 太窄的手機才拿掉「字級」兩個字，工具才排得進一行 */
   .tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-4px}
   .tabs::-webkit-scrollbar{display:none}
   .tab{flex:none;padding:5px 10px}
@@ -168,7 +170,7 @@ details.more>summary{cursor:pointer;font-family:var(--f-display);font-size:1.45r
 details.more>summary:hover{color:var(--accent)}
 details.more[open]>summary{padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:14px}
 .more-body{display:grid;gap:16px}
-#install,#s-out,#p-book{scroll-margin-top:130px} /* 捲到這些區塊時，不要被固定的頂端列 (兩列) 擋住 */
+#install,#macro-note,#s-out,#p-book{scroll-margin-top:130px} /* 捲到這些區塊時，不要被固定的頂端列 (兩列) 擋住 */
 .tight{margin:0;padding-left:1.2em;display:grid;gap:3px;font-size:.92rem}
 
 /* 功能簡介：示意圖 + 做什麼／什麼時候用／練完你會 */
@@ -533,12 +535,24 @@ table.wrap td,table.wrap th{white-space:normal}
           <li>寫入 Excel 啟動設定，<b class="hl">開 Excel 自動載入</b></li>
           <li>快速存取工具列加入 3 個按鈕 (Alt+1～3)</li>
           <li>安裝資料夾加入 Excel <b class="hl">信任位置</b></li>
-          <li>「啟用所有巨集」會改成「停用並通知」，<b>只收緊、不放寬</b></li>
+          <li>「啟用所有巨集」會改成「停用並通知」，<b>只收緊、不放寬</b> (<a href="#macro-note">自己的巨集檔怎麼辦？</a>)</li>
           <li>不覆寫公司的 Office 安全性原則</li>
           <li>產生診斷報告 <code>InstallDiagnostic.txt</code></li>
         </ol>
         <p class="note-sm" style="margin-top:10px">安裝失敗時，請查看安裝程式旁產生的 <code>InstallDiagnostic.txt</code>，裡面記錄了每個步驟的結果。</p>
       </div>
+    </div>
+
+    <div class="panel" id="macro-note" style="margin-top:14px">
+      <h3>安裝後，自己的巨集檔被擋下來了？</h3>
+      <p style="margin-top:6px">如果你原本把巨集設定成「啟用所有巨集」，安裝程式會改成<b class="hl">「停用所有巨集 (事先通知)」</b>：任何檔案一打開就執行巨集，是常見的中毒管道。增益集本身不受影響 (安裝資料夾已加入信任位置)；你自己的巨集檔，打開時會先被擋下來，照下面做就好。</p>
+      <ol class="tight" style="margin-top:8px">
+        <li><b>一般情況：按一次「啟用內容」</b>。打開檔案時，上方出現黃色的「安全性警告」，直接按列上的「啟用內容」。Excel 會記住這個檔案，下次打開就不會再問。</li>
+        <li><b>每次都產生新檔、或常搬位置的檔案</b> (例如每個月另存一份)：Excel 是依檔案位置記住的，新檔要再按一次。把這類檔案固定放在一個資料夾，再加入信任位置：「檔案 → 選項 → 信任中心 → 信任中心設定 → 信任位置 → 新增位置」，選那個資料夾，裡面的檔案就不會再問。</li>
+        <li><b>網路磁碟上的檔案</b>：按「啟用內容」後，會再問「是否要讓這個檔案成為受信任的文件」，按「是」才會記住。</li>
+        <li><b>從網路下載、信件附件的檔案</b>，出現紅色的「Microsoft 已封鎖巨集執行」時：先關閉檔案，在檔案上按右鍵 →「內容」→ 勾選「解除封鎖」→「確定」，再重新打開。</li>
+      </ol>
+      <p class="note-sm" style="margin-top:8px">按「啟用內容」時，請直接按黃色列上的按鈕；從「檔案 → 資訊」選「只在這次工作階段啟用」的話，Excel 不會記住。如果每次打開都還是要按，可能是公司的資安原則停用了這些功能，請洽資訊單位。</p>
     </div>
     </div>
   </details>
@@ -1719,7 +1733,7 @@ function applyHash(){
   // #install：安裝方式已摺疊進總覽，開總覽並展開該區塊（舊連結照常可用）
   // QR Code 的追蹤參數若被接在 # 後面 (例如 #recon?utm_campaign=QRCode)，只取 ? 前面的分頁名稱
   const raw=(location.hash||'').split('?')[0];
-  if(raw==='#install'){showTab('overview');const d=$('#install');d.open=true;d.scrollIntoView();return true;}
+  if(raw==='#install'||raw==='#macro-note'){showTab('overview');const d=$('#install');d.open=true;$(raw).scrollIntoView();return true;} // #macro-note：安裝方式裡「自己的巨集檔被擋下來」的說明
   const m=raw.slice(1).match(/^(overview|filter|recon|cross|collect|classify|split|pivot|quiz)(?:-(\d+))?$/);
   if(!m)return false;
   const n=m[2]?Number(m[2])-1:-1;
