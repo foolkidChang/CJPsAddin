@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- 功能說明頁：給搜尋引擎與第一次來的人看的入口。互動練習在主網站 ../#split。搜尋關鍵字：Excel 依欄位拆檔、拆成多個檔案、依部門拆分工作表、CJP 增益集 -->
+<title>Excel 依欄位拆成多個檔案：一張報表依科別拆檔，各自寄出｜CJP 增益集</title>
+<meta name="description" content="Excel 一張報表要依部門、科別、分行拆成多個檔案？用 CJP 增益集的資料拆檔，依 Key 值欄一個 Key 拆成一個檔案，保留標題、格式與欄寬，可刪掉報表標題與內部欄位、加上開啟密碼。附設定視窗截圖、練習檔與線上練習。">
+<link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/split/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CJPsAddin">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://foolkidchang.github.io/CJPsAddin/split/">
+<meta property="og:title" content="Excel 依欄位拆成多個檔案：一張報表依科別拆檔，各自寄出">
+<meta property="og:description" content="依 Key 值欄一個 Key 拆成一個檔案，保留格式，可加開啟密碼。附練習檔與線上練習。">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Excel 依欄位拆成多個檔案：一張報表依科別拆檔，各自寄出",
+      "inLanguage": "zh-Hant",
+      "author": {"@type": "Person", "name": "CJP"},
+      "url": "https://foolkidchang.github.io/CJPsAddin/split/",
+      "about": {"@type": "SoftwareApplication", "name": "CJPsAddin", "alternateName": ["CJP 增益集", "CJP's VBA Tools"], "applicationCategory": "BusinessApplication", "operatingSystem": "Windows (Microsoft Excel)"}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "CJP 增益集", "item": "https://foolkidchang.github.io/CJPsAddin/"},
+        {"@type": "ListItem", "position": 2, "name": "依欄位拆成多個檔案", "item": "https://foolkidchang.github.io/CJPsAddin/split/"}
+      ]
+    }
+  ]
+}
+</script>
+<script>try{var f=localStorage.getItem('cj-fs');if(f==='l'||f==='xl')document.documentElement.dataset.fs=f;var t=localStorage.getItem('cj-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<!-- 流量統計 GoatCounter：這一頁開啟時記一筆 (路徑 /CJPsAddin/split/) -->
+<script data-goatcounter="https://cjpsaddin.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../lp.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="top-brand" href="../"><img src="../img/logo_mushroom.jpg" alt="" width="40" height="40">CJPsAddin 使用教學</a>
+    <nav class="top-nav" aria-label="功能說明">
+      <a href="../filter/">一次篩選多個值</a>
+      <a href="../recon/">兩表比對</a>
+      <a href="../split/" aria-current="page">依欄位拆檔</a>
+      <a href="../">全部功能與線上練習</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <nav class="crumb" aria-label="目前位置"><a href="../">CJP 增益集</a> › 依欄位拆成多個檔案</nav>
+
+  <section class="hero">
+    <h1>Excel 依欄位拆成多個檔案：一張報表依科別拆檔，各自寄出</h1>
+    <p class="lead">一張業績報表裡有好幾個單位的資料，要分別寄給各單位：手動做就是<b>篩選、複製、開新檔、貼上、存檔</b>，有幾個單位就重複幾次。CJP 增益集 (CJPsAddin，免費的 Excel VBA Add-in) 的<b class="hl">資料拆檔</b>，依 Key 值欄 (例如「科別」) 的內容，<b>一個 Key 拆成一個檔案</b>。每個檔案都是整張工作表的複本，只留下該 Key 的資料列，標題、格式、欄寬都會保留。</p>
+    <div class="cta">
+      <a class="btn primary" href="../#split">在網頁上直接試 (不用安裝) →</a>
+      <a class="btn ghost" href="../#install">下載增益集</a>
+      <a class="btn ghost" href="../files/split_practice.xlsx" download="資料拆檔_練習檔.xlsx"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>練習檔 (Excel)</a>
+    </div>
+  </section>
+
+  <div class="cols">
+    <figure class="ill">
+      <svg viewBox="0 0 340 126" role="img" aria-label="示意圖：一張業績表依科別拆成業務一科、業務二科、業務三科三個檔案">
+        <defs><marker id="ill-ah3" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path class="i-acc" d="M0 0 L9 4.5 L0 9 Z"/></marker></defs>
+        <text x="81" y="22" text-anchor="middle" class="i-muted">業績明細</text>
+        <rect class="i-box" x="6" y="30" width="150" height="88" rx="4"/>
+        <rect class="i-hdr" x="7" y="31" width="148" height="19"/>
+        <text x="12" y="45" class="i-b">科別</text><text x="96" y="45" class="i-b">業績</text>
+        <rect class="i-mark" x="7" y="51" width="148" height="33"/>
+        <rect class="i-both" x="7" y="85" width="148" height="16"/>
+        <rect class="i-cond" x="7" y="102" width="148" height="15"/>
+        <text x="12" y="64">業務一科</text><text x="96" y="64">85</text>
+        <text x="12" y="80">業務一科</text><text x="96" y="80">72</text>
+        <text x="12" y="97">業務二科</text><text x="96" y="97">64</text>
+        <text x="12" y="113">業務三科</text><text x="96" y="113">88</text>
+        <path class="i-arrow" d="M162 76 L192 76" marker-end="url(#ill-ah3)"/>
+        <text x="266" y="22" text-anchor="middle" class="i-muted">拆出的檔案</text>
+        <rect class="i-box" x="200" y="30" width="134" height="26" rx="4"/><rect class="i-mark" x="201" y="31" width="10" height="24"/><text x="218" y="48">業務一科.xlsx</text>
+        <rect class="i-box" x="200" y="61" width="134" height="26" rx="4"/><rect class="i-both" x="201" y="62" width="10" height="24"/><text x="218" y="79">業務二科.xlsx</text>
+        <rect class="i-box" x="200" y="92" width="134" height="26" rx="4"/><rect class="i-cond" x="201" y="93" width="10" height="24"/><text x="218" y="110">業務三科.xlsx</text>
+      </svg>
+      <figcaption>依 Key 值欄的內容，一個 Key 拆成一個檔案</figcaption>
+    </figure>
+    <div class="panel">
+      <h2>適合這些時候用</h2>
+      <ul>
+        <li>各科的業績明細，拆給各科主管</li>
+        <li>各分行的報表，拆檔後分別寄出</li>
+        <li>拆好的檔案，要加上開啟密碼</li>
+        <li>每個單位要收到好幾張表 (例如明細＋客戶清單)：同時拆好幾張工作表，相同 Key 的資料會放進同一個檔案</li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="cols">
+    <div class="panel">
+      <h2>用 CJP 增益集：設定一次就好</h2>
+      <ol class="steps">
+        <li>在增益集選單「常用功能二」點<b>資料拆檔</b>，勾選要拆的工作表</li>
+        <li><b>Key值欄標題格</b>：雙擊後用滑鼠點標題，例如「科別」。資料最後一列會自動偵測，下方有合計列時要改小</li>
+        <li><b>保留範圍</b> (選用)：依上下左右排成十字，範圍外的列、欄都會刪除。例如上方的報表標題、下方的簽核欄、右邊的內部備註欄</li>
+        <li>在「檔案設定」填檔名的前後文字 (例如「9月業績_業務一科.xlsx」)，需要時設定檔案開啟密碼</li>
+        <li>視窗下方會預覽拆成幾個檔案，確認後按「確定」</li>
+      </ol>
+      <p class="note">設定會記在工作表裡，下次開啟自動帶入 (密碼除外)。設定有問題時，預覽會變成紅字說明原因，「確定」不能按。</p>
+    </div>
+    <figure class="shot">
+      <img src="../img/split_sheet.png" width="493" height="755" loading="lazy" alt="CJP 增益集「資料拆檔」設定視窗的「工作表設定」分頁：勾選要拆的工作表、Key值欄標題格、資料最後一列，以及排成十字的保留範圍">
+      <figcaption>「工作表設定」分頁 (用練習檔開啟)</figcaption>
+    </figure>
+  </section>
+
+  <section class="cols">
+    <figure class="shot">
+      <img src="../img/split_file.png" width="493" height="755" loading="lazy" alt="CJP 增益集「資料拆檔」設定視窗的「檔案設定」分頁：檔名與資料夾的前後文字、檔案開啟密碼與工作表保護密碼、拆檔選項">
+      <figcaption>「檔案設定」分頁 (所有工作表共用)</figcaption>
+    </figure>
+    <div class="panel">
+      <h2>檔案設定</h2>
+      <ul>
+        <li><b>檔名</b>：字首＋Key＋字尾，例如「9月業績_業務一科.xlsx」</li>
+        <li><b>資料夾</b>：建在原檔所在的資料夾裡</li>
+        <li><b>密碼</b>：檔案開啟密碼和工作表保護密碼都要<b>輸入兩次</b>，避免打錯；密碼不會被記住</li>
+        <li><b>公式轉成值</b>：刪掉其他 Key 的資料後，公式可能算錯或變成 <code>#REF!</code>，勾選可以避免</li>
+        <li><b>跳過群組標題列</b>：Key 值欄和左邊一欄內容相同的列 (例如「北區｜北區」) 不當成一個 Key</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>要記住的 4 件事</h2>
+    <ol>
+      <li>資料要先依 Key 值欄<b class="hl">排序</b>：相同 Key 的資料要連在一起，否則會被擋下 (跳列)</li>
+      <li>資料最後一列下方的內容 (合計、簽核欄) 不屬於任何 Key，會<b>原樣出現在每個檔案</b>；不要的話用保留範圍「下」刪掉</li>
+      <li>拆檔前會先檢查全部的 Key：空白、錯誤值、檔名不能用的字元。有問題時<b>一個檔案都還沒產生</b>就會提示</li>
+      <li>拆出的是整張表的複本，格式、欄寬、隱藏欄都保留；有公式時，建議勾選「公式轉成值」</li>
+    </ol>
+  </section>
+
+  <section class="panel">
+    <h2>常見問題</h2>
+    <details class="faq"><summary>報表前幾列是標題和日期，拆出的檔案不想要怎麼辦？</summary><p>用保留範圍「上」填標題列。例如標題列在第 4 列，填「上：從第 4 列起」，上面的列都會刪除。</p></details>
+    <details class="faq"><summary>同一個科別的資料沒有排在一起，會怎樣？</summary><p>還沒產生任何檔案就會提示「跳列」，請先依 Key 值欄排序再拆檔。程式不會自動排序。</p></details>
+    <details class="faq"><summary>可以幫每個檔案加密碼嗎？</summary><p>可以。「檔案設定」可以設定檔案開啟密碼和工作表保護密碼，每個拆出的檔案都會套用。</p></details>
+    <details class="faq"><summary>要付費嗎？公司電腦可以裝嗎？</summary><p>免費。安裝方式和注意事項請看<a href="../#install">安裝方式</a>。增益集會刪除資料列、產生檔案，使用前請先備份。</p></details>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:10px">其他常用功能</h2>
+    <div class="related">
+      <a href="../filter/"><b>一次篩選多個值</b><span>複製一串編號，按 Alt+1 就篩好</span></a>
+      <a href="../recon/"><b>兩表比對</b><span>兩份名單的新增、遺漏一次標出來</span></a>
+      <a href="../#move"><b>整表匯入</b><span>報表貼進底稿：同名工作表整欄匯入</span></a>
+      <a href="../"><b>全部功能與線上練習</b><span>篩選、比對、收集、拆檔、匯入</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="site-foot-in">
+    <p><b>作者：CJP</b>　歡迎下載使用、分享本網站連結。</p>
+    <p><b>提問與回報</b>　有 GitHub 帳號的話，可以到 <a href="https://github.com/foolkidChang/CJPsAddin/issues" target="_blank" rel="noopener">GitHub 的 Issues</a> 提問或回報問題。</p>
+    <p><b>免責聲明</b>　本工具依現狀提供，不保證沒有錯誤，也不保證適用於所有情況。增益集會刪除資料列、拆分檔案、設定密碼，使用前請先備份資料；使用所造成的任何損失，由使用者自行負責。練習檔的資料全部為虛構。</p>
+  </div>
+</footer>
+</body>
+</html>

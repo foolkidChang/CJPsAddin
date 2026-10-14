@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- 功能說明頁：給搜尋引擎與第一次來的人看的入口。互動練習在主網站 ../#filter。搜尋關鍵字：Excel 一次篩選多個值、多個條件篩選、篩選多個編號、CJP 增益集 -->
+<title>Excel 一次篩選多個值：複製一串編號，按 Alt+1 就篩好｜CJP 增益集</title>
+<meta name="description" content="Excel 篩選多個值不用在下拉清單一個一個勾。用 CJP 增益集的篩選強化，複製一串編號或用分號輸入多個條件，按 Alt+1 一次篩好；Alt+2 依關鍵字模糊比對，Alt+3 一次取消所有篩選。附進階篩選與 FILTER 公式做法對照。">
+<link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/filter/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CJPsAddin">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://foolkidchang.github.io/CJPsAddin/filter/">
+<meta property="og:title" content="Excel 一次篩選多個值：複製一串編號，按 Alt+1 就篩好">
+<meta property="og:description" content="不用在下拉清單一個一個勾。複製一串值或用分號輸入，按 Alt+1 一次篩好。附練習檔與線上練習。">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Excel 一次篩選多個值：複製一串編號，按 Alt+1 就篩好",
+      "inLanguage": "zh-Hant",
+      "author": {"@type": "Person", "name": "CJP"},
+      "url": "https://foolkidchang.github.io/CJPsAddin/filter/",
+      "about": {"@type": "SoftwareApplication", "name": "CJPsAddin", "alternateName": ["CJP 增益集", "CJP's VBA Tools"], "applicationCategory": "BusinessApplication", "operatingSystem": "Windows (Microsoft Excel)"}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "CJP 增益集", "item": "https://foolkidchang.github.io/CJPsAddin/"},
+        {"@type": "ListItem", "position": 2, "name": "一次篩選多個值", "item": "https://foolkidchang.github.io/CJPsAddin/filter/"}
+      ]
+    }
+  ]
+}
+</script>
+<script>try{var f=localStorage.getItem('cj-fs');if(f==='l'||f==='xl')document.documentElement.dataset.fs=f;var t=localStorage.getItem('cj-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<!-- 流量統計 GoatCounter：這一頁開啟時記一筆 (路徑 /CJPsAddin/filter/) -->
+<script data-goatcounter="https://cjpsaddin.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../lp.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="top-brand" href="../"><img src="../img/logo_mushroom.jpg" alt="" width="40" height="40">CJPsAddin 使用教學</a>
+    <nav class="top-nav" aria-label="功能說明">
+      <a href="../filter/" aria-current="page">一次篩選多個值</a>
+      <a href="../recon/">兩表比對</a>
+      <a href="../split/">依欄位拆檔</a>
+      <a href="../">全部功能與線上練習</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <nav class="crumb" aria-label="目前位置"><a href="../">CJP 增益集</a> › 一次篩選多個值</nav>
+
+  <section class="hero">
+    <h1>Excel 一次篩選多個值：複製一串編號，按 Alt+1 就篩好</h1>
+    <p class="lead">主管傳來十幾個客戶編號，要從幾千列的大表裡把這些人挑出來。Excel 內建的篩選要在下拉清單裡<b>一個一個勾</b>，值一多就很容易漏。CJP 增益集 (CJPsAddin，免費的 Excel VBA Add-in) 的<b class="hl">篩選強化</b>，讓你把<b>一串值直接當條件</b>：複製幾個儲存格，或輸入用分號分隔的文字，按一次 <kbd>Alt</kbd>+<kbd>1</kbd> 就篩好。</p>
+    <div class="cta">
+      <a class="btn primary" href="../#filter">在網頁上直接試 (不用安裝) →</a>
+      <a class="btn ghost" href="../#install">下載增益集</a>
+      <a class="btn ghost" href="../files/filter_practice.xlsx" download="篩選強化_課堂練習檔.xlsx"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>練習檔 (Excel)</a>
+    </div>
+  </section>
+
+  <div class="cols">
+    <figure class="ill">
+      <svg viewBox="0 0 340 186" role="img" aria-label="示意圖：複製 002、008、009 三個條件，按 Alt+1 後，表格只留下這三筆">
+        <rect class="i-box" x="6" y="30" width="98" height="126" rx="8"/>
+        <text x="55" y="52" text-anchor="middle" class="i-muted">複製的條件</text>
+        <rect class="i-cond" x="23" y="64" width="64" height="22" rx="3"/><text class="i-cond-t i-mono" x="55" y="79" text-anchor="middle">002</text>
+        <rect class="i-cond" x="23" y="94" width="64" height="22" rx="3"/><text class="i-cond-t i-mono" x="55" y="109" text-anchor="middle">008</text>
+        <rect class="i-cond" x="23" y="124" width="64" height="22" rx="3"/><text class="i-cond-t i-mono" x="55" y="139" text-anchor="middle">009</text>
+        <text x="129" y="84" text-anchor="middle" class="i-acc">Alt+1</text>
+        <line class="i-arrow" x1="110" y1="95" x2="144" y2="95"/><path class="i-acc" d="M150 95 L141 90 L141 100 Z"/>
+        <rect class="i-box" x="156" y="12" width="178" height="164" rx="6"/>
+        <rect class="i-hdr" x="157" y="13" width="176" height="21" rx="5"/>
+        <text x="166" y="28" class="i-b">業務代碼</text><text x="262" y="28" class="i-b">區域</text>
+        <g class="i-faint"><text x="166" y="50" class="i-mono">004</text><text x="262" y="50">南區</text></g>
+        <rect class="i-mark" x="160" y="55" width="170" height="16" rx="3"/><text x="166" y="67" class="i-mono i-b">002</text><text x="262" y="67">北區</text>
+        <g class="i-faint"><text x="166" y="84" class="i-mono">010</text><text x="262" y="84">南區</text></g>
+        <rect class="i-mark" x="160" y="89" width="170" height="16" rx="3"/><text x="166" y="101" class="i-mono i-b">008</text><text x="262" y="101">中區</text>
+        <g class="i-faint"><text x="166" y="118" class="i-mono">001</text><text x="262" y="118">東區</text></g>
+        <rect class="i-mark" x="160" y="123" width="170" height="16" rx="3"/><text x="166" y="135" class="i-mono i-b">009</text><text x="262" y="135">北區</text>
+        <g class="i-faint"><text x="166" y="152" class="i-mono">003</text><text x="262" y="152">南區</text></g>
+        <g class="i-faint"><text x="166" y="169" class="i-mono">005</text><text x="262" y="169">中區</text></g>
+      </svg>
+      <figcaption>複製一串值，按一次快捷鍵就篩好</figcaption>
+    </figure>
+    <div class="panel">
+      <h2>適合這些時候用</h2>
+      <ul>
+        <li>主管傳來一串客戶編號，要從大表裡把這些人挑出來</li>
+        <li>要篩的值有十幾個，散在下拉清單的不同位置</li>
+        <li>想找名稱<b>包含</b>某幾個關鍵字的資料</li>
+        <li>套了好幾欄篩選，想一次全部取消</li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="panel">
+    <h2>Excel 內建的做法</h2>
+    <ul>
+      <li><b>篩選下拉清單</b>：一個一個勾。可以用搜尋框找，但一次只能搜一個值，要重複好幾次</li>
+      <li><b>進階篩選</b>：要先在旁邊做一個「條件範圍」(標題＋每列一個值)，再到「資料 → 進階」選範圍，步驟比較多</li>
+      <li><b>FILTER 公式</b> (Microsoft 365)：條件放在 E2:E5 時，可以寫
+        <pre class="formula" style="margin-top:4px">=FILTER(A2:C100, ISNUMBER(MATCH(A2:A100, E2:E5, 0)))</pre>
+        結果會出現在另一個位置，不是在原本的表上篩選</li>
+    </ul>
+  </section>
+
+  <section class="panel">
+    <h2>用 CJP 增益集：3 個步驟</h2>
+    <ol class="steps">
+      <li>點一下要篩選的欄位裡任一個儲存格 (工作表要已經設定篩選)</li>
+      <li>複製要篩的值 (例如主管信裡的一串編號)；或不複製，等一下在輸入框用<b>半形分號</b>分隔輸入，例如 <code>001;003;005</code></li>
+      <li>按 <kbd>Alt</kbd>+<kbd>1</kbd>，表格只留下這些值</li>
+    </ol>
+    <div class="scroll">
+      <table class="cmp">
+        <tr><th>快捷鍵</th><th>功能</th><th>說明</th></tr>
+        <tr><td><kbd>Alt</kbd>+<kbd>1</kbd></td><td>完全比對</td><td>值<b>完全相同</b>才留下；大小寫、前後空白都忽略；數值欄位也可以用</td></tr>
+        <tr><td><kbd>Alt</kbd>+<kbd>2</kbd></td><td>模糊比對</td><td><b>包含</b>任一關鍵字就留下；只適用文字，數值欄位會找不到</td></tr>
+        <tr><td><kbd>Alt</kbd>+<kbd>3</kbd></td><td>取消所有篩選</td><td>一次取消工作表上所有欄位的篩選，並回到目前選取的位置</td></tr>
+      </table>
+    </div>
+    <p class="note">快捷鍵是安裝程式放在「快速存取工具列」前 3 個的按鈕。新版 Microsoft 365 的按鈕可能排到後面，請照<a href="../#qat-note">這裡</a>調整順序。</p>
+  </section>
+
+  <section class="panel">
+    <h2>常見問題</h2>
+    <details class="faq"><summary>按 Alt+1 之前，已經篩過別的欄位了怎麼辦？</summary><p>不用先取消。執行前會<b>先清掉所有既有的篩選</b>，再依新的條件篩選。</p></details>
+    <details class="faq"><summary>要篩的資料本身就有分號，例如「A01;特規」？</summary><p>複製的內容含有分號時，程式會問分號是<b>分隔符號</b>還是<b>資料</b>：要找剛好是「A01;特規」的資料，選「否，請直接篩選」。這種資料只能用複製的方式帶入。</p></details>
+    <details class="faq"><summary>在數量欄用模糊比對搜「2」，為什麼找不到？</summary><p>模糊比對只適用文字。數值請用完全比對 (Alt+1)，或先把欄位轉成文字。</p></details>
+    <details class="faq"><summary>可以篩出空白的儲存格嗎？</summary><p>可以。沒有複製任何東西時按 Alt+1，跳出的輸入框裡有一行預設文字，直接按「確定」就是篩選空白儲存格。要中止請按「取消」或 Esc。</p></details>
+    <details class="faq"><summary>要付費嗎？公司電腦可以裝嗎？</summary><p>免費。安裝方式和注意事項 (例如公司的巨集安全性設定) 請看<a href="../#install">安裝方式</a>。</p></details>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:10px">其他常用功能</h2>
+    <div class="related">
+      <a href="../recon/"><b>兩表比對</b><span>兩份名單的新增、遺漏一次標出來</span></a>
+      <a href="../split/"><b>依欄位拆成多個檔案</b><span>一張表依科別拆檔，各自寄出</span></a>
+      <a href="../"><b>全部功能與線上練習</b><span>篩選、比對、收集、拆檔、匯入</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="site-foot-in">
+    <p><b>作者：CJP</b>　歡迎下載使用、分享本網站連結。</p>
+    <p><b>提問與回報</b>　有 GitHub 帳號的話，可以到 <a href="https://github.com/foolkidChang/CJPsAddin/issues" target="_blank" rel="noopener">GitHub 的 Issues</a> 提問或回報問題。</p>
+    <p><b>免責聲明</b>　本工具依現狀提供，不保證沒有錯誤，也不保證適用於所有情況。增益集會刪除資料列、拆分檔案、設定密碼，使用前請先備份資料；使用所造成的任何損失，由使用者自行負責。練習檔的資料全部為虛構。</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- 功能說明頁：給搜尋引擎與第一次來的人看的入口。互動練習在主網站 ../#recon。搜尋關鍵字：Excel 兩表比對、兩個工作表比對、名單差異、CJP 增益集 -->
+<title>Excel 兩表比對：兩份名單的新增、遺漏一次標出來｜CJP 增益集</title>
+<meta name="description" content="Excel 兩個工作表比對，找出這個月和上個月名單的新增與遺漏。不用寫 VLOOKUP 或 COUNTIF，用 CJP 增益集的「兩表比對」依 Key 一次標上兩表皆有、僅在A表、僅在B表，附公式做法對照、練習檔與線上練習。">
+<link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/recon/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CJPsAddin">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://foolkidchang.github.io/CJPsAddin/recon/">
+<meta property="og:title" content="Excel 兩表比對：兩份名單的新增、遺漏一次標出來">
+<meta property="og:description" content="不用寫 VLOOKUP，依 Key 一次標上兩表皆有、僅在A表、僅在B表。附練習檔與線上練習。">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Excel 兩表比對：兩份名單的新增、遺漏一次標出來",
+      "inLanguage": "zh-Hant",
+      "author": {"@type": "Person", "name": "CJP"},
+      "url": "https://foolkidchang.github.io/CJPsAddin/recon/",
+      "about": {"@type": "SoftwareApplication", "name": "CJPsAddin", "alternateName": ["CJP 增益集", "CJP's VBA Tools"], "applicationCategory": "BusinessApplication", "operatingSystem": "Windows (Microsoft Excel)"}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "CJP 增益集", "item": "https://foolkidchang.github.io/CJPsAddin/"},
+        {"@type": "ListItem", "position": 2, "name": "兩表比對", "item": "https://foolkidchang.github.io/CJPsAddin/recon/"}
+      ]
+    }
+  ]
+}
+</script>
+<script>try{var f=localStorage.getItem('cj-fs');if(f==='l'||f==='xl')document.documentElement.dataset.fs=f;var t=localStorage.getItem('cj-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<!-- 流量統計 GoatCounter：這一頁開啟時記一筆 (路徑 /CJPsAddin/recon/) -->
+<script data-goatcounter="https://cjpsaddin.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../lp.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="top-brand" href="../"><img src="../img/logo_mushroom.jpg" alt="" width="40" height="40">CJPsAddin 使用教學</a>
+    <nav class="top-nav" aria-label="功能說明">
+      <a href="../filter/">一次篩選多個值</a>
+      <a href="../recon/" aria-current="page">兩表比對</a>
+      <a href="../split/">依欄位拆檔</a>
+      <a href="../">全部功能與線上練習</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <nav class="crumb" aria-label="目前位置"><a href="../">CJP 增益集</a> › 兩表比對</nav>
+
+  <section class="hero">
+    <h1>Excel 兩表比對：兩份名單的新增、遺漏一次標出來</h1>
+    <p class="lead">這個月和上個月的客戶名單，<b>誰是新增、誰不見了？</b>系統匯出的清單和手上的對帳表，<b>有沒有漏掉的？</b>用 Excel 公式要一筆一筆查。CJP 增益集 (CJPsAddin，免費的 Excel VBA Add-in) 的<b class="hl">兩表比對</b>，用同一個 Key (例如客戶編號) 對照兩張表，每一列直接標上 <span class="res both">兩表皆有</span>、<span class="res only">僅在A表</span> 或 <span class="res only">僅在B表</span>。</p>
+    <div class="cta">
+      <a class="btn primary" href="../#recon">在網頁上直接試 (不用安裝) →</a>
+      <a class="btn ghost" href="../#install">下載增益集</a>
+      <a class="btn ghost" href="../files/recon_practice.xlsx" download="兩表比對_課堂練習檔.xlsx"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>練習檔 (Excel)</a>
+    </div>
+  </section>
+
+  <div class="cols">
+    <figure class="ill">
+      <svg viewBox="0 0 340 186" role="img" aria-label="示意圖：A 表和 B 表兩個圓形重疊，左邊是僅在A表的 P003，中間重疊處是兩表皆有的 P001、P002，右邊是僅在B表的 P005">
+        <defs><clipPath id="ill-ra"><circle cx="132" cy="96" r="74"/></clipPath></defs>
+        <circle class="i-only-f" cx="132" cy="96" r="74"/>
+        <circle class="i-only-f" cx="208" cy="96" r="74"/>
+        <circle class="i-both" cx="208" cy="96" r="74" clip-path="url(#ill-ra)"/>
+        <circle class="i-ring" cx="132" cy="96" r="74"/>
+        <circle class="i-ring" cx="208" cy="96" r="74"/>
+        <text x="40" y="34" text-anchor="middle" class="i-b">A 表</text>
+        <text x="300" y="34" text-anchor="middle" class="i-b">B 表</text>
+        <text x="96" y="90" text-anchor="middle" class="i-only-t">僅在A表</text>
+        <text x="96" y="110" text-anchor="middle" class="i-mono">P003</text>
+        <text x="170" y="82" text-anchor="middle" class="i-both-t">兩表皆有</text>
+        <text x="170" y="102" text-anchor="middle" class="i-mono">P001</text>
+        <text x="170" y="118" text-anchor="middle" class="i-mono">P002</text>
+        <text x="244" y="90" text-anchor="middle" class="i-only-t">僅在B表</text>
+        <text x="244" y="110" text-anchor="middle" class="i-mono">P005</text>
+      </svg>
+      <figcaption>用 Key (例如商品代碼) 判斷每一筆在不在另一張表</figcaption>
+    </figure>
+    <div class="panel">
+      <h2>適合這些時候用</h2>
+      <ul>
+        <li>這個月和上個月的名單，誰是新增、誰不見了</li>
+        <li>系統匯出的清單和手上的對帳表，有沒有漏掉的</li>
+        <li>兩份名單合併前，先確認差在哪幾筆</li>
+        <li>原本要用 VLOOKUP 一筆一筆查「找不找得到」</li>
+      </ul>
+      <p class="note">兩表比對只看這筆資料<b>有沒有</b>，不比較其他欄位的內容。要比較同一筆資料的內容一不一樣 (例如兩邊的金額)，用<a href="../#cross">單表比對</a>。</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <h2>用 Excel 公式怎麼做？</h2>
+    <p>最常見的做法，是在 A 表旁邊加一欄，用 COUNTIF 查這個編號在 B 表出現幾次 (假設編號在 A 欄，B 表的工作表叫「B表」)：</p>
+    <pre class="formula">=IF(COUNTIF(B表!A:A, A2)&gt;0, "兩表皆有", "僅在A表")</pre>
+    <p>公式可以用，但有幾個麻煩的地方：</p>
+    <ul>
+      <li>只查得到「A 表的哪些不在 B 表」，反過來還要在 B 表再寫一次</li>
+      <li>Key 由好幾欄組成時 (例如「分行＋帳號」)，要先做輔助欄把欄位串起來，或改寫成 COUNTIFS</li>
+      <li>同一個編號有好幾筆時，看不出兩邊的筆數對不對得上</li>
+      <li>資料一多，整欄公式會讓檔案變慢；每個月都要重新拉一次</li>
+    </ul>
+  </section>
+
+  <section class="cols">
+    <div class="panel">
+      <h2>用 CJP 增益集：3 個步驟</h2>
+      <ol class="steps">
+        <li>在增益集選單點「常用功能二 → 資料比對 → <b>兩表比對</b>」</li>
+        <li>資料來源 (A)、(B) 各選一個活頁簿和工作表 (可以在不同檔案)，填 <b>Key值組成欄</b> 和<b>結果呈現欄</b>：
+          <ul style="margin-top:4px">
+            <li>單一 Key 填標題格，例如 <code>A9</code></li>
+            <li>多欄 Key 填 <code>A;B;9</code> (欄名用分號分隔，最後的數字是標題列)</li>
+            <li>兩張表格式相同時，按「參數快速代入」把 (A) 的設定帶到 (B)</li>
+          </ul>
+        </li>
+        <li>按「確定」，兩張表的結果欄都會標上比對結果</li>
+      </ol>
+      <p class="note">設定會記在工作表裡，下次在同一張工作表開啟時自動帶入。</p>
+    </div>
+    <figure class="shot">
+      <img src="../img/recon_form.png" width="429" height="649" loading="lazy" alt="CJP 增益集「兩表比對」的設定視窗：資料來源 (A)、(B)、Key值組成欄、結果呈現欄">
+      <figcaption>「兩表比對」的設定視窗 (用練習檔第 1 題開啟)</figcaption>
+    </figure>
+  </section>
+
+  <section class="panel">
+    <h2>比對結果怎麼看</h2>
+    <div class="scroll">
+      <table class="cmp">
+        <tr><th>結果</th><th>意思</th></tr>
+        <tr><td><span class="res both">兩表皆有</span></td><td>這個 Key 在兩張表都找得到</td></tr>
+        <tr><td><span class="res only">僅在A表</span>／<span class="res only">僅在B表</span></td><td>只出現在其中一張表：新增或遺漏的資料</td></tr>
+        <tr><td><span class="res both">…<span class="d">_有重複項</span></span></td><td>這個 Key 在表裡有重複</td></tr>
+      </table>
+    </div>
+    <p>同一個 Key 有好幾筆時，預設<b>筆數也要一致</b>：例如 A 表 O1001 有 3 筆、B 表有 2 筆，前 2 筆配對成功，多出的第 3 筆是「僅在A表」。勾選「相同Key值之重複資料，不論筆數一律視為相同」，就只看有沒有、不看筆數。</p>
+  </section>
+
+  <section class="panel">
+    <h2>常見問題</h2>
+    <details class="faq"><summary>兩張表的欄位順序不一樣，可以比對嗎？</summary><p>可以。A、B 兩張表的 Key 各自設定，例如 A 表的客戶編號在 A 欄、B 表在 C 欄都沒關係。</p></details>
+    <details class="faq"><summary>兩張表在不同的 Excel 檔案，可以比對嗎？</summary><p>可以。資料來源 (A)、(B) 各自選活頁簿和工作表，兩個檔案都開著就好。</p></details>
+    <details class="faq"><summary>員工編號兩邊都有，但薪資不同，會被找出來嗎？</summary><p>不會。兩表比對只看 Key，結果會是「兩表皆有」。要比較內容一不一樣，請用<a href="../#cross">單表比對</a>：兩份資料貼在同一張表，內容不一致的格子會標成粉紅色。</p></details>
+    <details class="faq"><summary>Key 要用好幾欄組成，怎麼填？</summary><p>例如 A、B、C 三欄，標題在第 9 列，就填 <code>A;B;C;9</code>。欄名用半形分號分隔，最後的數字是標題列。</p></details>
+    <details class="faq"><summary>要付費嗎？公司電腦可以裝嗎？</summary><p>免費。安裝方式和注意事項 (例如公司的巨集安全性設定) 請看<a href="../#install">安裝方式</a>。使用前請先備份資料。</p></details>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:10px">其他常用功能</h2>
+    <div class="related">
+      <a href="../filter/"><b>一次篩選多個值</b><span>複製一串編號，按 Alt+1 就篩好</span></a>
+      <a href="../split/"><b>依欄位拆成多個檔案</b><span>一張表依科別拆檔，各自寄出</span></a>
+      <a href="../#cross"><b>單表比對</b><span>同一筆資料的內容一不一樣</span></a>
+      <a href="../"><b>全部功能與線上練習</b><span>篩選、比對、收集、拆檔、匯入</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="site-foot-in">
+    <p><b>作者：CJP</b>　歡迎下載使用、分享本網站連結。</p>
+    <p><b>提問與回報</b>　有 GitHub 帳號的話，可以到 <a href="https://github.com/foolkidChang/CJPsAddin/issues" target="_blank" rel="noopener">GitHub 的 Issues</a> 提問或回報問題。</p>
+    <p><b>免責聲明</b>　本工具依現狀提供，不保證沒有錯誤，也不保證適用於所有情況。增益集會刪除資料列、拆分檔案、設定密碼，使用前請先備份資料；使用所造成的任何損失，由使用者自行負責。練習檔的資料全部為虛構。</p>
+  </div>
+</footer>
+</body>
+</html>
