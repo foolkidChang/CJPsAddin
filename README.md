@@ -24,4 +24,6 @@ CJPsAddin (CJP 增益集、CJP's VBA Tools) 是一個 Excel VBA Add-in，提供�
 
 作者：CJP。歡迎下載使用、分享本網站連結。
 
+有問題或建議，歡迎到 [Issues](https://github.com/foolkidChang/CJPsAddin/issues) 提問或回報。
+
 本工具依現狀提供，不保證沒有錯誤，也不保證適用於所有情況。增益集會刪除資料列、拆分檔案、設定密碼，使用前請先備份資料；使用所造成的任何損失，由使用者自行負責。練習檔的資料全部為虛構。
