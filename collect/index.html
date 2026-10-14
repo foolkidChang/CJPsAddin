@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- 功能說明頁：給搜尋引擎與第一次來的人看的入口，互動練習在主網站 ../#collect。搜尋關鍵字：Excel 多個檔案合併、多檔案彙整總表、跨檔案 VLOOKUP、CJP 增益集。
+     頂端選單、其他功能、頁尾每一頁都一樣；新增說明頁時，每一頁的選單都要加 (主網站頁尾的「功能說明」和 sitemap.xml 也要加) -->
+<title>Excel 多個檔案合併到總表：依編號把指定欄位帶回來｜CJP 增益集</title>
+<meta name="description" content="各單位填好的 Excel 檔案收回來，要合併回同一張總表？用 CJP 增益集的「多檔收集」，一次選多個檔案，依 Key 把指定欄位帶回總表，像跨檔案的批次 VLOOKUP；Key 和帶回的欄位都可以是多欄。附做法對照與線上練習。">
+<link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/collect/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CJPsAddin">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://foolkidchang.github.io/CJPsAddin/collect/">
+<meta property="og:title" content="Excel 多個檔案合併到總表：依編號把指定欄位帶回來">
+<meta property="og:description" content="一次選多個檔案，依 Key 把指定欄位帶回總表，像跨檔案的批次 VLOOKUP。附線上練習。">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Excel 多個檔案合併到總表：依編號把指定欄位帶回來",
+      "inLanguage": "zh-Hant",
+      "author": {
+        "@type": "Person",
+        "name": "CJP"
+      },
+      "url": "https://foolkidchang.github.io/CJPsAddin/collect/",
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "CJPsAddin",
+        "alternateName": [
+          "CJP 增益集",
+          "CJP's VBA Tools"
+        ],
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Windows (Microsoft Excel)"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "CJP 增益集",
+          "item": "https://foolkidchang.github.io/CJPsAddin/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "多檔收集",
+          "item": "https://foolkidchang.github.io/CJPsAddin/collect/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{var f=localStorage.getItem('cj-fs');if(f==='l'||f==='xl')document.documentElement.dataset.fs=f;var t=localStorage.getItem('cj-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<!-- 流量統計 GoatCounter：這一頁開啟時記一筆 (路徑 /CJPsAddin/collect/) -->
+<script data-goatcounter="https://cjpsaddin.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../lp.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="top-brand" href="../"><img src="../img/logo_mushroom.jpg" alt="" width="40" height="40">CJPsAddin 使用教學</a>
+    <nav class="top-nav" aria-label="功能說明">
+      <a href="../filter/">篩選強化</a>
+      <a href="../recon/">兩表比對</a>
+      <a href="../cross/">單表比對</a>
+      <a href="../collect/" aria-current="page">多檔收集</a>
+      <a href="../classify/">單檔收集</a>
+      <a href="../split/">資料拆檔</a>
+      <a href="../move/">整表匯入</a>
+      <a href="../pivot/">樞紐明細</a>
+      <a href="../">線上練習</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <nav class="crumb" aria-label="目前位置"><a href="../">CJP 增益集</a> › 多檔收集</nav>
+
+  <section class="hero">
+    <h1>Excel 多個檔案合併到總表：依編號把指定欄位帶回來</h1>
+    <p class="lead">把總表拆給各單位填寫，收回十幾個檔案後，要<b>一個一個打開、找到對應的那一列、再貼回總表</b>。CJP 增益集 (CJPsAddin，免費的 Excel VBA Add-in) 的<b class="hl">多檔收集</b>，先開好總表，再一次選好幾個匯入檔案，程式會在每個檔案裡找 <b>Key 相同</b>的資料，把指定的欄位帶回總表。可以想成跨檔案的批次 VLOOKUP：Key 和要帶回的欄位都可以是<b>多欄</b>。</p>
+    <div class="cta">
+      <a class="btn primary" href="../#collect">在網頁上直接試 (不用安裝) →</a>
+      <a class="btn ghost" href="../#install">下載增益集</a>
+    </div>
+  </section>
+
+  <div class="cols">
+    <figure class="ill">
+      <svg viewBox="0 0 340 176" role="img" aria-label="示意圖：來源_金額和來源_數量兩個檔案，依單位把金額、數量帶回同一張彙總表">
+        <defs><marker id="ill-ah" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path class="i-acc" d="M0 0 L9 4.5 L0 9 Z"/></marker></defs>
+        <rect class="i-box" x="6" y="14" width="118" height="66" rx="6"/>
+        <text x="14" y="32" class="i-b">來源_金額.xlsx</text>
+        <text x="16" y="52">北區</text><text x="70" y="52" class="i-mono">1200</text>
+        <text x="16" y="70">南區</text><text x="70" y="70" class="i-mono">1530</text>
+        <rect class="i-box" x="6" y="98" width="118" height="66" rx="6"/>
+        <text x="14" y="116" class="i-b">來源_數量.xlsx</text>
+        <text x="16" y="136">北區</text><text x="70" y="136" class="i-mono">12</text>
+        <text x="16" y="154">東區</text><text x="70" y="154" class="i-mono">9</text>
+        <path class="i-arrow" d="M128 48 C150 48 150 68 166 70" marker-end="url(#ill-ah)"/>
+        <path class="i-arrow" d="M128 132 C150 132 150 112 166 110" marker-end="url(#ill-ah)"/>
+        <text x="253" y="32" text-anchor="middle" class="i-muted">彙總表.xlsx</text>
+        <rect class="i-box" x="172" y="40" width="162" height="88" rx="4"/>
+        <rect class="i-hdr" x="173" y="41" width="160" height="19"/>
+        <text x="180" y="55" class="i-b">單位</text><text x="207" y="55" class="i-acc" style="font-size:9px">Key</text>
+        <text x="234" y="55" class="i-b">金額</text><text x="290" y="55" class="i-b">數量</text>
+        <rect class="i-mark" x="227" y="61" width="52" height="20"/><rect class="i-mark" x="283" y="61" width="48" height="20"/>
+        <rect class="i-mark" x="227" y="83" width="52" height="20"/>
+        <rect class="i-mark" x="283" y="105" width="48" height="20"/>
+        <text x="180" y="76">北區</text><text x="234" y="76" class="i-mono">1200</text><text x="290" y="76" class="i-mono">12</text>
+        <text x="180" y="98">南區</text><text x="234" y="98" class="i-mono">1530</text>
+        <text x="180" y="120">東區</text><text x="290" y="120" class="i-mono">9</text>
+      </svg>
+      <figcaption>各檔案依 Key 把欄位帶回同一張總表</figcaption>
+    </figure>
+    <div class="panel">
+      <h2>適合這些時候用</h2>
+      <ul>
+        <li>把總表拆給各單位填寫，收回來後要合併回同一張表</li>
+        <li>金額、數量分散在不同部門的檔案，要彙整成一張</li>
+        <li>各門市的月報要彙整成全公司總表</li>
+        <li>各單位處理完案件後清空待辦欄，要同步回總表</li>
+      </ul>
+      <p class="note">資料都在同一個檔案、只是要依對照表或規則補上欄位時，用<a href="../classify/">單檔收集</a>。</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <h2>Excel 內建的做法</h2>
+    <ul>
+      <li><b>VLOOKUP／XLOOKUP 跨檔案</b>：每個檔案都要各寫一組公式，檔案一多，公式的範圍和檔名就很難管理；檔案搬了位置，連結還會斷掉</li>
+      <li><b>手動複製貼上</b>：每個檔案打開、篩出對應的資料、貼回總表，最容易貼錯列</li>
+      <li><b>Power Query</b>：可以合併多個檔案，但要先學會建立查詢，欄位名稱不一致時也要另外調整</li>
+    </ul>
+  </section>
+
+  <section class="cols">
+    <div class="panel">
+      <h2>用 CJP 增益集：3 個步驟</h2>
+      <ol class="steps">
+        <li>開好總表，在增益集選單點「常用功能二 → 資料收集 → <b>多檔收集</b>」</li>
+        <li>填 <b>Key值組成欄</b> 和<b>資料回收欄</b>：
+          <ul style="margin-top:4px">
+            <li>Key 單一欄填 <code>A3</code>，多欄填 <code>A;B;3</code> (最後的數字是標題列)</li>
+            <li>資料回收欄只寫欄名，例如 <code>C;D</code>，列號沿用 Key 的標題列</li>
+          </ul>
+        </li>
+        <li>按「確定」後，選擇要匯入的檔案 (可以複選)，資料就會帶回總表</li>
+      </ol>
+      <p class="note">匯入檔案是用<b>標題文字</b>找欄位：欄位順序、位置可以和總表不同，但標題文字要一模一樣。執行紀錄會寫在回收欄標題的備註裡。</p>
+    </div>
+    <figure class="shot">
+      <img src="../img/collect_form.png" width="365" height="511" loading="lazy" alt="CJP 增益集「多檔收集」的設定視窗：總表的活頁簿與工作表、Key值組成欄、資料回收欄與四個選項">
+      <figcaption>「多檔收集」的設定視窗 (程式內部名稱是「資料收集」)</figcaption>
+    </figure>
+  </section>
+
+  <section class="panel">
+    <h2>四個選項</h2>
+    <div class="scroll">
+      <table class="cmp">
+        <tr><th>選項</th><th>什麼時候勾</th></tr>
+        <tr><td>一、資料回收欄之資料為空值時，仍要寫入</td><td>空白也是正確答案，例如清空代表已處理</td></tr>
+        <tr><td>二、Key值有重複時，在資料被覆蓋前，需跳出提示</td><td>每個 Key 應該只出現一次，想抓出重複填寫</td></tr>
+        <tr><td>三、如果Key值不存在於總表，將該筆資料新增於總表最下方列</td><td>允許各單位自行新增資料；或總表只留標題，全部資料由匯入檔彙整</td></tr>
+        <tr><td>四、用總表工作表名稱，在各匯入檔案中找尋資料所在工作表</td><td>匯入檔有好幾張工作表，不確定存檔時停在哪一張</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>常見問題</h2>
+    <details class="faq"><summary>總表的欄位順序和匯入檔案不一樣，可以帶回嗎？</summary><p>可以。匯入檔案是用標題文字找欄位，位置不同沒關係，但<b>標題文字必須完全一樣</b>。</p></details>
+    <details class="faq"><summary>同一個 Key 在不同檔案都有，會怎樣？</summary><p>後面讀到的值會蓋掉前面的。不想被默默覆蓋，就勾選項二，覆蓋前會跳出提示。</p></details>
+    <details class="faq"><summary>總表只有標題，可以直接彙整出全部資料嗎？</summary><p>可以。勾選項三，Key 不在總表的資料會新增在總表最下方 (只寫入 Key 和回收欄，其他欄位留空)。</p></details>
+    <details class="faq"><summary>匯入檔案有好幾張工作表，會讀哪一張？</summary><p>預設只讀「存檔時停留的工作表」。勾選項四，會改用總表的工作表名稱，在各匯入檔案裡找同名的工作表。</p></details>
+    <details class="faq"><summary>要付費嗎？公司電腦可以裝嗎？</summary><p>免費。安裝方式和注意事項請看<a href="../#install">安裝方式</a>。增益集會寫入總表，使用前請先備份。</p></details>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:10px">其他功能說明</h2>
+    <div class="related">
+      <a href="../filter/"><b>一次篩選多個值</b><span>複製一串編號，按 Alt+1 就篩好</span></a>
+      <a href="../recon/"><b>兩表比對</b><span>兩份名單的新增、遺漏一次標出來</span></a>
+      <a href="../cross/"><b>單表比對</b><span>同一筆資料的內容哪裡不一樣</span></a>
+      <a href="../classify/"><b>單檔收集</b><span>依規則表分類，可當批次 VLOOKUP</span></a>
+      <a href="../split/"><b>依欄位拆成多個檔案</b><span>一張表依科別拆檔，各自寄出</span></a>
+      <a href="../move/"><b>整表匯入</b><span>報表貼進底稿：同名工作表整欄匯入</span></a>
+      <a href="../pivot/"><b>樞紐明細</b><span>雙擊產生的明細自動記下來源</span></a>
+      <a href="../"><b>全部功能與線上練習</b><span>在網頁上直接操作，不用安裝</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="site-foot-in">
+    <p><b>作者：CJP</b>　歡迎下載使用、分享本網站連結。</p>
+    <p><b>提問與回報</b>　有 GitHub 帳號的話，可以到 <a href="https://github.com/foolkidChang/CJPsAddin/issues" target="_blank" rel="noopener">GitHub 的 Issues</a> 提問或回報問題。</p>
+    <p><b>免責聲明</b>　本工具依現狀提供，不保證沒有錯誤，也不保證適用於所有情況。增益集會刪除資料列、拆分檔案、設定密碼，使用前請先備份資料；使用所造成的任何損失，由使用者自行負責。練習檔的資料全部為虛構。</p>
+  </div>
+</footer>
+</body>
+</html>

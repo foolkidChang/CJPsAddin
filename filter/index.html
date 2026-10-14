@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<!-- 功能說明頁：給搜尋引擎與第一次來的人看的入口。互動練習在主網站 ../#filter。搜尋關鍵字：Excel 一次篩選多個值、多個條件篩選、篩選多個編號、CJP 增益集 -->
+<!-- 功能說明頁：給搜尋引擎與第一次來的人看的入口，互動練習在主網站 ../#filter。搜尋關鍵字：Excel 一次篩選多個值、多個條件篩選、篩選多個編號、CJP 增益集。
+     頂端選單、其他功能、頁尾每一頁都一樣；新增說明頁時，每一頁的選單都要加 (主網站頁尾的「功能說明」和 sitemap.xml 也要加) -->
 <title>Excel 一次篩選多個值：複製一串編號，按 Alt+1 就篩好｜CJP 增益集</title>
 <meta name="description" content="Excel 篩選多個值不用在下拉清單一個一個勾。用 CJP 增益集的篩選強化，複製一串編號或用分號輸入多個條件，按 Alt+1 一次篩好；Alt+2 依關鍵字模糊比對，Alt+3 一次取消所有篩選。附進階篩選與 FILTER 公式做法對照。">
 <link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/filter/">
@@ -21,15 +22,37 @@
       "@type": "TechArticle",
       "headline": "Excel 一次篩選多個值：複製一串編號，按 Alt+1 就篩好",
       "inLanguage": "zh-Hant",
-      "author": {"@type": "Person", "name": "CJP"},
+      "author": {
+        "@type": "Person",
+        "name": "CJP"
+      },
       "url": "https://foolkidchang.github.io/CJPsAddin/filter/",
-      "about": {"@type": "SoftwareApplication", "name": "CJPsAddin", "alternateName": ["CJP 增益集", "CJP's VBA Tools"], "applicationCategory": "BusinessApplication", "operatingSystem": "Windows (Microsoft Excel)"}
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "CJPsAddin",
+        "alternateName": [
+          "CJP 增益集",
+          "CJP's VBA Tools"
+        ],
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Windows (Microsoft Excel)"
+      }
     },
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "CJP 增益集", "item": "https://foolkidchang.github.io/CJPsAddin/"},
-        {"@type": "ListItem", "position": 2, "name": "一次篩選多個值", "item": "https://foolkidchang.github.io/CJPsAddin/filter/"}
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "CJP 增益集",
+          "item": "https://foolkidchang.github.io/CJPsAddin/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "一次篩選多個值",
+          "item": "https://foolkidchang.github.io/CJPsAddin/filter/"
+        }
       ]
     }
   ]
@@ -48,10 +71,15 @@
   <div class="top-in">
     <a class="top-brand" href="../"><img src="../img/logo_mushroom.jpg" alt="" width="40" height="40">CJPsAddin 使用教學</a>
     <nav class="top-nav" aria-label="功能說明">
-      <a href="../filter/" aria-current="page">一次篩選多個值</a>
+      <a href="../filter/" aria-current="page">篩選強化</a>
       <a href="../recon/">兩表比對</a>
-      <a href="../split/">依欄位拆檔</a>
-      <a href="../">全部功能與線上練習</a>
+      <a href="../cross/">單表比對</a>
+      <a href="../collect/">多檔收集</a>
+      <a href="../classify/">單檔收集</a>
+      <a href="../split/">資料拆檔</a>
+      <a href="../move/">整表匯入</a>
+      <a href="../pivot/">樞紐明細</a>
+      <a href="../">線上練習</a>
     </nav>
   </div>
 </header>
@@ -143,11 +171,16 @@
   </section>
 
   <section>
-    <h2 style="margin-bottom:10px">其他常用功能</h2>
+    <h2 style="margin-bottom:10px">其他功能說明</h2>
     <div class="related">
       <a href="../recon/"><b>兩表比對</b><span>兩份名單的新增、遺漏一次標出來</span></a>
+      <a href="../cross/"><b>單表比對</b><span>同一筆資料的內容哪裡不一樣</span></a>
+      <a href="../collect/"><b>多檔收集</b><span>多個檔案依編號帶回同一張總表</span></a>
+      <a href="../classify/"><b>單檔收集</b><span>依規則表分類，可當批次 VLOOKUP</span></a>
       <a href="../split/"><b>依欄位拆成多個檔案</b><span>一張表依科別拆檔，各自寄出</span></a>
-      <a href="../"><b>全部功能與線上練習</b><span>篩選、比對、收集、拆檔、匯入</span></a>
+      <a href="../move/"><b>整表匯入</b><span>報表貼進底稿：同名工作表整欄匯入</span></a>
+      <a href="../pivot/"><b>樞紐明細</b><span>雙擊產生的明細自動記下來源</span></a>
+      <a href="../"><b>全部功能與線上練習</b><span>在網頁上直接操作，不用安裝</span></a>
     </div>
   </section>
 </main>

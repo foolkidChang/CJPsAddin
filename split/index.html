@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<!-- 功能說明頁：給搜尋引擎與第一次來的人看的入口。互動練習在主網站 ../#split。搜尋關鍵字：Excel 依欄位拆檔、拆成多個檔案、依部門拆分工作表、CJP 增益集 -->
+<!-- 功能說明頁：給搜尋引擎與第一次來的人看的入口，互動練習在主網站 ../#split。搜尋關鍵字：Excel 依欄位拆檔、拆成多個檔案、依部門拆分工作表、CJP 增益集。
+     頂端選單、其他功能、頁尾每一頁都一樣；新增說明頁時，每一頁的選單都要加 (主網站頁尾的「功能說明」和 sitemap.xml 也要加) -->
 <title>Excel 依欄位拆成多個檔案：一張報表依科別拆檔，各自寄出｜CJP 增益集</title>
 <meta name="description" content="Excel 一張報表要依部門、科別、分行拆成多個檔案？用 CJP 增益集的資料拆檔，依 Key 值欄一個 Key 拆成一個檔案，保留標題、格式與欄寬，可刪掉報表標題與內部欄位、加上開啟密碼。附設定視窗截圖、練習檔與線上練習。">
 <link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/split/">
@@ -21,15 +22,37 @@
       "@type": "TechArticle",
       "headline": "Excel 依欄位拆成多個檔案：一張報表依科別拆檔，各自寄出",
       "inLanguage": "zh-Hant",
-      "author": {"@type": "Person", "name": "CJP"},
+      "author": {
+        "@type": "Person",
+        "name": "CJP"
+      },
       "url": "https://foolkidchang.github.io/CJPsAddin/split/",
-      "about": {"@type": "SoftwareApplication", "name": "CJPsAddin", "alternateName": ["CJP 增益集", "CJP's VBA Tools"], "applicationCategory": "BusinessApplication", "operatingSystem": "Windows (Microsoft Excel)"}
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "CJPsAddin",
+        "alternateName": [
+          "CJP 增益集",
+          "CJP's VBA Tools"
+        ],
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Windows (Microsoft Excel)"
+      }
     },
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "CJP 增益集", "item": "https://foolkidchang.github.io/CJPsAddin/"},
-        {"@type": "ListItem", "position": 2, "name": "依欄位拆成多個檔案", "item": "https://foolkidchang.github.io/CJPsAddin/split/"}
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "CJP 增益集",
+          "item": "https://foolkidchang.github.io/CJPsAddin/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "依欄位拆成多個檔案",
+          "item": "https://foolkidchang.github.io/CJPsAddin/split/"
+        }
       ]
     }
   ]
@@ -48,10 +71,15 @@
   <div class="top-in">
     <a class="top-brand" href="../"><img src="../img/logo_mushroom.jpg" alt="" width="40" height="40">CJPsAddin 使用教學</a>
     <nav class="top-nav" aria-label="功能說明">
-      <a href="../filter/">一次篩選多個值</a>
+      <a href="../filter/">篩選強化</a>
       <a href="../recon/">兩表比對</a>
-      <a href="../split/" aria-current="page">依欄位拆檔</a>
-      <a href="../">全部功能與線上練習</a>
+      <a href="../cross/">單表比對</a>
+      <a href="../collect/">多檔收集</a>
+      <a href="../classify/">單檔收集</a>
+      <a href="../split/" aria-current="page">資料拆檔</a>
+      <a href="../move/">整表匯入</a>
+      <a href="../pivot/">樞紐明細</a>
+      <a href="../">線上練習</a>
     </nav>
   </div>
 </header>
@@ -157,12 +185,16 @@
   </section>
 
   <section>
-    <h2 style="margin-bottom:10px">其他常用功能</h2>
+    <h2 style="margin-bottom:10px">其他功能說明</h2>
     <div class="related">
       <a href="../filter/"><b>一次篩選多個值</b><span>複製一串編號，按 Alt+1 就篩好</span></a>
       <a href="../recon/"><b>兩表比對</b><span>兩份名單的新增、遺漏一次標出來</span></a>
-      <a href="../#move"><b>整表匯入</b><span>報表貼進底稿：同名工作表整欄匯入</span></a>
-      <a href="../"><b>全部功能與線上練習</b><span>篩選、比對、收集、拆檔、匯入</span></a>
+      <a href="../cross/"><b>單表比對</b><span>同一筆資料的內容哪裡不一樣</span></a>
+      <a href="../collect/"><b>多檔收集</b><span>多個檔案依編號帶回同一張總表</span></a>
+      <a href="../classify/"><b>單檔收集</b><span>依規則表分類，可當批次 VLOOKUP</span></a>
+      <a href="../move/"><b>整表匯入</b><span>報表貼進底稿：同名工作表整欄匯入</span></a>
+      <a href="../pivot/"><b>樞紐明細</b><span>雙擊產生的明細自動記下來源</span></a>
+      <a href="../"><b>全部功能與線上練習</b><span>在網頁上直接操作，不用安裝</span></a>
     </div>
   </section>
 </main>

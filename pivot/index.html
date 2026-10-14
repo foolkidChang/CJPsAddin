@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- 功能說明頁：給搜尋引擎與第一次來的人看的入口，互動練習在主網站 ../#pivot。搜尋關鍵字：Excel 樞紐分析表 雙擊 明細、顯示詳細資料、樞紐明細來源、CJP 增益集。
+     頂端選單、其他功能、頁尾每一頁都一樣；新增說明頁時，每一頁的選單都要加 (主網站頁尾的「功能說明」和 sitemap.xml 也要加) -->
+<title>Excel 樞紐分析表雙擊明細：自動記下來源與篩選條件｜CJP 增益集</title>
+<meta name="description" content="Excel 樞紐分析表雙擊數值會產生明細工作表，但名字是「工作表3」，過幾天就不知道怎麼來的。安裝 CJP 增益集後，自動在明細上方記下來源、篩選條件，工作表名稱改成那一格的數值。附線上練習。">
+<link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/pivot/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CJPsAddin">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://foolkidchang.github.io/CJPsAddin/pivot/">
+<meta property="og:title" content="Excel 樞紐分析表雙擊明細：自動記下來源與篩選條件">
+<meta property="og:description" content="雙擊樞紐分析表產生的明細，自動記下來源與篩選條件，工作表名稱改成那一格的數值。">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Excel 樞紐分析表雙擊明細：自動記下來源與篩選條件",
+      "inLanguage": "zh-Hant",
+      "author": {
+        "@type": "Person",
+        "name": "CJP"
+      },
+      "url": "https://foolkidchang.github.io/CJPsAddin/pivot/",
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "CJPsAddin",
+        "alternateName": [
+          "CJP 增益集",
+          "CJP's VBA Tools"
+        ],
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Windows (Microsoft Excel)"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "CJP 增益集",
+          "item": "https://foolkidchang.github.io/CJPsAddin/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "樞紐明細",
+          "item": "https://foolkidchang.github.io/CJPsAddin/pivot/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{var f=localStorage.getItem('cj-fs');if(f==='l'||f==='xl')document.documentElement.dataset.fs=f;var t=localStorage.getItem('cj-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<!-- 流量統計 GoatCounter：這一頁開啟時記一筆 (路徑 /CJPsAddin/pivot/) -->
+<script data-goatcounter="https://cjpsaddin.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../lp.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="top-brand" href="../"><img src="../img/logo_mushroom.jpg" alt="" width="40" height="40">CJPsAddin 使用教學</a>
+    <nav class="top-nav" aria-label="功能說明">
+      <a href="../filter/">篩選強化</a>
+      <a href="../recon/">兩表比對</a>
+      <a href="../cross/">單表比對</a>
+      <a href="../collect/">多檔收集</a>
+      <a href="../classify/">單檔收集</a>
+      <a href="../split/">資料拆檔</a>
+      <a href="../move/">整表匯入</a>
+      <a href="../pivot/" aria-current="page">樞紐明細</a>
+      <a href="../">線上練習</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <nav class="crumb" aria-label="目前位置"><a href="../">CJP 增益集</a> › 樞紐明細</nav>
+
+  <section class="hero">
+    <h1>Excel 樞紐分析表雙擊明細：自動記下來源與篩選條件</h1>
+    <p class="lead">在樞紐分析表的數值上<b>雙擊</b>，Excel 會新增一張工作表，列出組成這個數字的明細。可是這張表只有一串流水號的名字 (例如「工作表3」)，<b>過幾天就看不出是從哪一格、在什麼篩選條件下點出來的</b>。安裝 CJP 增益集 (CJPsAddin，免費的 Excel VBA Add-in) 後，<b class="hl">預設就會自動整理</b>這張明細工作表，不用做任何設定。</p>
+    <div class="cta">
+      <a class="btn primary" href="../#pivot">在網頁上直接試 (不用安裝) →</a>
+      <a class="btn ghost" href="../#install">下載增益集</a>
+    </div>
+  </section>
+
+  <div class="cols">
+    <figure class="ill">
+      <svg viewBox="0 0 340 126" role="img" aria-label="示意圖：雙擊樞紐分析表的數值 1,250，產生名為 1,250 的明細工作表，上方記錄來源和篩選條件">
+        <defs><marker id="ill-ah4" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path class="i-acc" d="M0 0 L9 4.5 L0 9 Z"/></marker></defs>
+        <text x="66" y="22" text-anchor="middle" class="i-muted">樞紐分析表</text>
+        <rect class="i-box" x="6" y="30" width="120" height="88" rx="4"/>
+        <rect class="i-hdr" x="7" y="31" width="118" height="19"/>
+        <text x="12" y="45" class="i-b">業務員</text><text x="92" y="45" class="i-b">飲料</text>
+        <text x="12" y="66">王小明</text><rect class="i-mark" x="80" y="53" width="44" height="19"/><text x="84" y="66" class="i-b">1,250</text>
+        <text x="12" y="88">李小華</text><text x="90" y="88">810</text>
+        <text x="12" y="110" class="i-b">總計</text><text x="84" y="110" class="i-b">2,060</text>
+        <text x="146" y="55" text-anchor="middle" class="i-muted" style="font-size:10px">雙擊</text>
+        <path class="i-arrow" d="M132 62 L160 62" marker-end="url(#ill-ah4)"/>
+        <text x="250" y="22" text-anchor="middle" class="i-muted">明細工作表「1,250」</text>
+        <rect class="i-box" x="166" y="30" width="168" height="88" rx="4"/>
+        <text x="172" y="46" style="font-size:10px"><tspan class="i-acc">來源資訊：</tspan>樞紐分析表1</text>
+        <text x="172" y="60" style="font-size:10px"><tspan class="i-acc">樞紐分析表選項：</tspan>…</text>
+        <text x="172" y="74" style="font-size:10px"><tspan class="i-acc">交叉篩選器選項：</tspan>…</text>
+        <text x="172" y="88" style="font-size:10px"><tspan class="i-acc">時間表選項：</tspan>…</text>
+        <rect class="i-hdr" x="167" y="96" width="166" height="21"/>
+        <text x="172" y="111" class="i-b" style="font-size:10px">日期　區域　業務員　金額</text>
+      </svg>
+      <figcaption>雙擊數值產生明細時，自動記下這份明細是怎麼來的</figcaption>
+    </figure>
+    <div class="panel">
+      <h2>增益集會自動做這些事</h2>
+      <ul>
+        <li>上方插入 4 列：來源、樞紐分析表選項、交叉篩選器選項、時間表選項</li>
+        <li>工作表名稱改成雙擊那一格的數值，例如「1,250」；重複時加上 _2、_3</li>
+        <li>拿掉 Excel 自動套用的藍色表格樣式，格式和欄寬照來源資料</li>
+        <li>選取明細的標題列，方便接著篩選或排序</li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="cols">
+    <div class="panel">
+      <h2>什麼時候會處理</h2>
+      <ul>
+        <li>只處理樞紐分析表<b class="hl">數值區</b>的一格，包括總計；雙擊列標籤、欄標籤時，Excel 會詢問要展開哪個欄位，增益集不會處理</li>
+        <li>來源資料的活頁簿要開著，才能照來源資料套用格式和欄寬；沒開著時，上方 4 列和工作表名稱照樣會處理</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2>開啟或關閉</h2>
+      <ul>
+        <li><b>預設是開啟的</b>：每次開 Excel，增益集都會自動開啟這個功能</li>
+        <li>要暫時關閉：增益集選單「常用功能二 → 設定切換… → 樞紐明細來源功能 (套用至整個Excel)」，會跳出「已開啟／已關閉」</li>
+        <li>開關會套用到<b>所有開著的活頁簿</b>；關閉 Excel 再開，又會恢復成開啟</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>要記住的 3 件事</h2>
+    <ol>
+      <li>上方 4 列記錄的是<b class="hl">雙擊當下</b>的條件；之後改了樞紐分析表的篩選，已產生的明細不會跟著變</li>
+      <li>「樞紐分析表選項」包含報表篩選 (全部選取時寫「(全部)」)、雙擊那一格所在的列和欄；其他列、欄欄位有篩選時也會列出</li>
+      <li>明細是雙擊當下的資料快照，來源資料之後修改也不會更新；要最新的結果，請重新整理樞紐分析表後再雙擊一次</li>
+    </ol>
+  </section>
+
+  <section class="panel">
+    <h2>常見問題</h2>
+    <details class="faq"><summary>要另外設定什麼嗎？</summary><p>不用。安裝增益集後就是開啟的，照平常一樣在數值上雙擊就好。</p></details>
+    <details class="faq"><summary>雙擊數值「3,280」產生的明細，工作表名稱是什麼？</summary><p>「3,280」，也就是雙擊那一格顯示的數值；名稱已經有人用時，依序加上 _2、_3。</p></details>
+    <details class="faq"><summary>關掉這個功能後重開 Excel，會維持關閉嗎？</summary><p>不會，會恢復成開啟。關閉只對這次開著的 Excel 有效。</p></details>
+    <details class="faq"><summary>要付費嗎？公司電腦可以裝嗎？</summary><p>免費。安裝方式和注意事項請看<a href="../#install">安裝方式</a>。</p></details>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:10px">其他功能說明</h2>
+    <div class="related">
+      <a href="../filter/"><b>一次篩選多個值</b><span>複製一串編號，按 Alt+1 就篩好</span></a>
+      <a href="../recon/"><b>兩表比對</b><span>兩份名單的新增、遺漏一次標出來</span></a>
+      <a href="../cross/"><b>單表比對</b><span>同一筆資料的內容哪裡不一樣</span></a>
+      <a href="../collect/"><b>多檔收集</b><span>多個檔案依編號帶回同一張總表</span></a>
+      <a href="../classify/"><b>單檔收集</b><span>依規則表分類，可當批次 VLOOKUP</span></a>
+      <a href="../split/"><b>依欄位拆成多個檔案</b><span>一張表依科別拆檔，各自寄出</span></a>
+      <a href="../move/"><b>整表匯入</b><span>報表貼進底稿：同名工作表整欄匯入</span></a>
+      <a href="../"><b>全部功能與線上練習</b><span>在網頁上直接操作，不用安裝</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="site-foot-in">
+    <p><b>作者：CJP</b>　歡迎下載使用、分享本網站連結。</p>
+    <p><b>提問與回報</b>　有 GitHub 帳號的話，可以到 <a href="https://github.com/foolkidChang/CJPsAddin/issues" target="_blank" rel="noopener">GitHub 的 Issues</a> 提問或回報問題。</p>
+    <p><b>免責聲明</b>　本工具依現狀提供，不保證沒有錯誤，也不保證適用於所有情況。增益集會刪除資料列、拆分檔案、設定密碼，使用前請先備份資料；使用所造成的任何損失，由使用者自行負責。練習檔的資料全部為虛構。</p>
+  </div>
+</footer>
+</body>
+</html>

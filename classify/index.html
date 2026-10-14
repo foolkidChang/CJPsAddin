@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- 功能說明頁：給搜尋引擎與第一次來的人看的入口，互動練習在主網站 ../#classify。搜尋關鍵字：Excel 依關鍵字分類、批次 VLOOKUP、萬用字元對照表、CJP 增益集。
+     頂端選單、其他功能、頁尾每一頁都一樣；新增說明頁時，每一頁的選單都要加 (主網站頁尾的「功能說明」和 sitemap.xml 也要加) -->
+<title>Excel 依關鍵字自動分類：規則表可用萬用字元的批次 VLOOKUP｜CJP 增益集</title>
+<meta name="description" content="Excel 依摘要關鍵字把費用自動分類、依代碼補上名稱？用 CJP 增益集的「單檔收集」，準備一張分類規則表 (可以用 * ? # 萬用字元)，一次幫整欄資料分類，找不到的標成 !Not Found!。附公式做法對照與線上練習。">
+<link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/classify/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CJPsAddin">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://foolkidchang.github.io/CJPsAddin/classify/">
+<meta property="og:title" content="Excel 依關鍵字自動分類：規則表可用萬用字元的批次 VLOOKUP">
+<meta property="og:description" content="準備一張規則表 (可用萬用字元)，一次幫整欄資料分類。附線上練習。">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Excel 依關鍵字自動分類：規則表可用萬用字元的批次 VLOOKUP",
+      "inLanguage": "zh-Hant",
+      "author": {
+        "@type": "Person",
+        "name": "CJP"
+      },
+      "url": "https://foolkidchang.github.io/CJPsAddin/classify/",
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "CJPsAddin",
+        "alternateName": [
+          "CJP 增益集",
+          "CJP's VBA Tools"
+        ],
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Windows (Microsoft Excel)"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "CJP 增益集",
+          "item": "https://foolkidchang.github.io/CJPsAddin/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "單檔收集",
+          "item": "https://foolkidchang.github.io/CJPsAddin/classify/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{var f=localStorage.getItem('cj-fs');if(f==='l'||f==='xl')document.documentElement.dataset.fs=f;var t=localStorage.getItem('cj-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<!-- 流量統計 GoatCounter：這一頁開啟時記一筆 (路徑 /CJPsAddin/classify/) -->
+<script data-goatcounter="https://cjpsaddin.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../lp.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="top-brand" href="../"><img src="../img/logo_mushroom.jpg" alt="" width="40" height="40">CJPsAddin 使用教學</a>
+    <nav class="top-nav" aria-label="功能說明">
+      <a href="../filter/">篩選強化</a>
+      <a href="../recon/">兩表比對</a>
+      <a href="../cross/">單表比對</a>
+      <a href="../collect/">多檔收集</a>
+      <a href="../classify/" aria-current="page">單檔收集</a>
+      <a href="../split/">資料拆檔</a>
+      <a href="../move/">整表匯入</a>
+      <a href="../pivot/">樞紐明細</a>
+      <a href="../">線上練習</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <nav class="crumb" aria-label="目前位置"><a href="../">CJP 增益集</a> › 單檔收集</nav>
+
+  <section class="hero">
+    <h1>Excel 依關鍵字自動分類：規則表可用萬用字元的批次 VLOOKUP</h1>
+    <p class="lead">費用明細的摘要寫法五花八門：「搭計程車回公司」「計程車資」「計程車 (客戶拜訪)」，要一筆一筆歸成「交通費」。CJP 增益集 (CJPsAddin，免費的 Excel VBA Add-in) 的<b class="hl">單檔收集</b>，準備一張<b>分類規則表</b>，程式拿每一筆資料去比對規則，把符合的值寫回來。可以當成<b>批次 VLOOKUP</b>；而且規則可以用<b>萬用字元</b>，例如「<code>*計程車*</code>＝交通費」，一條規則就能涵蓋很多種寫法。</p>
+    <div class="cta">
+      <a class="btn primary" href="../#classify">在網頁上直接試 (不用安裝) →</a>
+      <a class="btn ghost" href="../#install">下載增益集</a>
+    </div>
+  </section>
+
+  <div class="cols">
+    <figure class="ill">
+      <svg viewBox="0 0 340 126" role="img" aria-label="示意圖：分類規則表寫著 *計程車* 是交通費、*便當* 是餐費，待分類資料的摘要依規則填入類別，找不到規則的填 !Not Found!">
+        <defs><marker id="ill-ah2" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path class="i-acc" d="M0 0 L9 4.5 L0 9 Z"/></marker></defs>
+        <text x="96" y="22" text-anchor="middle" class="i-muted">待分類資料</text>
+        <rect class="i-box" x="6" y="30" width="180" height="88" rx="4"/>
+        <rect class="i-hdr" x="7" y="31" width="178" height="19"/>
+        <text x="12" y="45" class="i-b">摘要</text><text x="122" y="45" class="i-b">類別</text>
+        <rect class="i-mark" x="117" y="51" width="68" height="21"/>
+        <rect class="i-mark" x="117" y="73" width="68" height="21"/>
+        <rect class="i-pink" x="117" y="95" width="68" height="22"/>
+        <text x="12" y="66">搭計程車回公司</text><text x="122" y="66">交通費</text>
+        <text x="12" y="88">會議便當 10 份</text><text x="122" y="88">餐費</text>
+        <text x="12" y="110">郵寄掛號</text><text x="121" y="110" class="i-mono" style="font-size:9.5px">!Not Found!</text>
+        <path class="i-arrow" d="M212 76 L192 76" marker-end="url(#ill-ah2)"/>
+        <text x="276" y="22" text-anchor="middle" class="i-muted">分類規則表</text>
+        <rect class="i-box" x="216" y="30" width="118" height="88" rx="4"/>
+        <rect class="i-hdr" x="217" y="31" width="116" height="19"/>
+        <text x="222" y="45" class="i-b">關鍵字</text><text x="290" y="45" class="i-b">類別</text>
+        <text x="222" y="66" class="i-mono">*計程車*</text><text x="290" y="66">交通費</text>
+        <text x="222" y="88" class="i-mono">*高鐵*</text><text x="290" y="88">交通費</text>
+        <text x="222" y="110" class="i-mono">*便當*</text><text x="290" y="110">餐費</text>
+      </svg>
+      <figcaption>依規則表 (可以用萬用字元) 幫每一筆資料分類</figcaption>
+    </figure>
+    <div class="panel">
+      <h2>適合這些時候用</h2>
+      <ul>
+        <li>依商品代碼對照表，幫交易明細補上商品名稱、類別</li>
+        <li>依摘要裡的關鍵字，把費用自動歸類</li>
+        <li>依號碼開頭判斷類型，例如 09 開頭是手機</li>
+        <li>依「區域＋商品」的組合，套用不同的獎金比例</li>
+      </ul>
+      <p class="note">要從<b>好幾個檔案</b>把資料帶回總表時，用<a href="../collect/">多檔收集</a>。</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <h2>用 Excel 公式怎麼做？</h2>
+    <ul>
+      <li><b>VLOOKUP</b>：完全相同的代碼查得到，但萬用字元只能放在「要查的值」，不能放在對照表裡，所以「摘要包含計程車」這種規則做不到</li>
+      <li><b>LOOKUP＋SEARCH</b>：可以依關鍵字分類 (關鍵字在規則表 A2:A20、類別在 B2:B20)：
+        <pre class="formula" style="margin-top:4px">=LOOKUP(2^15, SEARCH(規則!$A$2:$A$20, A2), 規則!$B$2:$B$20)</pre>
+        公式不容易看懂，找不到時會變成 <code>#N/A</code>，規則多時也會變慢</li>
+      <li><b>一層一層的 IF</b>：規則一多就很難維護</li>
+    </ul>
+  </section>
+
+  <section class="cols">
+    <div class="panel">
+      <h2>用 CJP 增益集：3 個步驟</h2>
+      <ol class="steps">
+        <li>準備待分類資料和分類規則表，在增益集選單點「常用功能二 → 資料收集 → <b>單檔收集</b>」</li>
+        <li>兩張表各填兩個欄位：
+          <ul style="margin-top:4px">
+            <li>待分類資料：<b>Key值組成欄</b> (例如 <code>B1</code>)、<b>分類填入欄</b> (結果寫在這裡，例如 <code>D</code>)</li>
+            <li>分類規則表：<b>Key值組成欄</b> (可以用萬用字元，例如 <code>A1</code>)、<b>分類來源欄</b> (要帶回的值，例如 <code>B</code>)</li>
+          </ul>
+        </li>
+        <li>按「確定」，整欄填好分類；找不到規則的填 <code>!Not Found!</code></li>
+      </ol>
+      <p class="note">Key 最後的數字是標題列，兩張表可以不同。填入欄和來源欄的欄數要一樣，依順序一對一帶回。</p>
+    </div>
+    <figure class="shot">
+      <img src="../img/classify_form.png" width="578" height="649" loading="lazy" alt="CJP 增益集「單檔收集」的設定視窗：待分類資料與分類規則表各自的 Key值組成欄、分類填入欄、分類來源欄">
+      <figcaption>「單檔收集」的設定視窗 (程式內部名稱是「資料分類」)</figcaption>
+    </figure>
+  </section>
+
+  <section class="panel">
+    <h2>規則表可以用的萬用字元</h2>
+    <div class="scroll">
+      <table class="cmp">
+        <tr><th>寫法</th><th>意思</th><th>例子</th></tr>
+        <tr><td><code>*</code></td><td>任意多個字 (也可以沒有)</td><td><code>*計程車*</code>＝包含「計程車」</td></tr>
+        <tr><td><code>?</code></td><td>任一個字</td><td><code>P00?</code>＝P001～P009、P00A…</td></tr>
+        <tr><td><code>#</code></td><td>任一個數字</td><td><code>09########</code>＝09 開頭的 10 位數字</td></tr>
+        <tr><td><code>[ABC]</code></td><td>括號裡的任一個字</td><td><code>[AB]*</code>＝A 或 B 開頭</td></tr>
+        <tr><td><code>[!A]</code></td><td>不是括號裡的字</td><td><code>[!0]*</code>＝不是 0 開頭</td></tr>
+      </table>
+    </div>
+    <p class="note">比對時不分大小寫。要找真正的 <code>*</code>、<code>?</code>、<code>#</code> 符號，寫成 <code>[*]</code>、<code>[?]</code>、<code>[#]</code>。</p>
+  </section>
+
+  <section class="panel">
+    <h2>常見問題</h2>
+    <details class="faq"><summary>一筆資料同時符合好幾條規則，會用哪一條？</summary><p>預設由上往下找到<b>第一個符合</b>的規則就停，所以特殊規則放上面、通用規則放下面。勾選「帶回最後一項相符者」時，會比完全部規則，以最後一個符合的為準。</p></details>
+    <details class="faq"><summary>規則「0*＝市話」在「09########＝手機」上面，0912345678 會分成什麼？</summary><p>不勾選「帶回最後一項相符者」時是<b>市話</b>：0912345678 先符合「0*」。把手機的規則移到上面，或勾選該選項，就會變成手機。</p></details>
+    <details class="faq"><summary>分類填入欄原本有內容，會被保留嗎？</summary><p>不會。分類填入欄會整欄重寫，原本的內容會被蓋掉，請先備份或選一個空白欄。</p></details>
+    <details class="faq"><summary>電話號碼有「-」，用 # 對得到嗎？</summary><p>對不到。<code>#</code> 只代表數字，<code>09########</code> 對不到 <code>0912-345-678</code>。</p></details>
+    <details class="faq"><summary>要付費嗎？公司電腦可以裝嗎？</summary><p>免費。安裝方式和注意事項請看<a href="../#install">安裝方式</a>。</p></details>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:10px">其他功能說明</h2>
+    <div class="related">
+      <a href="../filter/"><b>一次篩選多個值</b><span>複製一串編號，按 Alt+1 就篩好</span></a>
+      <a href="../recon/"><b>兩表比對</b><span>兩份名單的新增、遺漏一次標出來</span></a>
+      <a href="../cross/"><b>單表比對</b><span>同一筆資料的內容哪裡不一樣</span></a>
+      <a href="../collect/"><b>多檔收集</b><span>多個檔案依編號帶回同一張總表</span></a>
+      <a href="../split/"><b>依欄位拆成多個檔案</b><span>一張表依科別拆檔，各自寄出</span></a>
+      <a href="../move/"><b>整表匯入</b><span>報表貼進底稿：同名工作表整欄匯入</span></a>
+      <a href="../pivot/"><b>樞紐明細</b><span>雙擊產生的明細自動記下來源</span></a>
+      <a href="../"><b>全部功能與線上練習</b><span>在網頁上直接操作，不用安裝</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="site-foot-in">
+    <p><b>作者：CJP</b>　歡迎下載使用、分享本網站連結。</p>
+    <p><b>提問與回報</b>　有 GitHub 帳號的話，可以到 <a href="https://github.com/foolkidChang/CJPsAddin/issues" target="_blank" rel="noopener">GitHub 的 Issues</a> 提問或回報問題。</p>
+    <p><b>免責聲明</b>　本工具依現狀提供，不保證沒有錯誤，也不保證適用於所有情況。增益集會刪除資料列、拆分檔案、設定密碼，使用前請先備份資料；使用所造成的任何損失，由使用者自行負責。練習檔的資料全部為虛構。</p>
+  </div>
+</footer>
+</body>
+</html>

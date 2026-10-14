@@ -5,7 +5,7 @@
   --hdr:#edf2f9; --grid:#dae2ed;
   --mark:#fff3b5; --mark-ink:#4a3b00;
   --both:#dff1e5; --both-ink:#15532f; --only:#fdf0d5; --only-ink:#7a4b00; --dup:#c2410c;
-  --cond:#c9ecd3; --cond-ink:#174d2c; --pink:#ffc7ce; --pink-ink:#7a1f2b;
+  --cond:#c9ecd3; --cond-ink:#174d2c; --pink:#ffc7ce; --pink-ink:#7a1f2b; --grey:#c4c8c5; --grey-ink:#2b302d; --dupblue:#1f4fd8;
   --shadow:0 1px 2px rgba(20,40,80,.06),0 6px 24px rgba(20,40,80,.08);
   --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
   --f-body:"Noto Sans TC","Microsoft JhengHei","PingFang TC",system-ui,sans-serif;
@@ -17,7 +17,7 @@
   --hdr:#1c2738; --grid:#26344a;
   --mark:#4d4318; --mark-ink:#fff1b0;
   --both:#173a25; --both-ink:#a6e6bf; --only:#3a2d12; --only-ink:#f3cf86; --dup:#ff8a5b;
-  --cond:#1e4a30; --cond-ink:#bdf0cf; --pink:#5c2a33; --pink-ink:#ffd0d7;
+  --cond:#1e4a30; --cond-ink:#bdf0cf; --pink:#5c2a33; --pink-ink:#ffd0d7; --grey:#454b47; --grey-ink:#e2e6e3; --dupblue:#8fb4ff;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 24px rgba(0,0,0,.35); color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0f1520; --surface:#162030; --ink:#e3eaf4; --muted:#9aa9bf; --line:#2a3850;
@@ -25,7 +25,7 @@
   --hdr:#1c2738; --grid:#26344a;
   --mark:#4d4318; --mark-ink:#fff1b0;
   --both:#173a25; --both-ink:#a6e6bf; --only:#3a2d12; --only-ink:#f3cf86; --dup:#ff8a5b;
-  --cond:#1e4a30; --cond-ink:#bdf0cf; --pink:#5c2a33; --pink-ink:#ffd0d7;
+  --cond:#1e4a30; --cond-ink:#bdf0cf; --pink:#5c2a33; --pink-ink:#ffd0d7; --grey:#454b47; --grey-ink:#e2e6e3; --dupblue:#8fb4ff;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 24px rgba(0,0,0,.35); color-scheme:dark}
 
 *,*::before,*::after{box-sizing:border-box}
@@ -98,6 +98,16 @@ ol,ul{margin:0;padding-left:1.3em;display:grid;gap:4px}
 .ill .i-both{fill:var(--both)}
 .ill text.i-only-t{fill:var(--only-ink);font-weight:700}
 .ill text.i-both-t{fill:var(--both-ink);font-weight:700}
+.ill .i-pink{fill:var(--pink)}
+.ill .i-grey{fill:var(--grey)}
+.ill .i-sep{stroke:var(--ink);stroke-width:2}
+.ill .i-grid{stroke:var(--grid)}
+/* 單表比對的標記圖例 */
+.sw{display:inline-block;padding:0 6px;border-radius:3px;font-size:.88em;font-weight:500}
+.sw.pink{background:var(--pink);color:var(--pink-ink)}
+.sw.grey{background:var(--grey);color:var(--grey-ink)}
+.sw.blue{color:var(--dupblue);font-weight:700;font-style:italic}
+.sw.line{border-top:2px solid var(--ink);border-radius:0}
 
 .shot{margin:0;display:grid;gap:6px;justify-items:center}
 .shot img{border:1px solid var(--line);border-radius:8px;box-shadow:var(--shadow)}

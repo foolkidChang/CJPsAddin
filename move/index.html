@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- 功能說明頁：給搜尋引擎與第一次來的人看的入口，互動練習在主網站 ../#move。搜尋關鍵字：Excel 報表貼到底稿、多張工作表貼上值、同名工作表複製、CJP 增益集。
+     頂端選單、其他功能、頁尾每一頁都一樣；新增說明頁時，每一頁的選單都要加 (主網站頁尾的「功能說明」和 sitemap.xml 也要加) -->
+<title>Excel 每月報表更新到底稿：同名工作表一次整欄貼上值｜CJP 增益集</title>
+<meta name="description" content="每個月把系統匯出的報表一張一張「複製、貼上值」到底稿？用 CJP 增益集的「整表匯入」，來源和目標活頁簿中名稱相同的工作表，一次整欄匯入，只匯入值、底稿的格式和公式欄不動。附練習檔。">
+<link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/move/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CJPsAddin">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://foolkidchang.github.io/CJPsAddin/move/">
+<meta property="og:title" content="Excel 每月報表更新到底稿：同名工作表一次整欄貼上值">
+<meta property="og:description" content="同名工作表一次整欄匯入，只匯入值，底稿的格式和公式欄不動。附練習檔。">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Excel 每月報表更新到底稿：同名工作表一次整欄貼上值",
+      "inLanguage": "zh-Hant",
+      "author": {
+        "@type": "Person",
+        "name": "CJP"
+      },
+      "url": "https://foolkidchang.github.io/CJPsAddin/move/",
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "CJPsAddin",
+        "alternateName": [
+          "CJP 增益集",
+          "CJP's VBA Tools"
+        ],
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Windows (Microsoft Excel)"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "CJP 增益集",
+          "item": "https://foolkidchang.github.io/CJPsAddin/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "整表匯入",
+          "item": "https://foolkidchang.github.io/CJPsAddin/move/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{var f=localStorage.getItem('cj-fs');if(f==='l'||f==='xl')document.documentElement.dataset.fs=f;var t=localStorage.getItem('cj-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<!-- 流量統計 GoatCounter：這一頁開啟時記一筆 (路徑 /CJPsAddin/move/) -->
+<script data-goatcounter="https://cjpsaddin.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../lp.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="top-brand" href="../"><img src="../img/logo_mushroom.jpg" alt="" width="40" height="40">CJPsAddin 使用教學</a>
+    <nav class="top-nav" aria-label="功能說明">
+      <a href="../filter/">篩選強化</a>
+      <a href="../recon/">兩表比對</a>
+      <a href="../cross/">單表比對</a>
+      <a href="../collect/">多檔收集</a>
+      <a href="../classify/">單檔收集</a>
+      <a href="../split/">資料拆檔</a>
+      <a href="../move/" aria-current="page">整表匯入</a>
+      <a href="../pivot/">樞紐明細</a>
+      <a href="../">線上練習</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <nav class="crumb" aria-label="目前位置"><a href="../">CJP 增益集</a> › 整表匯入</nav>
+
+  <section class="hero">
+    <h1>Excel 每月報表更新到底稿：同名工作表一次整欄貼上值</h1>
+    <p class="lead">每個月把系統匯出的報表貼進固定格式的底稿，底稿裡的公式再參照這些資料。工作表一多，<b>一張一張「複製、選擇性貼上 → 值」</b>很花時間，也容易貼錯張。CJP 增益集 (CJPsAddin，免費的 Excel VBA Add-in) 的<b class="hl">整表匯入</b>：來源活頁簿和目標活頁簿中<b>名稱相同的工作表</b>，一次把來源的資料整欄匯入目標。只匯入值，底稿的格式、欄寬、公式欄都維持原樣。</p>
+    <div class="cta">
+      <a class="btn primary" href="../#move">看完整說明 →</a>
+      <a class="btn ghost" href="../#install">下載增益集</a>
+      <a class="btn ghost" href="../files/move_target.xlsx" download="目標_底稿.xlsx"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>練習檔：目標_底稿</a>
+      <a class="btn ghost" href="../files/move_source.xlsx" download="來源_報表.xlsx"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>練習檔：來源_報表</a>
+    </div>
+    <p class="note">v1.13.00 的選單名稱是「資料搬移」，功能相同。</p>
+  </section>
+
+  <div class="cols">
+    <figure class="ill">
+      <svg viewBox="0 0 340 126" role="img" aria-label="示意圖：來源活頁簿的損益表、明細匯入目標活頁簿的同名工作表；來源的參考資料在目標沒有同名的表，跳過">
+        <defs><marker id="ill-ah4" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path class="i-acc" d="M0 0 L9 4.5 L0 9 Z"/></marker></defs>
+        <text x="76" y="22" text-anchor="middle" class="i-muted">來源活頁簿</text>
+        <rect class="i-box" x="6" y="30" width="140" height="88" rx="4"/>
+        <rect class="i-mark" x="12" y="37" width="128" height="22" rx="3"/><text x="20" y="52">損益表</text><text x="132" y="52" text-anchor="end" class="i-muted i-mono">A～C</text>
+        <rect class="i-both" x="12" y="63" width="128" height="22" rx="3"/><text x="20" y="78">明細</text><text x="132" y="78" text-anchor="end" class="i-muted i-mono">A～E</text>
+        <rect class="i-box" x="12" y="89" width="128" height="22" rx="3"/><text x="20" y="104" class="i-muted">參考資料</text><text x="132" y="104" text-anchor="end" class="i-muted">跳過</text>
+        <path class="i-arrow" d="M148 48 L190 48" marker-end="url(#ill-ah4)"/>
+        <path class="i-arrow" d="M148 74 L190 74" marker-end="url(#ill-ah4)"/>
+        <text x="264" y="22" text-anchor="middle" class="i-muted">目標活頁簿 (底稿)</text>
+        <rect class="i-box" x="194" y="30" width="140" height="88" rx="4"/>
+        <rect class="i-mark" x="200" y="37" width="128" height="22" rx="3"/><text x="208" y="52" class="i-b">損益表</text>
+        <rect class="i-both" x="200" y="63" width="128" height="22" rx="3"/><text x="208" y="78" class="i-b">明細</text>
+        <rect class="i-box" x="200" y="89" width="128" height="22" rx="3"/><text x="208" y="104" class="i-muted">說明</text><text x="320" y="104" text-anchor="end" class="i-muted">不動</text>
+      </svg>
+      <figcaption>名稱相同的工作表整欄匯入 (只匯入值)，其他的表不動</figcaption>
+    </figure>
+    <div class="panel">
+      <h2>適合這些時候用</h2>
+      <ul>
+        <li>每月的報表，更新到同一份工作底稿</li>
+        <li>系統匯出好幾張表，底稿也有同名的表</li>
+        <li>底稿的公式、樞紐分析表參照固定的欄位，只要換資料</li>
+      </ul>
+      <p class="note">使用前：來源活頁簿先開啟；目標的工作表名稱和來源一樣 (前後空白、英文大小寫不影響)；目標檔會被覆寫，第一次用請先備份。</p>
+    </div>
+  </div>
+
+  <section class="cols">
+    <div class="panel">
+      <h2>用 CJP 增益集：3 個步驟</h2>
+      <ol class="steps">
+        <li>先開啟來源活頁簿，再切到要更新的底稿 (目標)，在增益集選單「常用功能二」點<b>整表匯入</b></li>
+        <li>確認來源、目標，以及配對成功的工作表清單：每一列是「[來源表] → [目標表]」，右側是來源資料的範圍。不想匯入的表取消勾選 (例如兩邊都有的「說明」表)，下次會記住</li>
+        <li>按「開始匯入」，完成後會列出成功和失敗的工作表</li>
+      </ol>
+      <p class="note">清單下方會列出跳過的表和原因：沒有同名的目標表、來源表是空的、目標表有保護。</p>
+    </div>
+    <figure class="shot">
+      <img src="../img/move_form.png" width="447" height="532" loading="lazy" alt="CJP 增益集「整表匯入」設定視窗：來源與目標活頁簿的下拉選單、勾選要匯入的工作表清單，以及跳過的工作表和原因">
+      <figcaption>設定視窗 (用練習檔開啟)</figcaption>
+    </figure>
+  </section>
+
+  <section class="panel">
+    <h2>只匯入值：內容會怎麼變</h2>
+    <p>只匯入值等於把每一格<b>重新輸入一次</b>，和「先貼到記事本、再貼回 Excel」的效果一樣。結果會依目標欄的儲存格格式而不同：</p>
+    <div class="scroll">
+      <table class="cmp">
+        <tr><th>來源的內容</th><th>目標欄是一般格式</th><th>目標欄是文字格式</th></tr>
+        <tr><td>文字的 <code>1250</code></td><td>數字 1,250 (套用目標欄的數字格式)</td><td>文字 1250</td></tr>
+        <tr><td>文字的 <code>2026/10/02</code></td><td>日期</td><td>文字</td></tr>
+        <tr><td>員編 <code>00123</code></td><td><b class="hl">123</b>：前導零消失</td><td>00123</td></tr>
+        <tr><td>16 碼卡號</td><td><b class="hl">4.31112E+15</b>：超過 15 位的數字會失真</td><td>完整保留</td></tr>
+        <tr><td>開頭是 <code>-</code>、<code>+</code>、<code>@</code>、<code>=</code> 的文字</td><td colspan="2">保留為文字，不會被當成公式</td></tr>
+        <tr><td>公式</td><td colspan="2">匯入的是計算結果</td></tr>
+      </table>
+    </div>
+    <p class="note">員編、卡號、代碼這類要保留原樣的欄位，請先把目標欄設成文字格式。</p>
+  </section>
+
+  <section class="panel">
+    <h2>常見問題</h2>
+    <details class="faq"><summary>目標表裡我自己加的公式和備註會不見嗎？</summary><p>目標表從 A 欄到來源最後一欄是<b>整欄清除</b>後再寫入，這幾欄裡原有的內容都會清掉；更右邊的欄不受影響。底稿自己的公式、備註，請放在來源資料範圍的右邊。</p></details>
+    <details class="faq"><summary>取消勾選的表，下次還會記得嗎？</summary><p>會。取消勾選的目標表會記在那張工作表裡，下次預設不勾。目標檔要存檔才記得住；複製工作表時，這個記錄不會跟著複製。</p></details>
+    <details class="faq"><summary>為什麼有一張表匯入失敗？</summary><p>常見原因是目標欄有跨欄的合併儲存格，結果訊息會列出來；其他表照常匯入。目標表有保護時會直接跳過，請先取消保護。</p></details>
+    <details class="faq"><summary>要付費嗎？公司電腦可以裝嗎？</summary><p>免費。安裝方式和注意事項請看<a href="../#install">安裝方式</a>。目標檔會被覆寫，使用前請先備份。</p></details>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:10px">其他功能說明</h2>
+    <div class="related">
+      <a href="../filter/"><b>一次篩選多個值</b><span>複製一串編號，按 Alt+1 就篩好</span></a>
+      <a href="../recon/"><b>兩表比對</b><span>兩份名單的新增、遺漏一次標出來</span></a>
+      <a href="../cross/"><b>單表比對</b><span>同一筆資料的內容哪裡不一樣</span></a>
+      <a href="../collect/"><b>多檔收集</b><span>多個檔案依編號帶回同一張總表</span></a>
+      <a href="../classify/"><b>單檔收集</b><span>依規則表分類，可當批次 VLOOKUP</span></a>
+      <a href="../split/"><b>依欄位拆成多個檔案</b><span>一張表依科別拆檔，各自寄出</span></a>
+      <a href="../pivot/"><b>樞紐明細</b><span>雙擊產生的明細自動記下來源</span></a>
+      <a href="../"><b>全部功能與線上練習</b><span>在網頁上直接操作，不用安裝</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="site-foot-in">
+    <p><b>作者：CJP</b>　歡迎下載使用、分享本網站連結。</p>
+    <p><b>提問與回報</b>　有 GitHub 帳號的話，可以到 <a href="https://github.com/foolkidChang/CJPsAddin/issues" target="_blank" rel="noopener">GitHub 的 Issues</a> 提問或回報問題。</p>
+    <p><b>免責聲明</b>　本工具依現狀提供，不保證沒有錯誤，也不保證適用於所有情況。增益集會刪除資料列、拆分檔案、設定密碼，使用前請先備份資料；使用所造成的任何損失，由使用者自行負責。練習檔的資料全部為虛構。</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- 功能說明頁：給搜尋引擎與第一次來的人看的入口，互動練習在主網站 ../#cross。搜尋關鍵字：Excel 比對兩份資料差異、逐筆核對、找出不一致的儲存格、CJP 增益集。
+     頂端選單、其他功能、頁尾每一頁都一樣；新增說明頁時，每一頁的選單都要加 (主網站頁尾的「功能說明」和 sitemap.xml 也要加) -->
+<title>Excel 比對兩份資料哪裡不一樣：內容不同的格子自動標色｜CJP 增益集</title>
+<meta name="description" content="Excel 兩份資料逐筆核對，電話、地址、金額哪裡不一樣？用 CJP 增益集的「單表比對」，兩份資料貼在同一張表，依 Key 排序後相同 Key 的列互相比較，不一致的格子標成粉紅。附公式做法對照、練習檔與線上練習。">
+<link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/cross/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CJPsAddin">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://foolkidchang.github.io/CJPsAddin/cross/">
+<meta property="og:title" content="Excel 比對兩份資料哪裡不一樣：內容不同的格子自動標色">
+<meta property="og:description" content="兩份資料貼在同一張表，依 Key 互相比較，不一致的格子標成粉紅。附練習檔與線上練習。">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Excel 比對兩份資料哪裡不一樣：內容不同的格子自動標色",
+      "inLanguage": "zh-Hant",
+      "author": {
+        "@type": "Person",
+        "name": "CJP"
+      },
+      "url": "https://foolkidchang.github.io/CJPsAddin/cross/",
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "CJPsAddin",
+        "alternateName": [
+          "CJP 增益集",
+          "CJP's VBA Tools"
+        ],
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Windows (Microsoft Excel)"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "CJP 增益集",
+          "item": "https://foolkidchang.github.io/CJPsAddin/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "單表比對",
+          "item": "https://foolkidchang.github.io/CJPsAddin/cross/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{var f=localStorage.getItem('cj-fs');if(f==='l'||f==='xl')document.documentElement.dataset.fs=f;var t=localStorage.getItem('cj-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<!-- 流量統計 GoatCounter：這一頁開啟時記一筆 (路徑 /CJPsAddin/cross/) -->
+<script data-goatcounter="https://cjpsaddin.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../lp.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="top-brand" href="../"><img src="../img/logo_mushroom.jpg" alt="" width="40" height="40">CJPsAddin 使用教學</a>
+    <nav class="top-nav" aria-label="功能說明">
+      <a href="../filter/">篩選強化</a>
+      <a href="../recon/">兩表比對</a>
+      <a href="../cross/" aria-current="page">單表比對</a>
+      <a href="../collect/">多檔收集</a>
+      <a href="../classify/">單檔收集</a>
+      <a href="../split/">資料拆檔</a>
+      <a href="../move/">整表匯入</a>
+      <a href="../pivot/">樞紐明細</a>
+      <a href="../">線上練習</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <nav class="crumb" aria-label="目前位置"><a href="../">CJP 增益集</a> › 單表比對</nav>
+
+  <section class="hero">
+    <h1>Excel 比對兩份資料哪裡不一樣：內容不同的格子自動標色</h1>
+    <p class="lead">兩個系統的客戶資料，<b>電話、地址有沒有不一樣？</b>同一批訂單被重複匯入，<b>金額有沒有被改過？</b>一筆一筆用眼睛對很容易漏看。CJP 增益集 (CJPsAddin，免費的 Excel VBA Add-in) 的<b class="hl">單表比對</b>，把兩份資料貼在同一張表，指定 Key 和要比較的欄位，程式依 Key 排序後<b>相同 Key 的列互相比較</b>，內容不一樣的格子標成 <span class="sw pink">粉紅</span>，一眼就看出差在哪裡。</p>
+    <div class="cta">
+      <a class="btn primary" href="../#cross">在網頁上直接試 (不用安裝) →</a>
+      <a class="btn ghost" href="../#install">下載增益集</a>
+      <a class="btn ghost" href="../files/cross_practice.xlsx" download="單表比對_課堂練習檔.xlsx"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>練習檔 (Excel)</a>
+    </div>
+  </section>
+
+  <div class="cols">
+    <figure class="ill">
+      <svg viewBox="0 0 340 176" role="img" aria-label="示意圖：依客戶編號排序後，C002 的電話、C003 的分行不一致標成粉紅，C004 只有一筆所以整列灰色，每換一組客戶編號畫一條分隔線">
+        <rect class="i-box" x="6" y="12" width="228" height="153" rx="4"/>
+        <rect class="i-hdr" x="7" y="13" width="226" height="19"/>
+        <text x="12" y="27" class="i-b">編號</text><text x="62" y="27" class="i-b">來源</text><text x="98" y="27" class="i-b">電話</text><text x="176" y="27" class="i-b">分行</text>
+        <rect class="i-pink" x="92" y="70" width="78" height="38"/>
+        <rect class="i-pink" x="170" y="108" width="63" height="38"/>
+        <rect class="i-grey" x="7" y="146" width="226" height="18"/>
+        <line class="i-grid" x1="6" y1="51" x2="234" y2="51"/><line class="i-grid" x1="6" y1="89" x2="234" y2="89"/><line class="i-grid" x1="6" y1="127" x2="234" y2="127"/>
+        <line class="i-sep" x1="6" y1="70" x2="234" y2="70"/><line class="i-sep" x1="6" y1="108" x2="234" y2="108"/><line class="i-sep" x1="6" y1="146" x2="234" y2="146"/>
+        <g class="i-mono">
+          <text x="12" y="46">C001</text><text x="62" y="46">A</text><text x="98" y="46">0912-678</text>
+          <text x="12" y="65">C001</text><text x="62" y="65">B</text><text x="98" y="65">0912-678</text>
+          <text x="12" y="84">C002</text><text x="62" y="84">A</text><text x="98" y="84">0922-333</text>
+          <text x="12" y="103">C002</text><text x="62" y="103">B</text><text x="98" y="103">0922-334</text>
+          <text x="12" y="122">C003</text><text x="62" y="122">A</text><text x="98" y="122">0933-111</text>
+          <text x="12" y="141">C003</text><text x="62" y="141">B</text><text x="98" y="141">0933-111</text>
+          <text x="12" y="160">C004</text><text x="62" y="160">B</text><text x="98" y="160">0966-456</text>
+        </g>
+        <text x="176" y="46">信義</text><text x="176" y="65">信義</text><text x="176" y="84">台中</text><text x="176" y="103">台中</text>
+        <text x="176" y="122">敦南</text><text x="176" y="141">天母</text><text x="176" y="160">新竹</text>
+        <rect class="i-pink" x="246" y="40" width="16" height="12" rx="2"/><text x="268" y="51">資料不一致</text>
+        <rect class="i-grey" x="246" y="74" width="16" height="12" rx="2"/><text x="268" y="85">找不到配對</text>
+        <line class="i-sep" x1="246" y1="114" x2="262" y2="114"/><text x="268" y="118">換一組 Key</text>
+      </svg>
+      <figcaption>依 Key 排序後，相同 Key 的列上下互相比較</figcaption>
+    </figure>
+    <div class="panel">
+      <h2>適合這些時候用</h2>
+      <ul>
+        <li>兩個系統的客戶資料，檢查電話、地址有沒有不一樣</li>
+        <li>同一批訂單被重複匯入，金額有沒有被改過</li>
+        <li>新舊兩版報表，逐筆核對數字</li>
+        <li>兩表比對後兩邊都剩一些「僅在」，想找出是哪一欄打錯</li>
+      </ul>
+      <p class="note">只想知道某筆資料<b>有沒有</b>在另一份名單裡，用<a href="../recon/">兩表比對</a>就好。</p>
+    </div>
+  </div>
+
+  <section class="panel">
+    <h2>用 Excel 公式怎麼做？</h2>
+    <p>常見的做法是用 VLOOKUP 把另一份資料的值抓過來，再比較兩欄是否相同 (假設客戶編號在 A 欄、電話在 C 欄，另一份資料在「B表」)：</p>
+    <pre class="formula">=VLOOKUP(A2, B表!A:C, 3, FALSE)=C2</pre>
+    <p>結果是 TRUE／FALSE，再用篩選或設定格式化的條件把 FALSE 標出來。麻煩的地方是：</p>
+    <ul>
+      <li>每一個要比的欄位 (電話、地址、分行…) 都要各寫一欄公式</li>
+      <li>同一個編號有好幾筆時，VLOOKUP 只會抓到第一筆</li>
+      <li>文字「012」和數值 12、英文大小寫、前後空白，要不要算一樣，公式都要另外處理</li>
+    </ul>
+  </section>
+
+  <section class="cols">
+    <div class="panel">
+      <h2>用 CJP 增益集：3 個步驟</h2>
+      <ol class="steps">
+        <li>把兩份資料貼在同一張工作表 (上下接在一起)，在增益集選單點「常用功能二 → 資料比對 → <b>單表比對</b>」</li>
+        <li>填 <b>Key值組成欄</b> (哪些欄位代表同一組資料，例如 <code>A9</code> 或 <code>A;B;9</code>) 和<b>資料比對範圍</b> (要比較內容的欄位，例如 <code>C;D;E</code>)</li>
+        <li>按「確定」，程式依 Key 排序後標出結果</li>
+      </ol>
+      <p class="note">預設英文大小寫、文字與數值都不分；需要時可以勾選「視為不同」。設定會記在工作表裡，下次自動帶入。</p>
+    </div>
+    <figure class="shot">
+      <img src="../img/cross_form.png" width="437" height="482" loading="lazy" alt="CJP 增益集「單表比對」的設定視窗：Key值組成欄、資料比對範圍，以及英文大小寫、文字與數值的比對選項">
+      <figcaption>「單表比對」的設定視窗 (用練習檔第 1 題開啟)</figcaption>
+    </figure>
+  </section>
+
+  <section class="panel">
+    <h2>結果的四種標記</h2>
+    <div class="scroll">
+      <table class="cmp">
+        <tr><th>標記</th><th>意思</th></tr>
+        <tr><td><span class="sw pink">粉紅</span></td><td>同一組 Key 的這一格內容不一致</td></tr>
+        <tr><td><span class="sw grey">灰色整列</span></td><td>這組 Key 只有一筆，找不到可以比較的資料</td></tr>
+        <tr><td><span class="sw blue">藍色斜體</span></td><td>同一組 Key 的第 3 筆起</td></tr>
+        <tr><td><span class="sw line">分隔線</span></td><td>換一組 Key</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>常見問題</h2>
+    <details class="faq"><summary>文字「012」和數值 12 會被當成一樣嗎？</summary><p>兩個選項都不勾選時會當成<b>相同</b>：程式會先把能轉成數字的文字轉成數字再比。勾選「文字與數值視為不同」才會標成粉紅。</p></details>
+    <details class="faq"><summary>多了一個空白，會被抓出來嗎？</summary><p>會。前後空白與連續空白一律視為不同，這個規則固定啟用、不能取消，方便抓出看不見的打字差異。</p></details>
+    <details class="faq"><summary>整列變灰色是什麼意思？</summary><p>這組 Key 只有一筆，找不到可以比較的資料 (例如只在其中一份資料裡)。粉紅才是資料不一致。</p></details>
+    <details class="faq"><summary>要付費嗎？公司電腦可以裝嗎？</summary><p>免費。安裝方式和注意事項請看<a href="../#install">安裝方式</a>。程式會重新排序資料，使用前請先備份。</p></details>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:10px">其他功能說明</h2>
+    <div class="related">
+      <a href="../filter/"><b>一次篩選多個值</b><span>複製一串編號，按 Alt+1 就篩好</span></a>
+      <a href="../recon/"><b>兩表比對</b><span>兩份名單的新增、遺漏一次標出來</span></a>
+      <a href="../collect/"><b>多檔收集</b><span>多個檔案依編號帶回同一張總表</span></a>
+      <a href="../classify/"><b>單檔收集</b><span>依規則表分類，可當批次 VLOOKUP</span></a>
+      <a href="../split/"><b>依欄位拆成多個檔案</b><span>一張表依科別拆檔，各自寄出</span></a>
+      <a href="../move/"><b>整表匯入</b><span>報表貼進底稿：同名工作表整欄匯入</span></a>
+      <a href="../pivot/"><b>樞紐明細</b><span>雙擊產生的明細自動記下來源</span></a>
+      <a href="../"><b>全部功能與線上練習</b><span>在網頁上直接操作，不用安裝</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="site-foot-in">
+    <p><b>作者：CJP</b>　歡迎下載使用、分享本網站連結。</p>
+    <p><b>提問與回報</b>　有 GitHub 帳號的話，可以到 <a href="https://github.com/foolkidChang/CJPsAddin/issues" target="_blank" rel="noopener">GitHub 的 Issues</a> 提問或回報問題。</p>
+    <p><b>免責聲明</b>　本工具依現狀提供，不保證沒有錯誤，也不保證適用於所有情況。增益集會刪除資料列、拆分檔案、設定密碼，使用前請先備份資料；使用所造成的任何損失，由使用者自行負責。練習檔的資料全部為虛構。</p>
+  </div>
+</footer>
+</body>
+</html>
