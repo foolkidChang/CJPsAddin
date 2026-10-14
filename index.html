@@ -513,7 +513,7 @@ table.wrap td,table.wrap th{white-space:normal}
     <div class="more-body">
     <p class="lead">執行一次安裝程式，之後<b class="hl">每次開 Excel 都會自動載入</b>，不用再設定。</p>
 
-    <div class="pending"><span>📦</span><span><a class="dl-btn" href="files/CJPsAddin_v1.13.zip" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>下載增益集 v1.13 (zip)</a> 內含增益集 <code>CJPsAddin.xla</code> 與安裝程式。練習檔不在 zip 裡，請到篩選強化、兩表比對、單表比對、資料拆檔、整表匯入各單元下載。</span></div>
+    <div class="pending"><span>📦</span><span><a class="dl-btn" href="files/CJPsAddin_v1.13.01.zip" download><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>下載增益集 v1.13.01 (zip)</a> 內含增益集 <code>CJPsAddin.xla</code> 與安裝程式。練習檔不在 zip 裡，請到篩選強化、兩表比對、單表比對、資料拆檔、整表匯入各單元下載。</span></div>
 
     <div class="steps">
       <div class="step"><span class="step-n">步驟 1</span><h3>下載並解壓縮</h3><p>在 zip 上按右鍵 →「全部解壓縮」。不要直接在 zip 裡執行，安裝程式要和 <code>CJPsAddin.xla</code> 放在同一個資料夾</p></div>
@@ -539,7 +539,7 @@ table.wrap td,table.wrap th{white-space:normal}
         <ol class="tight" style="margin-top:8px">
           <li>複製增益集到 <code>D:\VBA</code> (失敗改用 <code>C:\VBA</code>)，設為唯讀</li>
           <li>寫入 Excel 啟動設定，<b class="hl">開 Excel 自動載入</b></li>
-          <li>快速存取工具列加入 3 個按鈕 (Alt+1～3)</li>
+          <li>快速存取工具列加入 3 個按鈕 (Alt+1～3；新版 Microsoft 365 可能要<a href="#qat-note">手動調整順序</a>)</li>
           <li>安裝資料夾加入 Excel <b class="hl">信任位置</b></li>
           <li>「啟用所有巨集」會改成「停用並通知」，<b>只收緊、不放寬</b> (<a href="#macro-note">自己的巨集檔怎麼辦？</a>)</li>
           <li>不覆寫公司的 Office 安全性原則</li>
@@ -547,6 +547,18 @@ table.wrap td,table.wrap th{white-space:normal}
         </ol>
         <p class="note-sm" style="margin-top:10px">安裝失敗時，請查看安裝程式旁產生的 <code>InstallDiagnostic.txt</code>，裡面記錄了每個步驟的結果。</p>
       </div>
+    </div>
+
+    <div class="panel" id="qat-note" style="margin-top:14px">
+      <h3>快速存取工具列的按鈕沒有排在最前面？</h3>
+      <p style="margin-top:6px">新版的 Microsoft 365 Excel (左上角有「自動儲存」開關) 可能會把 3 個按鈕排到後面，<kbd>Alt</kbd>+<kbd>1</kbd>～<kbd>3</kbd> 就不會對應到它們。手動調整一次就好，之後會記住：</p>
+      <ol class="tight" style="margin-top:8px">
+        <li>在快速存取工具列任一個按鈕上按右鍵 →「自訂快速存取工具列」</li>
+        <li>在右邊的清單選「篩選強化_完全比對」，按清單右側的「▲」(上移)，一直移到最上面</li>
+        <li>依序把「篩選強化_模糊比對」移到第 2 個、「ProShowAllData」移到第 3 個，按「確定」</li>
+        <li>按一下 <kbd>Alt</kbd>，工具列的按鈕會顯示數字：3 個按鈕是 1、2、3 就完成了</li>
+      </ol>
+      <p class="note-sm" style="margin-top:8px">如果「自動儲存」開關佔了 1，3 個按鈕會變成 2～4，快速鍵就改按 <kbd>Alt</kbd>+<kbd>2</kbd>～<kbd>4</kbd>；也可以直接用滑鼠點按鈕。</p>
     </div>
 
     <div class="panel" id="macro-note" style="margin-top:14px">
@@ -1620,7 +1632,7 @@ table.wrap td,table.wrap th{white-space:normal}
 
   <div class="sub-head">
     <h3>設定視窗</h3>
-    <p class="lead">先開啟來源活頁簿，再切到要更新的底稿 (目標)，在增益集選單「常用功能二」點<b>整表匯入</b> (v1.13 的選單名稱是「資料搬移」)。視窗會列出配對成功的工作表，確認後按「開始匯入」。</p>
+    <p class="lead">先開啟來源活頁簿，再切到要更新的底稿 (目標)，在增益集選單「常用功能二」點<b>整表匯入</b> (v1.13.00 的選單名稱是「資料搬移」)。視窗會列出配對成功的工作表，確認後按「開始匯入」。</p>
   </div>
   <div class="grid-2">
     <figure class="shot">
@@ -1854,7 +1866,7 @@ function applyHash(){
   // #install：安裝方式已摺疊進總覽，開總覽並展開該區塊（舊連結照常可用）
   // QR Code 的追蹤參數若被接在 # 後面 (例如 #recon?utm_campaign=QRCode)，只取 ? 前面的分頁名稱
   const raw=(location.hash||'').split('?')[0];
-  if(raw==='#install'||raw==='#macro-note'){showTab('overview');const d=$('#install');d.open=true;$(raw).scrollIntoView();return true;} // #macro-note：安裝方式裡「自己的巨集檔被擋下來」的說明
+  if(raw==='#install'||raw==='#macro-note'||raw==='#qat-note'){showTab('overview');const d=$('#install');d.open=true;$(raw).scrollIntoView();return true;} // #macro-note：安裝方式裡「自己的巨集檔被擋下來」的說明；#qat-note：快速存取工具列手動調整順序
   const m=raw.slice(1).match(/^(overview|filter|recon|cross|collect|classify|split|move|pivot|quiz)(?:-(\d+))?$/);
   if(!m)return false;
   const n=m[2]?Number(m[2])-1:-1;
