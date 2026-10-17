@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- 功能說明頁：給搜尋引擎與第一次來的人看的入口。主網站沒有對應的線上練習。搜尋關鍵字：Excel VBA Teradata、Excel 連 Teradata、Excel 執行 SQL、CJP 增益集。
+     內容依增益集 B10_SQL支援、B10_SQL支援_TeraData 的程式寫成 (2026/10/17，v1.13.04)；功能改版時要一起改。
+     頂端選單、其他功能、頁尾每一頁都一樣；新增說明頁時，每一頁的選單都要加 (主網站頁尾的「功能說明」和 sitemap.xml 也要加) -->
+<title>用 Excel VBA 執行 Teradata SQL：查詢結果直接放進工作表｜CJP 增益集</title>
+<meta name="description" content="在 Excel 裡寫 Teradata SQL，按一下就把查詢結果放進工作表。CJP 增益集 (免費的 Excel VBA Add-in) 支援一次執行多段 SQL、?YYYYMM 參數、資料筆數試算、SAMPLE 1 自動轉置、暫存表保留、密碼到期提醒、文字檔批次 INSERT。">
+<link rel="canonical" href="https://foolkidchang.github.io/CJPsAddin/teradata-vba/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="CJPsAddin">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:url" content="https://foolkidchang.github.io/CJPsAddin/teradata-vba/">
+<meta property="og:title" content="用 Excel VBA 執行 Teradata SQL：查詢結果直接放進工作表">
+<meta property="og:description" content="在 Excel 寫 Teradata SQL，結果直接放進工作表。支援多段 SQL、參數、筆數試算、批次 INSERT。">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "用 Excel VBA 執行 Teradata SQL：查詢結果直接放進工作表",
+      "inLanguage": "zh-Hant",
+      "author": {
+        "@type": "Person",
+        "name": "CJP"
+      },
+      "url": "https://foolkidchang.github.io/CJPsAddin/teradata-vba/",
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "CJPsAddin",
+        "alternateName": [
+          "CJP 增益集",
+          "CJP's VBA Tools"
+        ],
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Windows (Microsoft Excel)"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "CJP 增益集",
+          "item": "https://foolkidchang.github.io/CJPsAddin/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "用 Excel VBA 執行 Teradata SQL",
+          "item": "https://foolkidchang.github.io/CJPsAddin/teradata-vba/"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script>try{var f=localStorage.getItem('cj-fs');if(f==='l'||f==='xl')document.documentElement.dataset.fs=f;var t=localStorage.getItem('cj-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t;}catch(e){}</script>
+<!-- 流量統計 GoatCounter：這一頁開啟時記一筆 (路徑 /CJPsAddin/teradata-vba/) -->
+<script data-goatcounter="https://cjpsaddin.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="../lp.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <a class="top-brand" href="../"><img src="../img/logo_mushroom.jpg" alt="" width="40" height="40">CJPsAddin 使用教學</a>
+    <nav class="top-nav" aria-label="功能說明">
+      <a href="../filter/">篩選強化</a>
+      <a href="../recon/">兩表比對</a>
+      <a href="../cross/">單表比對</a>
+      <a href="../collect/">多檔收集</a>
+      <a href="../classify/">單檔收集</a>
+      <a href="../split/">資料拆檔</a>
+      <a href="../move/">整表匯入</a>
+      <a href="../pivot/">樞紐明細</a>
+      <a href="../teradata-vba/" aria-current="page">Teradata 查詢</a>
+      <a href="../">線上練習</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <nav class="crumb" aria-label="目前位置"><a href="../">CJP 增益集</a> › 用 Excel VBA 執行 Teradata SQL</nav>
+
+  <section class="hero">
+    <h1>用 Excel VBA 執行 Teradata SQL：查詢結果直接放進工作表</h1>
+    <p class="lead">從 Teradata 撈資料做報表，常見的做法是在查詢工具跑完、<b>複製結果、貼到 Excel、再整理格式</b>，每個月重來一次。CJP 增益集 (CJPsAddin，免費的 Excel VBA Add-in) 的<b class="hl">SQL環境建立 → For Teradata</b>，會在活頁簿裡建一張「Teradata操作區」：<b>在儲存格寫 SQL，按一下按鈕，結果直接放進工作表</b>，並自動補上序號、篩選與凍結窗格。SQL 跟著活頁簿存起來，下個月換個參數就能重跑。</p>
+    <div class="cta">
+      <a class="btn primary" href="../#install">下載增益集 (免費) →</a>
+      <a class="btn ghost" href="../">增益集首頁 (全部功能)</a>
+    </div>
+  </section>
+
+  <div class="cols">
+    <figure class="ill">
+      <svg viewBox="0 0 340 126" role="img" aria-label="示意圖：編碼區裡的 SQL，按「執行Tera語法」後，結果放進工作表，第一欄自動補上序號 SN">
+        <defs><marker id="ill-ah-t" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path class="i-acc" d="M0 0 L9 4.5 L0 9 Z"/></marker></defs>
+        <text x="81" y="22" text-anchor="middle" class="i-muted">編碼區的 SQL</text>
+        <rect class="i-mark" x="6" y="30" width="150" height="88" rx="4"/>
+        <text x="12" y="48" class="i-mono">SELECT Branch,</text>
+        <text x="12" y="64" class="i-mono">  COUNT(*) AS Cnt</text>
+        <text x="12" y="80" class="i-mono">  FROM Sales_Table</text>
+        <text x="12" y="96" class="i-mono"> WHERE Data_Month</text>
+        <text x="12" y="112" class="i-mono">     = ?YYYYMM;</text>
+        <text x="177" y="66" text-anchor="middle" class="i-muted" style="font-size:10px">執行</text>
+        <path class="i-arrow" d="M162 74 L192 74" marker-end="url(#ill-ah-t)"/>
+        <text x="266" y="22" text-anchor="middle" class="i-muted">查詢結果</text>
+        <rect class="i-box" x="200" y="30" width="134" height="76" rx="4"/>
+        <rect class="i-hdr" x="201" y="31" width="132" height="18"/>
+        <path class="i-grid" d="M201 49h132M201 68h132M201 87h132M224 31v74M286 31v74" fill="none"/>
+        <text x="205" y="44" class="i-b">SN</text><text x="229" y="44" class="i-b">Branch</text><text x="291" y="44" class="i-b">Cnt</text>
+        <text x="205" y="63">1</text><text x="229" y="63">A01</text><text x="291" y="63">128</text>
+        <text x="205" y="82">2</text><text x="229" y="82">A02</text><text x="291" y="82">96</text>
+        <text x="205" y="101">3</text><text x="229" y="101">B01</text><text x="291" y="101">143</text>
+      </svg>
+      <figcaption>選取 SQL，按「執行Tera語法」，結果直接放進工作表</figcaption>
+    </figure>
+    <div class="panel">
+      <h2>適合這些時候用</h2>
+      <ul>
+        <li>每個月固定要撈的報表：SQL 存在 Excel 裡，換個月份參數就能重跑</li>
+        <li>一次跑好幾段查詢，每段的結果各放一張工作表</li>
+        <li>先用暫存表 (Volatile Table) 整理中間結果，再分幾段查詢</li>
+        <li>不確定會撈出多少筆，想先算筆數再決定要不要真的撈</li>
+        <li>把文字檔裡的資料，逐筆 INSERT 進資料表</li>
+      </ul>
+      <p class="note">需要先安裝 Teradata 的 ODBC 驅動程式，並有可以登入的帳號。</p>
+    </div>
+  </div>
+
+  <section class="cols">
+    <div class="panel">
+      <h2>用 CJP 增益集：開始使用</h2>
+      <ol class="steps">
+        <li>開一個活頁簿並<b>存檔</b>。沒存過檔、或是用唯讀開啟時，程式會先請你存檔</li>
+        <li>在增益集選單「常用功能一」點<b>SQL環境建立… → For Teradata</b>，會新增一張「Teradata操作區」工作表</li>
+        <li>第一次使用：按「設定連線參數」→「設定連線資訊」，輸入驅動程式名稱、伺服器、預設資料庫；帳號密碼在第一次執行時會請你輸入</li>
+        <li>在黃色的<b>編碼區</b>寫 SQL，選取後按「<b>執行Tera語法</b>」</li>
+      </ol>
+      <p class="note">驅動程式名稱可以在 Windows 的「ODBC 資料來源管理員」查到；伺服器與資料庫名稱請問公司的資料庫管理員。連線資訊與帳號密碼記在這台電腦的使用者資料夾，下次不用再輸入。</p>
+    </div>
+    <figure class="shot">
+      <img src="../img/tera_sheet.png" width="800" height="300" loading="lazy" alt="CJP 增益集建立的「Teradata操作區」工作表：第 1、2 列是五個按鈕，第 3 列是藍色的備註區，第 4 到 8 列是黃色的編碼區，下方是使用說明">
+      <figcaption>「Teradata操作區」：上方按鈕、備註區、編碼區與使用說明；查詢結果放在 L 欄以後</figcaption>
+    </figure>
+  </section>
+
+  <section class="cols">
+    <figure class="shot">
+      <img src="../img/tera_cells.png" width="800" height="240" loading="lazy" alt="SQL 一行寫在一列，選取第 17 到 20 列">
+      <img src="../img/tera_ctrl.png" width="800" height="240" loading="lazy" alt="按住 Ctrl 跳著選取第 17、18、20 列，第 19 列的 WHERE 條件沒有選取">
+      <figcaption>上：一行寫一列，整段選取　下：按住 Ctrl 跳過第 19 列的條件</figcaption>
+    </figure>
+    <div class="panel">
+      <h2>SQL 寫在哪裡都可以：選到哪裡就跑哪裡</h2>
+      <p>執行的是<b>目前選取的儲存格</b>，所以 SQL 不一定要寫在編碼區：</p>
+      <ul>
+        <li><b>寫在編碼區</b>：整段貼進去，選取編碼區後執行。建好操作區時，游標已經停在編碼區</li>
+        <li><b>寫在儲存格</b>：一行寫一列，選取這幾列後執行。同一張表可以放好幾段 SQL，選哪段就跑哪段</li>
+        <li><b>跳列選取</b>：按住 <kbd>Ctrl</kbd> 跳著選，沒選到的那一行 (例如某個篩選條件) 暫時不跑，不用刪掉再補回來</li>
+      </ul>
+      <p class="note">選取的範圍裡有空白儲存格時，會自動略過。</p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>操作區的五個按鈕</h2>
+    <div class="scroll">
+      <table class="cmp">
+        <tr><th>按鈕</th><th>做什麼</th></tr>
+        <tr><td>執行Tera語法</td><td>執行選取的 SQL，結果放進工作表</td></tr>
+        <tr><td>資料筆數試算</td><td>先算出會撈出幾筆，不把資料撈回來</td></tr>
+        <tr><td>清除查詢結果</td><td>清掉這張操作區右邊的查詢結果</td></tr>
+        <tr><td>Tera連線清空</td><td>重新連線。連線怪怪的時候試試看；暫存表會跟著消失</td></tr>
+        <tr><td>設定連線參數</td><td>顯示目前的連線資訊與帳號，可以「設定連線資訊」「設定帳號密碼」，或「密碼重設」(直接改 Teradata 上的密碼)</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>進階用法</h2>
+    <div class="cols">
+      <div>
+        <h3>執行 SQL</h3>
+        <ul>
+          <li>用分號 <code>;</code> 分段，<b class="hl">一次跑好幾段</b>，每段的結果各放一張工作表 (字串、註解裡的分號不算)</li>
+          <li>在那一段寫註解 <code>--ExcelSheetName(本月明細)</code>，工作表就叫「本月明細」</li>
+          <li>參數 <code>?YYYYMM</code>：執行時詢問要填的值，<b class="hl">預設上個月底</b> (10 月執行時是 202609)，同一個參數只問一次</li>
+          <li>「資料筆數試算」<b class="hl">只回傳筆數</b>，不把資料撈回來</li>
+          <li>從網頁複製來的 SQL，看不見的空白 (NBSP) 會先清掉</li>
+        </ul>
+      </div>
+      <div>
+        <h3>看結果</h3>
+        <ul>
+          <li>第一欄自動補上序號 <code>SN</code>，加上篩選、調整欄寬</li>
+          <li>第一格的註解記下<b class="hl">執行時間、參數與 SQL</b>，日後還知道資料怎麼撈的</li>
+          <li><code>SAMPLE 1</code> 自動轉成「欄名｜值」兩欄，由上往下看</li>
+          <li><code>SHOW VIEW</code>、<code>SHOW TABLE</code> 一行放一格，加上行號</li>
+        </ul>
+      </div>
+      <div>
+        <h3>連線與密碼</h3>
+        <ul>
+          <li>連線保留到 Excel 關閉，<b class="hl">暫存表下次執行還在</b></li>
+          <li>隔天第一次執行、或連線被中斷時，自動重新連線</li>
+          <li>密碼設定超過 80 天會提醒，可以直接在 Excel 改</li>
+        </ul>
+      </div>
+      <div>
+        <h3>寫入資料</h3>
+        <ul>
+          <li><code>INSERT INTO 表名 VALUES (?, ?, ?);</code> 搭配 Tab 分隔的文字檔，<b class="hl">每一列 INSERT 一次</b></li>
+          <li>先檢查問號數量和欄數是否一致、每一列的欄數是否相同</li>
+          <li>中途失敗時，會告訴你已經匯入幾筆</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>要記住的 4 件事</h2>
+    <ol>
+      <li>活頁簿要先<b class="hl">存檔</b>，而且不能是唯讀；否則程式會先請你存檔</li>
+      <li>執行的是<b>選取的儲存格</b>，按按鈕前先確認選取範圍</li>
+      <li>只有一段 SQL 時，結果放在操作區的 L 欄以後，每次執行會先<b>整欄清掉上一次的結果</b>；L 欄以後不要放其他資料</li>
+      <li>參數名稱用英數字；「資料筆數試算」適合用在 SELECT，CREATE、INSERT 包起來會出錯</li>
+    </ol>
+  </section>
+
+  <section class="panel">
+    <h2>常見問題</h2>
+    <details class="faq"><summary>需要安裝什麼？</summary><p>Teradata 的 ODBC 驅動程式，以及可以登入的帳號。驅動程式名稱在 Windows 的「ODBC 資料來源管理員」查得到；伺服器與預設資料庫請問公司的資料庫管理員。</p></details>
+    <details class="faq"><summary>可以執行 INSERT、DELETE、CREATE 嗎？</summary><p>可以，會用你的帳號權限執行，跑完會顯示做了什麼 (例如「插入資訊」「清除表格」)。會改到資料庫的語法，執行前請再確認一次。</p></details>
+    <details class="faq"><summary>密碼改過了，要怎麼更新？</summary><p>按「設定連線參數」→「設定帳號密碼」，更新記在電腦上的那一組。要直接改 Teradata 上的密碼，按「密碼重設」。</p></details>
+    <details class="faq"><summary>要付費嗎？公司電腦可以裝嗎？</summary><p>免費。安裝方式和注意事項請看<a href="../#install">安裝方式</a>。</p></details>
+  </section>
+
+  <section>
+    <h2 style="margin-bottom:10px">其他功能說明</h2>
+    <div class="related">
+      <a href="../filter/"><b>一次篩選多個值</b><span>複製一串編號，按 Alt+1 就篩好</span></a>
+      <a href="../recon/"><b>兩表比對</b><span>兩份名單的新增、遺漏一次標出來</span></a>
+      <a href="../cross/"><b>單表比對</b><span>同一筆資料的內容哪裡不一樣</span></a>
+      <a href="../collect/"><b>多檔收集</b><span>多個檔案依編號帶回同一張總表</span></a>
+      <a href="../classify/"><b>單檔收集</b><span>依規則表分類，可當批次 VLOOKUP</span></a>
+      <a href="../split/"><b>資料拆檔</b><span>一張報表依科別拆成多個檔案</span></a>
+      <a href="../move/"><b>整表匯入</b><span>報表貼進底稿：同名工作表整欄匯入</span></a>
+      <a href="../pivot/"><b>樞紐明細</b><span>雙擊產生的明細自動記下來源</span></a>
+      <a href="../"><b>全部功能與線上練習</b><span>在網頁上直接操作，不用安裝</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="site-foot-in">
+    <p><b>作者：CJP</b>　歡迎下載使用、分享本網站連結。</p>
+    <p><b>提問與回報</b>　有 GitHub 帳號的話，可以到 <a href="https://github.com/foolkidChang/CJPsAddin/issues" target="_blank" rel="noopener">GitHub 的 Issues</a> 提問或回報問題。</p>
+    <p><b>免責聲明</b>　本工具依現狀提供，不保證沒有錯誤，也不保證適用於所有情況。增益集會刪除資料列、拆分檔案、設定密碼，使用前請先備份資料；使用所造成的任何損失，由使用者自行負責。練習檔的資料全部為虛構。</p>
+  </div>
+</footer>
+</body>
+</html>
