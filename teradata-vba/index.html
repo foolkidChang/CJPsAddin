@@ -131,7 +131,7 @@
         <li>不確定會撈出多少筆，想先算筆數再決定要不要真的撈</li>
         <li>把文字檔裡的資料，逐筆 INSERT 進資料表</li>
       </ul>
-      <p class="note">需要先安裝 Teradata 的 ODBC 驅動程式，並有可以登入的帳號。</p>
+      <p class="note">需要先安裝 Teradata 的 ODBC 驅動程式、在 Windows 建立一筆 ODBC 資料來源 (DSN)，並有可以登入的帳號。</p>
     </div>
   </div>
 
@@ -141,10 +141,11 @@
       <ol class="steps">
         <li>開一個活頁簿並<b>存檔</b>。沒存過檔、或是用唯讀開啟時，程式會先請你存檔</li>
         <li>在增益集選單「常用功能一」點<b>SQL環境建立… → For Teradata</b>，會新增一張「Teradata操作區」工作表</li>
-        <li>第一次使用：按「設定連線參數」→「設定連線資訊」，輸入驅動程式名稱、伺服器、預設資料庫；帳號密碼在第一次執行時會請你輸入</li>
+        <li>第一次使用：按「設定連線參數」→「設定連線資訊」，輸入 ODBC 資料來源名稱 (DSN)、伺服器、預設資料庫；帳號密碼在第一次執行時會請你輸入</li>
         <li>在黃色的<b>編碼區</b>寫 SQL，選取後按「<b>執行Tera語法</b>」</li>
       </ol>
-      <p class="note">驅動程式名稱可以在 Windows 的「ODBC 資料來源管理員」查到；伺服器與資料庫名稱請問公司的資料庫管理員。連線資訊與帳號密碼記在這台電腦的使用者資料夾，下次不用再輸入。</p>
+      <p class="note">ODBC 資料來源名稱 (DSN) 的查法：按 Windows 鍵搜尋「ODBC」，開啟和 Excel 相同位元數的「ODBC 資料來源 (64 位元)」或「(32 位元)」(英文介面是 ODBC Data Sources (64-bit)／(32-bit))，在「使用者 DSN」或「系統 DSN」分頁看「名稱」欄。沒有 Teradata 的那一筆時，按「新增」選 Teradata 的驅動程式建立。伺服器與資料庫名稱請問公司的資料庫管理員。連線資訊與帳號密碼記在這台電腦的使用者資料夾，下次不用再輸入。</p>
+      <p class="note"><b>v1.14.00.00 起改用 DSN 連線</b>：「設定連線資訊」的第一欄從「驅動程式名稱」改成「ODBC 資料來源名稱 (DSN)」，以前填的驅動程式名稱不能再用。更新後第一次執行時，如果跳出「找不到 ODBC 資料來源 (DSN)」，照提示查好 DSN 名稱，按「是」填進去就能繼續。</p>
     </div>
     <figure class="shot">
       <img src="../img/tera_sheet.png" width="800" height="300" loading="lazy" alt="CJP 增益集建立的「Teradata操作區」工作表：第 1、2 列是五個按鈕，第 3 列是藍色的備註區，第 4 到 8 列是黃色的編碼區，下方是使用說明">
@@ -237,7 +238,9 @@
 
   <section class="panel">
     <h2>常見問題</h2>
-    <details class="faq"><summary>需要安裝什麼？</summary><p>Teradata 的 ODBC 驅動程式，以及可以登入的帳號。驅動程式名稱在 Windows 的「ODBC 資料來源管理員」查得到；伺服器與預設資料庫請問公司的資料庫管理員。</p></details>
+    <details class="faq"><summary>需要安裝什麼？</summary><p>Teradata 的 ODBC 驅動程式、一筆 ODBC 資料來源 (DSN)，以及可以登入的帳號。DSN 在 Windows 的「ODBC 資料來源」建立與查詢 (位元數要和 Excel 相同)；伺服器與預設資料庫請問公司的資料庫管理員。</p></details>
+    <details class="faq"><summary>更新後出現「找不到 ODBC 資料來源 (DSN)」？</summary><p>v1.14.00.00 起改用 DSN 連線，以前「設定連線資訊」填的是驅動程式名稱，所以找不到。按提示的「是」，在第一欄填 DSN 名稱 (按 Windows 鍵搜尋「ODBC」，開啟「ODBC 資料來源」，在「使用者 DSN」或「系統 DSN」分頁看「名稱」欄)。之後也可以從「設定連線參數」→「設定連線資訊」修改。</p></details>
+    <details class="faq"><summary>DSN 的位元數要選哪一個？</summary><p>和 Excel 相同。在 Excel 按「檔案」→「帳戶」→「關於 Excel」，視窗第一行最後會寫「32 位元」或「64 位元」。選錯時會出現位元數不同的提示，請在另一個位元數的「ODBC 資料來源」建立同名的 DSN。</p></details>
     <details class="faq"><summary>可以執行 INSERT、DELETE、CREATE 嗎？</summary><p>可以，會用你的帳號權限執行，跑完會顯示做了什麼 (例如「插入資訊」「清除表格」)。會改到資料庫的語法，執行前請再確認一次。</p></details>
     <details class="faq"><summary>密碼改過了，要怎麼更新？</summary><p>按「設定連線參數」→「設定帳號密碼」，更新記在電腦上的那一組。要直接改 Teradata 上的密碼，按「密碼重設」。</p></details>
     <details class="faq"><summary>要付費嗎？公司電腦可以裝嗎？</summary><p>免費。安裝方式和注意事項請看<a href="../#install">安裝方式</a>。</p></details>
